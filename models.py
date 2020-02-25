@@ -32,8 +32,8 @@ class Record(db.Model):
     __tablename__ = 'record' #database table name, optionally specified 
     id = db.Column(db.Integer, primary_key=True) 
     value = db.Column(db.Integer, nullable=False) 
-    timestamp = db.Column(db.DateTime), unique=False, nullable=False) 
-    sensor_id = db.Column(db.Integer), unique=False, nullable=False, db.ForeignKey('pir_sensor.id'))
+    timestamp = db.Column(db.DateTime, unique=False, nullable=False) 
+    sensor_id = db.Column(db.Integer, db.ForeignKey('pir_sensor.id'), unique=False, nullable=False, )
     
     # one-to-many model
     sensor = db.relationship('PIRSensor', back_populates='records')
@@ -58,7 +58,7 @@ class MeetingRoom(db.Model):
     
     sensors = db.relationship('PIRsensor', back_populates='meeting_room', lazy=True, uselist=True)
 
-    def __init__(self, id, current_occupancy=None, sensors): 
+    def __init__(self, id, sensors, current_occupancy=None): 
         self.id = id 
         self.sensors = [] if sensors is None else sensors 
         self.sensors = sensors
@@ -66,6 +66,6 @@ class MeetingRoom(db.Model):
     def serialize(self):
         return {
             'meeting_room_id' : self.id,
-            'current_occupancy' : self.current_occupnacy
+            'current_occupancy' : self.current_occupnacy,
             'sensors' : self.sensors
         }
