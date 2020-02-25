@@ -5,4 +5,4 @@ project log:
 
 25/2/2020
 [] resolve error for models.py (PIRSensor and Records relationship)
-[] push to database
+[] push to cloud
