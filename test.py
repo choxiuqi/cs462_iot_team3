@@ -131,9 +131,32 @@ def getEventColor(service, eventId):
 
     return dict_id_color
 
+#not totally completed yet
+def updateEventColor(service, eventId):
+    '''
+    changes the color of the event based on several factors:
+        red -> booked, occupied
+        green-> booked, unoccupied
+        no events created for unbooked & occupied and unbooked & unoccupied
+    '''
+    #available colors on google calendars
+    colors = service.colors().get().execute()
+    events_color = colors["event"]
+    events_color_dict = {}
+    for number in events_color:
+        color_type = events_color[number]['background']
+        events_color_dict[number]= color_type
+    #print(events_color_dict)
+    default_color = 7
+    book_occupied = 11 #red
+    book_unoccupied = 2 #green
+
+
 
 def main():
     deleteCalendarEvents(creds(),getCalendarEvents(creds()))
+    getEventColor(creds(), getCalendarEvents(creds()))
+
 
 if __name__ == '__main__':
     main()
