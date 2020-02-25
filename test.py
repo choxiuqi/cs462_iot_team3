@@ -105,6 +105,33 @@ def deleteCalendarEvents(service, eid):
         # print(start,end,creator, type_of_event)
     return
 
+def getEventColor(service, eventId):
+    '''
+    get the current color of the event on google calendar
+    default event doesn't have a colorId but is inside the list of colorId [7]
+    returns dictionary where key: event id, value: color ID
+    '''
+    now = datetime.datetime.now(pytz.timezone('Asia/Singapore')).isoformat()
+    #get most current or upcoming event 
+    event_result = service.events().list(calendarId='primary', timeMin=now,
+                                      maxResults=1, singleEvents=True,
+                                      orderBy='startTime').execute()
+
+    latest_event = event_result.get('items', [])
+    #print(latest_event)
+    # start = latest_event[0]['start']['dateTime']
+    # end = latest_event[0]['end']['dateTime']
+    event_id = latest_event[0]['id']
+    dict_id_color = {}
+
+    if ('colorId' not in latest_event[0])==True:
+        dict_id_color[event_id]=7
+    else:
+        dict_id_color[event_id] = latest_event[0]['colorId']
+
+    return dict_id_color
+
+
 def main():
     deleteCalendarEvents(creds(),getCalendarEvents(creds()))
 
