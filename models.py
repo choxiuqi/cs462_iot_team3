@@ -1,11 +1,12 @@
 from app import db 
 import datetime 
 
-class PIRsensor(db.Model): 
+class Sensor(db.Model): 
     __tablename__ = 'pir_sensor' #database table name, optionally specified 
     
     id = db.Column(db.Integer, primary_key=True) 
-    desc = db.Column(db.String(120), unique=False, nullable=False) 
+    desc = db.Column(db.String(80), unique=False, nullable=False)
+    type = db.Column(db.String(10), unique=False, nullable=False)   
     meeting_room_id = db.Column(db.Integer, db.ForeignKey('meeting_room.id'), unique=False, nullable=False) 
 
     # one-to-many model
@@ -36,7 +37,7 @@ class MeetingRoom(db.Model):
     current_occupancy = db.Column(db.Integer, unique=False, nullable=True) 
     
     # one-to-many relationship
-    sensors = db.relationship('PIRsensor', back_populates='meeting_room', lazy=True, uselist=True)
+    sensors = db.relationship('Sensor', back_populates='meeting_room', lazy=True, uselist=True)
 
     def __init__(self, id, sensors=None, current_occupancy=None): 
         self.id = id 
@@ -59,7 +60,7 @@ class Record(db.Model):
     sensor_id = db.Column(db.Integer, db.ForeignKey('pir_sensor.id'), unique=False, nullable=False)
     
     # one-to-many model
-    sensor = db.relationship('PIRSensor', back_populates='records', cascade='all', lazy=True)
+    sensor = db.relationship('Sensor', back_populates='records', cascade='all', lazy=True)
 
     def __init__(self, value, timestamp, sensor_id): 
         self.value = value
