@@ -11,7 +11,7 @@ project log:
 
 group:
 [] colour API
-[] get USS from HX
+[/] get USS from HX
 [] code nodered
 [] set up broker
 [] set up database
