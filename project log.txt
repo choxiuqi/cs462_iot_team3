@@ -6,8 +6,8 @@ project log:
 25/2/2020
 [/] resolve error for models.py (PIRSensor and Records relationship) (waiting for Pius/MK/HX)
 [] push to cloud
-[] models -- change PIRSensor class to Sensor class
-[] models -- Sensor class add type (values are either: PIR or USS)
+[/] models -- change PIRSensor class to Sensor class
+[/] models -- Sensor class add type (values are either: PIR or USS)
 
 group:
 [] colour API
