@@ -4,7 +4,7 @@ project log:
 [/] redownload and isntall PostgreSQL to manage db on Heroku
 
 25/2/2020
-[] resolve error for models.py (PIRSensor and Records relationship) (waiting for Pius/MK/HX)
+[/] resolve error for models.py (PIRSensor and Records relationship) (waiting for Pius/MK/HX)
 [] push to cloud
 [] models -- change PIRSensor class to Sensor class
 [] models -- Sensor class add type (values are either: PIR or USS)
