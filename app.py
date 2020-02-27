@@ -8,9 +8,13 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://team3user:password@localho
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
-from models import PIRsensor, Record, MeetingRoom
+from models import Sensor, Record, MeetingRoom
 
 @app.route('/hello/', methods=['GET']) 
 def hello():
     # print('hello')
     return 'hello'
+
+
+#to get the current reading occupancy in database 
+
