@@ -1,7 +1,7 @@
 project log:
 
 21/2/2020
-[/] redownload and isntall PostgreSQL to manage db on Heroku
+[/] redownload and install PostgreSQL to manage db on Heroku
 
 25/2/2020
 [/] resolve error for models.py (PIRSensor and Records relationship) (waiting for Pius/MK/HX)
