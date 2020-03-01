@@ -17,7 +17,7 @@ group:
 [] set up database
 
 25/2/2020
-[] Update Models.py
+[/] Update Models.py
 [] Code Nodered (IS)
 [] Code 3_Sub.py (XQ)
 [] Code 4b_Update_Occupancy.py (Amelia)
