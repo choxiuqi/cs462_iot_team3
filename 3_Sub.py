@@ -23,15 +23,15 @@ def on_connect(client, userdata, flags, rc):
         print("Connection failed")
 
 def on_message(client, userdata, message):
-    # print("message received")
-    # data = message.payload.decode("utf-8").replace("'", '"')
-    # msg = json.loads(data)
-    # print(msg)
-    # for i in range(len(msg['result'])):
-    #     timestamp_unix = msg['timestamp']
-    #     timestamp = datetime.utcfromtimestamp(timestamp_unix)
-    #     MAC_address = msg['id']
-    #     sensorType = msg['result'][i]['type']
+    print("message received")
+    data = message.payload.decode("utf-8").replace("'", '"')
+    msg = json.loads(data)
+    print(msg)
+    for i in range(len(msg['result'])):
+        timestamp_unix = msg['timestamp']
+        timestamp = datetime.utcfromtimestamp(timestamp_unix)
+        MAC_address = msg['id']
+        sensorType = msg['result'][i]['type']
     #     reading = float(msg['result'][i]['reading'])
     #     if sensorType == 'light':
     #         if reading < 59:
