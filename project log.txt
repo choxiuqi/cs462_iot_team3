@@ -3,7 +3,7 @@ project log:
 21/2/2020
 [/] redownload and install PostgreSQL to manage db on Heroku
 
-25/2/2020
+24/2/2020
 [/] resolve error for models.py (PIRSensor and Records relationship) (waiting for Pius/MK/HX)
 [] push to cloud
 [/] models -- change PIRSensor class to Sensor class
@@ -15,3 +15,11 @@ group:
 [] code nodered
 [] set up broker
 [] set up database
+
+25/2/2020
+[] Update Models.py
+[] Code Nodered (IS)
+[] Code 3_Sub.py (XQ)
+[] Code 4b_Update_Occupancy.py (Amelia)
+[] Code 5a_Calendar.py (not as urgent yet) (WT)
+[] Set up dashboard (5a) (not as urgent yet) (Ally)
