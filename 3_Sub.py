@@ -1,4 +1,4 @@
-import paho.mqtt.client as mqttClient
+ximport paho.mqtt.client as mqttClient
 import time
 from config import *
 import json
@@ -32,52 +32,16 @@ def on_message(client, userdata, message):
         timestamp = datetime.utcfromtimestamp(timestamp_unix)
         MAC_address = msg['id']
         sensorType = msg['result'][i]['type']
-    #     reading = float(msg['result'][i]['reading'])
-    #     if sensorType == 'light':
-    #         if reading < 59:
-    #             description = 'Low'
-    #         elif reading <= 150:
-    #             description = 'Optimal'
-    #         else:
-    #             description = 'High'
-    #     elif sensorType == 'temp':
-    #         if reading < 23:
-    #             description = 'Low'
-    #         elif reading <= 25:
-    #             description = 'Optimal'
-    #         else:
-    #             description = 'High'
-    #     elif sensorType == 'humidity':
-    #         if reading < 40:
-    #             description = 'Low'
-    #         elif reading <= 60:
-    #             description = 'Optimal'
-    #         else:
-    #             description = 'High'
-    #     try:
-    #         print("executing")
-    #         cur.execute("INSERT INTO sensor_reading VALUES (DEFAULT, %s, %s, %s, %s, %s);",(timestamp, sensorType, MAC_address, reading, description))
-    #         conn.commit()
-    #         print("committed")
-    #         cur.execute('INSERT INTO latest_sensor_reading VALUES (DEFAULT, %s, %s, %s, %s, %s) ON CONFLICT ("sensorType" ,"MAC_address") DO UPDATE SET timestamp = %s, reading = %s, description = %s;',(timestamp, sensorType, MAC_address, reading, description, timestamp, reading, description))
-    #         conn.commit()
-            
-    #         # if (sensorType == 'light' or sensorType == 'temp') and (description == 'Low' or description == 'High'):
-    #         if (sensorType == 'light') and (description == 'High'):
-    #             try:
-    #                 cur.execute('SELECT "readingID" FROM sensor_reading ORDER BY "readingID" DESC;')
-    #                 readingID = cur.fetchone()[0]
-    #                 cur.execute('SELECT "MAC_address", "sensorType", description FROM sensor_reading WHERE "readingID" = %s;',(readingID,))
-    #                 retrieved = cur.fetchone()
-    #                 sensorType = retrieved[1]
-                    
-    #                 cur.execute('SELECT "building", "level", "area" FROM sensor, location WHERE sensor."sensorLocationID" = location."sensorLocationID" and sensor."MAC_address" =%s;',(MAC_address,))
-    #                 location = cur.fetchone()
-                    
-    #             except Exception as e:
-    #                 print(str(e))
+        value = float(msg['result'][i]['reading'])
 
-    #             create_ticket(readingID, description, sensorType,location)
+        try:
+            print("executing")
+            cur.execute("INSERT INTO record VALUES (DEFAULT, %s, %s, %s);",(value, timestamp, MAC_address))
+            conn.commit()
+            print("committed")
+
+            # call (function from) 4b.py file
+            # create_ticket(readingID, description, sensorType,location)
                 
             
         except Exception as e:
