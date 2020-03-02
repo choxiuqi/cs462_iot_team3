@@ -1,4 +1,4 @@
-ximport paho.mqtt.client as mqttClient
+import paho.mqtt.client as mqttClient
 import time
 from config import *
 import json
@@ -8,6 +8,7 @@ from datetime import datetime
 from pytz import timezone
 import pytz
 import requests
+from 4b_Check_Occupancy import check_occupancy #to change to actual function name
 
 conn = psycopg2.connect(host="127.0.0.1", dbname="cs462team3db", user="team3user", password="password")
 # Cursor is created by the Connection object and using the Cursor object we will be able to execute our commands.
@@ -41,7 +42,7 @@ def on_message(client, userdata, message):
             print("committed")
 
             # call (function from) 4b.py file
-            # create_ticket(readingID, description, sensorType,location)
+            check_occupancy #to change to actual function name
                 
             
         except Exception as e:
