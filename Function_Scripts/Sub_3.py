@@ -52,6 +52,7 @@ def on_message(client, userdata, message):
 
 Connected = False   #global variable for the state of the connection
  
+# need to update broker details
 # broker_address= "52.77.224.134"  #Broker address
 # broker_address="127.0.0.1"
 broker_address = "tailor.cloudmqtt.com"
