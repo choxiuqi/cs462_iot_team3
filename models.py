@@ -81,7 +81,7 @@ class Record(db.Model):
             'sensor_id':self.sensor_id
         }
 
-class Occupacy(db.Model): 
+class Occupancy(db.Model): 
     __tablename__ = 'occupancy' 
     id = db.Column(db.Integer, primary_key=True)
     timestamp = db.Column(db.DateTime, unique=False) 
