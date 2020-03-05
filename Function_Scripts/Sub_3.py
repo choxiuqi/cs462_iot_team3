@@ -26,15 +26,20 @@ def on_connect(client, userdata, flags, rc):
 def on_message(client, userdata, message):
     print("message received")
     data = message.payload.decode("utf-8").replace("'", '"')
-    for i2 in data:
-        msg = json.loads(i2)
-        print(msg)
+    # print(data)
+    # for i2 in data:
+    print("yes")
+    i2 = json.loads(data)
+    print(i2)
+    for msg in i2:
+        print("msg recevied: {}".format(msg))
         for i in range(len(msg['result'])):
-            timestamp_unix = msg['timestamp']
+            ttimestamp_unix = msg['timestamp']
             timestamp = datetime.utcfromtimestamp(timestamp_unix)
-            MAC_address = msg['id']
-            sensorType = msg['result'][i]['type']
+            MAC_address = msg['mac_add']
+            # sensorType = msg['result'][i]['type']
             value = float(msg['result'][i]['reading'])
+            sensorType = 'USS'
 
             try:
                 print("executing")
