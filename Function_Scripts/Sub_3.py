@@ -34,7 +34,7 @@ def on_message(client, userdata, message):
     for msg in i2:
         print("msg recevied: {}".format(msg))
         for i in range(len(msg['result'])):
-            ttimestamp_unix = msg['timestamp']
+            timestamp_unix = msg['timestamp']
             timestamp = datetime.utcfromtimestamp(timestamp_unix)
             MAC_address = msg['mac_add']
             # sensorType = msg['result'][i]['type']
