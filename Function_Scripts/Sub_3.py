@@ -26,27 +26,28 @@ def on_connect(client, userdata, flags, rc):
 def on_message(client, userdata, message):
     print("message received")
     data = message.payload.decode("utf-8").replace("'", '"')
-    msg = json.loads(data)
-    print(msg)
-    for i in range(len(msg['result'])):
-        timestamp_unix = msg['timestamp']
-        timestamp = datetime.utcfromtimestamp(timestamp_unix)
-        MAC_address = msg['id']
-        sensorType = msg['result'][i]['type']
-        value = float(msg['result'][i]['reading'])
+    for i2 in data:
+        msg = json.loads(i2)
+        print(msg)
+        for i in range(len(msg['result'])):
+            timestamp_unix = msg['timestamp']
+            timestamp = datetime.utcfromtimestamp(timestamp_unix)
+            MAC_address = msg['id']
+            sensorType = msg['result'][i]['type']
+            value = float(msg['result'][i]['reading'])
 
-        try:
-            print("executing")
-            cur.execute("INSERT INTO record VALUES (DEFAULT, %s, %s, %s);",(value, timestamp, MAC_address))
-            conn.commit()
-            print("committed")
+            try:
+                print("executing")
+                cur.execute("INSERT INTO record VALUES (DEFAULT, %s, %s, %s);",(value, timestamp, MAC_address))
+                conn.commit()
+                print("committed")
 
-            # call (function from) 4b.py file
-            UpdateOccupancy() #to change to actual function name
+                # call (function from) 4b.py file
+                UpdateOccupancy() #to change to actual function name
+                    
                 
-            
-        except Exception as e:
-            return(str(e))
+            except Exception as e:
+                return(str(e))
 
     return
 
