@@ -56,11 +56,11 @@ Connected = False   #global variable for the state of the connection
 # need to update broker details
 # broker_address= "52.77.224.134"  #Broker address
 # broker_address="127.0.0.1"
-broker_address = "tailor.cloudmqtt.com"
-# port = 1883                          #Broker port
-port = 16179
-user = "smt203team2"                    #Connection username
-password = "smt203team2"            #Connection password
+broker_address = "broker.mqttdashboard.com"
+port = 1883                          #Broker port
+# port = 16179
+user = ""                    #Connection username
+password = ""            #Connection password
  
 client = mqttClient.Client("yo")               #create new instance
 client.username_pw_set(user, password=password)    #set username and password
@@ -68,7 +68,7 @@ client.on_connect= on_connect                      #attach function to callback
 client.on_message= on_message                      #attach function to callback
  
 client.connect(broker_address, port=port)          #connect to broker
-client.subscribe("test")
+client.subscribe("cs462-team3")
 print("subscribed")
 client.loop_start()        #start the loop
  
