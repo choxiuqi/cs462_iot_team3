@@ -42,7 +42,7 @@ def on_message(client, userdata, message):
             print("committed")
 
             # call (function from) 4b.py file
-            check_occupancy() #to change to actual function name
+            UpdateOccupancy() #to change to actual function name
                 
             
         except Exception as e:
