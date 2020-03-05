@@ -4,7 +4,7 @@ import datetime
 class Sensor(db.Model): 
     __tablename__ = 'sensor' #database table name, optionally specified 
     
-    id = db.Column(db.Integer, primary_key=True) 
+    id = db.Column(db.String(80), primary_key=True) 
     desc = db.Column(db.String(80), unique=False, nullable=False)
     type = db.Column(db.String(10), unique=False, nullable=False)   
     meeting_room_id = db.Column(db.Integer, db.ForeignKey('meeting_room.id'), unique=False, nullable=False) 
@@ -61,7 +61,7 @@ class Record(db.Model):
     id = db.Column(db.Integer, primary_key=True) 
     value = db.Column(db.Integer, nullable=False) 
     timestamp = db.Column(db.DateTime, unique=False, nullable=False) 
-    sensor_id = db.Column(db.Integer, db.ForeignKey('sensor.id'), unique=False, nullable=False)
+    sensor_id = db.Column(db.String(80), db.ForeignKey('sensor.id'), unique=False, nullable=False)
     
     # one-to-many model
     sensor = db.relationship('Sensor', back_populates='records', cascade='all', lazy=True)
