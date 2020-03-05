@@ -1,3 +1,11 @@
+import psycopg2
+
+from datetime import datetime
+from pytz import timezone
+import pytz
+
+import requests
+
 #date time, __future__ is a lib
 from __future__ import division
 import datetime
@@ -31,127 +39,143 @@ my function:
 be entered into the occupancy db
 
 '''
+
+conn = psycopg2.connect(host="127.0.0.1", dbname="cs462team3db", user="team3user", password="password")
+# Cursor is created by the Connection object and using the Cursor object we will be able to execute our commands.
+cur = conn.cursor()
+conn.autocommit = True
+
+
 def check_change():
     ##1. want to find out which are the new datas in the records db.
     ##  compare the ids that are in record db and the ids of those in occupancy db
 
     #get all ids in records db (integer value)
-    ids_records = db.session.query(Record.id).all() #will return tuple
-    ids_records = [Record.id for each in ids_records] #returns list
-    #alterantive:
-    #use with_entities to get spcific columns 
-    #ids_records = Record.query.with_entities(Record.col1) or ids_records = Record.query.with_entities(Record.id).all()
+    cur.execute('SELECT ("id") FROM record')
+    ids_records = cur.fetchall() #fetches multuple rows and store the result in a list variable
+    # ids_records = db.session.query(Record.id).all() 
 
 
     #get all ids in Occupancy db
-    ids_occupancy = db.session.query(Occupancy.id).all() #will return tuple
-    ids_occupancy = [Occupancy.id for each in ids_occupancy] #returns list
-    # Alternative
-    # ids_occupancy = Occupancy.query.with_entities(Occupancy.col1)
+    cur.execute('SELECT ("id") FROM occupancy')
+    ids_occupancy = cur.fetchall()
+    print(ids_occupancy)
+    # ids_occupancy = db.session.query(Occupancy.id).all() #will return tuple
+    # ids_occupancy = [Occupancy.id for each in ids_occupancy] #returns list
     #because the ids in occupancy will be combined for the nett value, only the largest id value in neet value will be added to db
     #eg ids_occupancy = [1,12,16]
-    latest_occu_id = ids_occupancy[-1] #ie 16
 
-    #find the new records in the records db
-    #ids_records eg: [1,2,3,4,5,6,7,8........,16,17,18,19]
-    new_entries = []
-    for each_record in ids_records:
-        if each_record>latest_occu_id:#ie record's id which is greater than 16
-            new_entries.append(each_record)
 
-    #get detailed records of all new entreies with reference to the new_entries
-    #ie: id of entry, value (actual sensor reading in cm ), timestamp, sensor_id
-    all_new_details = Record.query.filter(Record.id.in_(new_entries)).all()
-    # in the case that recor has a json field: all_new_details = Record.query.filter(Record.data['key].in_(new_entries)).all()
 
-    details_list = []
-    #save the entries into a dictionary
-    # ie: [{id:_,value:_,timestamp:_,sensor_id:_}, 
-    #       id:_,value:_,timestamp:_,sensor_id:_}, 
-    #       id:_,value:_,timestamp:_,sensor_id:_}.....]
-    for details in all_new_details:
-        new = (f"<id={details.id}, value={details.value}, timestamp={details.timestamp}, sensor_id={details.sernsor_id}>")
-        details_list.append(new) #output: [{..,..,..},{},{}]
+
+
+
+
+    # latest_occu_id = ids_occupancy[-1] #ie 16
+
+    # #find the new records in the records db
+    # #ids_records eg: [1,2,3,4,5,6,7,8........,16,17,18,19]
+    # new_entries = []
+    # for each_record in ids_records: #to be changed later
+    #     if each_record>latest_occu_id:#ie record's id which is greater than 16
+    #         new_entries.append(each_record)
+
+    # #get detailed records of all new entreies with reference to the new_entries
+    # #ie: id of entry, value (actual sensor reading in cm ), timestamp, sensor_id
+    
+    # cur.execute('SELECT * FROM record ')
+    # all_new_details = Record.query.filter(Record.id.in_(new_entries)).all()
+    # # in the case that recor has a json field: all_new_details = Record.query.filter(Record.data['key].in_(new_entries)).all()
+
+    # details_list = []
+    # #save the entries into a dictionary
+    # # ie: [{id:_,value:_,timestamp:_,sensor_id:_}, 
+    # #       id:_,value:_,timestamp:_,sensor_id:_}, 
+    # #       id:_,value:_,timestamp:_,sensor_id:_}.....]
+    # for details in all_new_details:
+    #     new = (f"<id={details.id}, value={details.value}, timestamp={details.timestamp}, sensor_id={details.sernsor_id}>")
+    #     details_list.append(new) #output: [{..,..,..},{},{}]
     
 
-    '''
-    --DETERMINE IF PEOPLE ARE WALKING IN/OUT/NOISE--
+    # '''
+    # --DETERMINE IF PEOPLE ARE WALKING IN/OUT/NOISE--
     
-    Possible scenarios
-    1. there may be multiple readings(eg: 1,2,3,4) when a person passes through 1 of the sensor 
-    2. there may be only a single reading (eg: 1) when a person passes through 1 of the sesnsor
-    3. a person is just a noise, goes through 1 sensor but not the other
-    4. readings still coming in when the data is 0
+    # Possible scenarios
+    # 1. there may be multiple readings(eg: 1,2,3,4) when a person passes through 1 of the sensor 
+    # 2. there may be only a single reading (eg: 1) when a person passes through 1 of the sesnsor
+    # 3. a person is just a noise, goes through 1 sensor but not the other
+    # 4. readings still coming in when the data is 0
     
-    '''
-    # empty_readings = [] #detailed readings of all the times no one passes through
-    # position_index = [] #index of these detailed readings in the details_list
-    num_details = len(details_list)
-    #get reading id where there is no one passing through 
-    # for i in range(0,num_details):
-    #     if details_list[i]['value']==89:
-    #         empty_readings.append(details_list[i])  #save the dict entry to new list
-    #         position_index.append(i)  #record the index of it
+    # '''
+    # # empty_readings = [] #detailed readings of all the times no one passes through
+    # # position_index = [] #index of these detailed readings in the details_list
+    # num_details = len(details_list)
+    # #get reading id where there is no one passing through 
+    # # for i in range(0,num_details):
+    # #     if details_list[i]['value']==89:
+    # #         empty_readings.append(details_list[i])  #save the dict entry to new list
+    # #         position_index.append(i)  #record the index of it
 
-    #possible to find two consecutive readings with mac address out and then in(person walking in) and with mac adress in then out(person walking out)
-    ###to get the current reading occupancy in database 
-    #get the possible 2 mac address
-    # will be saved into a list 
+    # #possible to find two consecutive readings with mac address out and then in(person walking in) and with mac adress in then out(person walking out)
+    # ###to get the current reading occupancy in database 
+    # #get the possible 2 mac address
+    # # will be saved into a list 
 
-    #mac_1 is the one outside, mac_2 will be in the one inside
-    sensor_id_list = [mac_1, mac_2]   #to be changed later to reference
+    # #mac_1 is the one outside, mac_2 will be in the one inside
+    # sensor_id_list = [mac_1, mac_2]   #to be changed later to reference
 
-    counter = 0
-    pairs_in_out = []
-    previous_record = {}
+    # counter = 0
+    # pairs_in_out = []
+    # previous_record = {}
 
-    while (counter<num_details):
-        id_current = details_list[counter]['id']
-        value_current = details_list[counter]['value']
-        time_current = details_list[counter]['timestamp']
-        sensor_id_current = details_list[counter]['sensor_id']
-        if counter==0:
-            #initialise a previous records dictionary to compare to the current one
-            previous_record = {'id':id_current, 'value': value_current, 'timestamp':time_current, 'sensor_id':sensor_id_current}
-            counter +=1
-        elif counter>0:
-            time_difference = time_current - previous_record['timestamp']
-            #means that there is a change// means that there is someone passing through both sensors
-            ((previous_record['sensor_id']) != sensor_id_current) and (previous_record['value']!=89) and (value_current!=89) and (time_difference<=120)
-            pairs_in_out.append([(previous_record['sensor_id']), sensor_id_current])
-            previous_record = {'id':id_current, 'value': value_current, 'timestamp':time_current, 'sensor_id':sensor_id_current}
-            counter +=1
+    # while (counter<num_details):
+    #     id_current = details_list[counter]['id']
+    #     value_current = details_list[counter]['value']
+    #     time_current = details_list[counter]['timestamp']
+    #     sensor_id_current = details_list[counter]['sensor_id']
+    #     if counter==0:
+    #         #initialise a previous records dictionary to compare to the current one
+    #         previous_record = {'id':id_current, 'value': value_current, 'timestamp':time_current, 'sensor_id':sensor_id_current}
+    #         counter +=1
+    #     elif counter>0:
+    #         #########change time to pytz kind
+    #         time_difference = time_current - previous_record['timestamp']
+    #         #means that there is a change// means that there is someone passing through both sensors
+    #         ((previous_record['sensor_id']) != sensor_id_current) and (previous_record['value']!=89) and (value_current!=89) and (time_difference<=120)
+    #         pairs_in_out.append([(previous_record['sensor_id']), sensor_id_current])
+    #         previous_record = {'id':id_current, 'value': value_current, 'timestamp':time_current, 'sensor_id':sensor_id_current}
+    #         counter +=1
 
     
-    #find number who enter and exit
-    human_traffic = 0
-    if len(previous_record)!=0:
-        for pairs in previous_record:
-            first = pairs[0]
-            second = pairs[1]
-            if (first == sensor_id_list[0]) and (second == sensor_id_list[1]):
-                human_traffic +=1
-            elif (first ==sensor_id_list[1]) and (second==sensor_id_list[0]):
-                human_traffic -=1
+    # #find number who enter and exit
+    # human_traffic = 0
+    # if len(previous_record)!=0:
+    #     for pairs in previous_record:
+    #         first = pairs[0]
+    #         second = pairs[1]
+    #         if (first == sensor_id_list[0]) and (second == sensor_id_list[1]):
+    #             human_traffic +=1
+    #         elif (first ==sensor_id_list[1]) and (second==sensor_id_list[0]):
+    #             human_traffic -=1
 
-    #previous_occupancy
-    previous_occupancy = db.session.query(Occupancy).order_by(Occupancy.value.desc()).first()
-    new_occupancy = previous_occupancy + human_traffic
-    if new_occupancy <= 0:
-        new_id = new_entries[-1] #the last id in the list of all new ids
-        time = details_list[-1]['timestamp']   #the last timestamp in the details_list,new_id and time will have reference to dsam detail
-        meeting_room_id = 'G' #to be changed later
-        getCalendarEvents() #reference to CalendarAPI
-        new_occupancy_entry = Occupancy(new_id, time, meeting_room_id, new_occupancy)
-        db.session.add(new_occupancy_entry)
-        db.session.commit()
-    elif new_occupancy>=1:
-        new_id = new_entries[-1] #the last id in the list of all new ids
-        time = details_list[-1]['timestamp']   #the last timestamp in the details_list,new_id and time will have reference to dsam detail
-        meeting_room_id = 'G' #to be changed later
-        new_occupancy_entry = Occupancy(new_id, time, meeting_room_id, new_occupancy)
-        db.session.add(new_occupancy_entry)
-        db.session.commit()
+    # #previous_occupancy
+    # previous_occupancy = db.session.query(Occupancy).order_by(Occupancy.value.desc()).first()
+    # new_occupancy = previous_occupancy + human_traffic
+    # if new_occupancy <= 0:
+    #     new_id = new_entries[-1] #the last id in the list of all new ids
+    #     time = details_list[-1]['timestamp']   #the last timestamp in the details_list,new_id and time will have reference to dsam detail
+    #     meeting_room_id = 'G' #to be changed later
+    #     getCalendarEvents() #reference to CalendarAPI
+    #     new_occupancy_entry = Occupancy(new_id, time, meeting_room_id, new_occupancy)
+    #     db.session.add(new_occupancy_entry)
+    #     db.session.commit()
+    # elif new_occupancy>=1:
+    #     new_id = new_entries[-1] #the last id in the list of all new ids
+    #     time = details_list[-1]['timestamp']   #the last timestamp in the details_list,new_id and time will have reference to dsam detail
+    #     meeting_room_id = 'G' #to be changed later
+    #     new_occupancy_entry = Occupancy(new_id, time, meeting_room_id, new_occupancy)
+    #     db.session.add(new_occupancy_entry)
+    #     db.session.commit()
 
             
 
