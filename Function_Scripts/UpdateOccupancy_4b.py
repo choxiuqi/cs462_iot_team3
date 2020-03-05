@@ -115,7 +115,10 @@ def UpdateOccupancy():
     #previous occupancy
     cur.execute('SELECT ("value") FROM occupancy;')
     occupancy_list = cur.fetchall()[-1]
-    last_occupancy = occupancy_list[0]
+    if occupancy_list == []:
+        last_occupancy = 0
+    else:
+        last_occupancy = occupancy_list[0]
 
     # print("occup list: {}".format(occupancy_list))
     # print("last occup: {}".format(last_occupancy))
