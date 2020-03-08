@@ -113,6 +113,8 @@ def UpdateOccupancy():
 
 
     #previous occupancy
+    ####################edit code to include if there's nothing in database #######################
+
     cur.execute('SELECT ("value") FROM occupancy;')
     occupancy_list = cur.fetchall()[-1]
     if occupancy_list == []:
