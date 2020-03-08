@@ -88,7 +88,6 @@ def UpdateOccupancy():
             # output of print(previous_record): {'id': 3, 'value': 74, 'timestamp': datetime.datetime(2020, 3, 5, 16, 19, 7), 'sensor_id': 0}
             counter +=1
         elif counter>0:
-            #########change time to pytz kind
             time_difference = (time_current - previous_record['timestamp']).total_seconds()
             #means that there is a change// means that there is someone passing through both sensors
             if ((previous_record['sensor_id']) != sensor_id_current) and (previous_record['value']!=89) and (value_current!=89) and (time_difference<=2):
@@ -97,7 +96,7 @@ def UpdateOccupancy():
             counter +=1
 
     
-    #find number who enter and exit
+    #find number of people who enter and exit
     human_traffic = 0
     if len(pairs_in_out)!=0:
         for pairs in pairs_in_out:
@@ -107,18 +106,33 @@ def UpdateOccupancy():
                 human_traffic +=1
             elif (first == in_mac) and (second == out_mac):
                 human_traffic -=1
-    print(human_traffic)
+    else:
+        human_traffic = 0
+    #print(human_traffic)
 
 
 
 
     #previous occupancy
     ####################edit code to include if there's nothing in database #######################
+    
+    # cur.execute('SELECT ("value") FROM occupancy;')
+    # exist_one = cur.fetchone()
+    # occupancy_list = cur.fetchall()[-1]
+    # if exist_one == None:
+    #     last_occupancy = 0
+    # else:
+    #     last_occupancy = occupancy_list[0]
 
     cur.execute('SELECT ("value") FROM occupancy;')
     occupancy_list = cur.fetchall()[-1]
     if occupancy_list == []:
         last_occupancy = 0
+        #add an empty row into db
+        new_id = 0
+        time = 0
+        meeting_room_id  = 'G'
+        cur.execute("INSERT INTO occupancy VALUES (%s, %s, %s, %s);",(new_id, time, meeting_room_id, last_occupancy))
     else:
         last_occupancy = occupancy_list[0]
 
@@ -127,6 +141,7 @@ def UpdateOccupancy():
     
 
     new_occupancy = int(last_occupancy) + int(human_traffic)
+
 
     cur.execute('SELECT ("id", "timestamp") FROM record;')
     last_record_list = cur.fetchall()[-1][0][1:-1]
