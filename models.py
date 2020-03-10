@@ -13,7 +13,7 @@ class Sensor(db.Model):
 
     meeting_room = db.relationship('MeetingRoom', back_populates='sensors')
     records = db.relationship('Record', back_populates='sensor', cascade='all', lazy=True, uselist=True)
-    new_records = db.relationship('LatestRecord', back_populates='sensor', cascade='all', lazy=True, uselist=True) 
+    latest_records = db.relationship('LatestRecord', back_populates='sensor', cascade='all', lazy=True, uselist=True) 
 
 
     def __init__(self, id, desc, meeting_room_id, records=None): 
@@ -39,7 +39,7 @@ class MeetingRoom(db.Model):
 
     # one-to-many relationship
     sensors = db.relationship('Sensor', back_populates='meeting_room', lazy=True, uselist=True)
-    occupancy_records = db.relationship('Occupacy', back_populates='meeting_room', lazy=True, uselist=True)
+    occupancy_records = db.relationship('Occupancy', back_populates='meeting_room', lazy=True, uselist=True)
 
     def __init__(self, id, capacity, sensors=None, occupancy_records=None): 
         self.id = id 
