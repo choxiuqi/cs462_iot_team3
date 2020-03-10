@@ -31,6 +31,8 @@ def on_message(client, userdata, message):
     print("yes")
     i2 = json.loads(data)
     print(i2)
+    cur.execute("DELETE FROM latest_record;")
+    conn.commit()
     for msg in i2:
         print("msg recevied: {}".format(msg))
         for i in range(len(msg['result'])):
@@ -42,10 +44,14 @@ def on_message(client, userdata, message):
             sensorType = 'USS'
 
             try:
-                print("executing")
+                print("executing_record")
                 cur.execute("INSERT INTO record VALUES (DEFAULT, %s, %s, %s);",(value, timestamp, MAC_address))
                 conn.commit()
-                print("committed")
+                print("committed_record")
+                print("executing_latest_record")
+                cur.execute("INSERT INTO latest_record VALUES (DEFAULT, %s, %s, %s);",(value, timestamp, MAC_address))
+                conn.commit()
+                print("committed_latest_record")
 
                 # call (function from) 4b.py file
                 UpdateOccupancy() #to change to actual function name
