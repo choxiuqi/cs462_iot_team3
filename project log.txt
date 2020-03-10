@@ -26,4 +26,5 @@ group:
 
 10/3/2020
 [] Create a slack bot/app
-[] System monitoring
+[] System monitoring - telebot, sensor health code, sensor health db
+[] db model changes: add: sensor health, slack information [userid, username, timestamp, meeting_room_id, solved]

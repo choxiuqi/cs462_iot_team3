@@ -8,7 +8,7 @@ from datetime import datetime
 from pytz import timezone
 import pytz
 import requests
-from UpdateOccupancy_4b import check_occupancy #to change to actual function name
+from UpdateOccupancy_4b import check_occupancy, resetCounter #to change to actual function name
 
 conn = psycopg2.connect(host="127.0.0.1", dbname="cs462team3db", user="team3user", password="password")
 # Cursor is created by the Connection object and using the Cursor object we will be able to execute our commands.
@@ -33,6 +33,11 @@ def on_message(client, userdata, message):
     print(i2)
     cur.execute("DELETE FROM latest_record;")
     conn.commit()
+
+    # need to add in part where data received is only PIR motion sensor data, nobody coming in or out
+    # --> if data is that there is no motion, call the function resetCounter()
+
+
     for msg in i2:
         print("msg recevied: {}".format(msg))
         for i in range(len(msg['result'])):
