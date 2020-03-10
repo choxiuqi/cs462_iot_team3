@@ -12,7 +12,8 @@ class Sensor(db.Model):
     # one-to-many model
 
     meeting_room = db.relationship('MeetingRoom', back_populates='sensors')
-    records = db.relationship('Record', back_populates='sensor', cascade='all', lazy=True, uselist=True) 
+    records = db.relationship('Record', back_populates='sensor', cascade='all', lazy=True, uselist=True)
+    new_records = db.relationship('LatestRecord', back_populates='sensor', cascade='all', lazy=True, uselist=True) 
 
 
     def __init__(self, id, desc, meeting_room_id, records=None): 
@@ -65,6 +66,31 @@ class Record(db.Model):
     
     # one-to-many model
     sensor = db.relationship('Sensor', back_populates='records', cascade='all', lazy=True)
+
+    def __init__(self, value, timestamp, sensor_id): 
+        self.value = value
+        self.timestamp = timestamp
+        self.sensor_id = sensor_id
+
+        # self.sensor = None
+
+    def serialize(self):
+        return {
+            'record_id': self.id,
+            'value': self.value,
+            'timestamp':self.timestamp,
+            'sensor_id':self.sensor_id
+        }
+
+class LatestRecord(db.Model): 
+    __tablename__ = 'latest_record' #database table name, optionally specified 
+    id = db.Column(db.Integer, primary_key=True) 
+    value = db.Column(db.Integer, nullable=False) 
+    timestamp = db.Column(db.DateTime, unique=False, nullable=False) 
+    sensor_id = db.Column(db.String(80), db.ForeignKey('sensor.id'), unique=False, nullable=False)
+    
+    # one-to-many model
+    sensor = db.relationship('Sensor', back_populates='latest_records', cascade='all', lazy=True)
 
     def __init__(self, value, timestamp, sensor_id): 
         self.value = value
