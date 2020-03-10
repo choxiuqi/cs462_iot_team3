@@ -23,3 +23,7 @@ group:
 [] Code 4b_Update_Occupancy.py (Amelia)
 [] Code 5a_CalendarAPI.py (not as urgent yet) (WT)
 [] Set up dashboard (5a) (not as urgent yet) (Ally)
+
+10/3/2020
+[] Create a slack bot/app
+[] System monitoring
