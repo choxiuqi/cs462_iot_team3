@@ -26,3 +26,4 @@ group:
 
 10/3/2020
 [] Create a slack bot/app
+[] System monitoring
