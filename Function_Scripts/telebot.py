@@ -10,6 +10,9 @@ sendMsg_url = base_url + 'sendMessage'
 
 # ##################################################################################################################################
 
+# telebot's use is to inform us when there are any errors or alerts that we should take not of
+# e.g. when sensor didn't give us health reading, or when rpi no heartbeat, or (when too many errors?)
+
 # ------get chatId------
 def getChatID():
     params = {'offset':0}

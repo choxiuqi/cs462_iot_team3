@@ -34,8 +34,13 @@ def on_message(client, userdata, message):
     cur.execute("DELETE FROM latest_record;")
     conn.commit()
 
-    # need to add in part where data received is only PIR motion sensor data, nobody coming in or out
-    # --> if data is that there is no motion, call the function resetCounter()
+    # if sensor normal data --> call function sensor_data()
+
+    # if only pir data --> call function pir_data()
+        # need to add in part where data received is only PIR motion sensor data, nobody coming in or out
+        # --> if data is that there is no motion, call the function resetCounter()
+
+    # if health sensor data --> call function sensor_data()
 
 
     for msg in i2:
