@@ -8,7 +8,7 @@ from datetime import datetime
 from pytz import timezone
 import pytz
 import requests
-from UpdateOccupancy_4b import check_occupancy, resetCounter #to change to actual function name
+from UpdateOccupancy_4b import UpdateOccupancy, resetCounter #to change to actual function name
 
 conn = psycopg2.connect(host="127.0.0.1", dbname="cs462team3db", user="team3user", password="password")
 # Cursor is created by the Connection object and using the Cursor object we will be able to execute our commands.
