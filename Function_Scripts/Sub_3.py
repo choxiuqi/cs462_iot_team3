@@ -45,30 +45,28 @@ def on_message(client, userdata, message):
 
     for msg in i2:
         print("msg recevied: {}".format(msg))
-        for i in range(len(msg['result'])):
-            timestamp_unix = msg['timestamp']
-            timestamp = datetime.utcfromtimestamp(timestamp_unix)
-            MAC_address = msg['mac_add']
-            # sensorType = msg['result'][i]['type']
-            value = float(msg['result'][i]['reading'])
-            sensorType = 'USS'
+        # print("mac_add: {}".format(msg['result'][0]['mac_add']))
+        # for i in range(len(msg['result'])):
+        timestamp_unix = msg['result'][0]['timestamp']
+        timestamp = datetime.utcfromtimestamp(timestamp_unix)
+        MAC_address = msg['result'][0]['mac_add']
+        # sensorType = msg['result'][i]['type']
+        value = float(msg['result'][0]['value'])
+        sensorType = 'USS'
+        print("looked through variables")
 
-            try:
-                print("executing_record")
-                cur.execute("INSERT INTO record VALUES (DEFAULT, %s, %s, %s);",(value, timestamp, MAC_address))
-                conn.commit()
-                print("committed_record")
-                print("executing_latest_record")
-                cur.execute("INSERT INTO latest_record VALUES (DEFAULT, %s, %s, %s);",(value, timestamp, MAC_address))
-                conn.commit()
-                print("committed_latest_record")
-
-                # call (function from) 4b.py file
-                UpdateOccupancy() #to change to actual function name
-                    
-                
-            except Exception as e:
-                return(str(e))
+        try:
+            print("executing_record")
+            cur.execute("INSERT INTO record VALUES (DEFAULT, %s, %s, %s);",(value, timestamp, MAC_address))
+            conn.commit()
+            print("committed_record")
+            print("executing_latest_record")
+            cur.execute("INSERT INTO latest_record VALUES (DEFAULT, %s, %s, %s);",(value, timestamp, MAC_address))
+            conn.commit()
+            print("committed_latest_record")               
+            
+        except Exception as e:
+            return(str(e))
 
     return
 
