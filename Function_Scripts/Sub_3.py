@@ -68,6 +68,8 @@ def on_message(client, userdata, message):
         except Exception as e:
             return(str(e))
 
+    UpdateOccupancy()
+
     return
 
 Connected = False   #global variable for the state of the connection
