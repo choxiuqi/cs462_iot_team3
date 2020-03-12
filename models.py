@@ -12,16 +12,24 @@ class Sensor(db.Model):
     # one-to-many model
 
     meeting_room = db.relationship('MeetingRoom', back_populates='sensors')
-    records = db.relationship('Record', back_populates='sensor', cascade='all', lazy=True, uselist=True)
-    latest_records = db.relationship('LatestRecord', back_populates='sensor', cascade='all', lazy=True, uselist=True) 
+    uss_records = db.relationship('USSRecord', back_populates='sensor', cascade='all', lazy=True, uselist=True)
+    latest_uss_records = db.relationship('LatestUSSRecord', back_populates='sensor', cascade='all', lazy=True, uselist=True)
+    sensor_health =  db.relationship('SensorHealth', back_populates='sensor', cascade='all', lazy=True, uselist=True)
+    pir_records = db.relationship('PIRRecord', back_populates='sensor', cascade='all', lazy=True, uselist=True)
 
 
-    def __init__(self, id, desc, meeting_room_id, records=None): 
+    def __init__(self, id, desc, meeting_room_id, uss_records=None, latest_uss_records=None, sensor_health=None, pir_records=None): 
         self.id = id 
         self.desc = desc 
         self.meeting_room_id = meeting_room_id
-        records = [] if records is None else records
-        self.records = records
+        uss_records = [] if uss_records is None else uss_records
+        self.uss_records = uss_records
+        latest_uss_records = [] if latest_uss_records is None else latest_uss_records
+        self.latest_uss_records = latest_uss_records
+        sensor_health = [] if sensor_health is None else sensor_health
+        self.sensor_health = sensor_health
+        pir_records = [] if pir_records is None else pir_records
+        self.pir_records = pir_records
 
     
     def serialize(self): 
@@ -29,7 +37,9 @@ class Sensor(db.Model):
             'id': self.id, 
             'desc': self.desc, 
             'meeting_room_id': self.meeting_room_id, 
-            'records': [r.serialize() for r in self.records] 
+            'records': [r.serialize() for r in self.records],
+            'sensor_health': [s.serialize() for s in self.sensor_health],
+            'pir_records': [p.serialize() for p in self.pir_records] 
         }
 
 class MeetingRoom(db.Model): 
@@ -57,15 +67,15 @@ class MeetingRoom(db.Model):
             'occupancy_records' : [o.serialize() for o in self.occupancy_records]
         }
 
-class Record(db.Model): 
-    __tablename__ = 'record' #database table name, optionally specified 
+class USSRecord(db.Model): 
+    __tablename__ = 'uss_record' #database table name, optionally specified 
     id = db.Column(db.Integer, primary_key=True) 
     value = db.Column(db.Integer, nullable=False) 
     timestamp = db.Column(db.DateTime, unique=False, nullable=False) 
     sensor_id = db.Column(db.String(80), db.ForeignKey('sensor.id'), unique=False, nullable=False)
     
     # one-to-many model
-    sensor = db.relationship('Sensor', back_populates='records', cascade='all', lazy=True)
+    sensor = db.relationship('Sensor', back_populates='uss_records', cascade='all', lazy=True)
 
     def __init__(self, value, timestamp, sensor_id): 
         self.value = value
@@ -82,15 +92,15 @@ class Record(db.Model):
             'sensor_id':self.sensor_id
         }
 
-class LatestRecord(db.Model): 
-    __tablename__ = 'latest_record' #database table name, optionally specified 
+class LatestUSSRecord(db.Model): 
+    __tablename__ = 'latest_uss_record' #database table name, optionally specified 
     id = db.Column(db.Integer, primary_key=True) 
     value = db.Column(db.Integer, nullable=False) 
     timestamp = db.Column(db.DateTime, unique=False, nullable=False) 
     sensor_id = db.Column(db.String(80), db.ForeignKey('sensor.id'), unique=False, nullable=False)
     
     # one-to-many model
-    sensor = db.relationship('Sensor', back_populates='latest_records', cascade='all', lazy=True)
+    sensor = db.relationship('Sensor', back_populates='latest_uss_records', cascade='all', lazy=True)
 
     def __init__(self, value, timestamp, sensor_id): 
         self.value = value
@@ -128,5 +138,55 @@ class Occupancy(db.Model):
             'id' : self.id,
             'timestamp' : self.timestamp,
             'meeting_room_id': self.meeting_room_id,
+            'value' : self.value
+        }
+
+
+class SensorHealth(db.Model): 
+    __tablename__ = 'sensorHealth' 
+    id = db.Column(db.Integer, primary_key=True)
+    sensor_id = db.Column(db.String(80), db.ForeignKey('sensor.id'), unique=False, nullable=False)
+    value = db.Column(db.Integer, unique=False, nullable=True)
+    timestamp = db.Column(db.DateTime, unique=False) 
+
+    # one-to-many relationship
+    sensor = db.relationship('Sensor', back_populates='sensor_health')
+
+    def __init__(self, id, timestamp, sensor_id, value): 
+        self.id = id 
+        self.timestamp = timestamp
+        self.sensor_id = sensor_id
+        self.value = value
+
+    def serialize(self):
+        return {
+            'id' : self.id,
+            'timestamp' : self.timestamp,
+            'sensor_id': self.sensor_id,
+            'value' : self.value
+        }
+
+
+class PIRRecord(db.Model): 
+    __tablename__ = 'pir_record' 
+    id = db.Column(db.Integer, primary_key=True)
+    timestamp = db.Column(db.DateTime, unique=False) 
+    sensor_id = db.Column(db.String(80), db.ForeignKey('sensor.id'), unique=False, nullable=False)
+    value = db.Column(db.Integer, unique=False, nullable=True)
+
+    # one-to-many relationship
+    sensor = db.relationship('Sensor', back_populates='pir_records')
+
+    def __init__(self, id, timestamp, sensor_id, value): 
+        self.id = id 
+        self.timestamp = timestamp
+        self.sensor_id = sensor_id
+        self.value = value
+
+    def serialize(self):
+        return {
+            'id' : self.id,
+            'timestamp' : self.timestamp,
+            'sensor_id': self.sensor_id,
             'value' : self.value
         }
