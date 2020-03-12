@@ -172,7 +172,7 @@ def updateEventColor(service, eventId, meetingrm):
 
 
 def main():
-    # getCalendarEvents(creds())
+    getCalendarEvents(creds())
     # deleteCalendarEvents(creds(),getCalendarEvents(creds()))
     # getEventColor(creds(), getCalendarEvents(creds()))
 

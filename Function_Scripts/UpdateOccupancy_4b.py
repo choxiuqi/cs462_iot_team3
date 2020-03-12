@@ -6,7 +6,7 @@ import pytz
 
 import requests
 
-##reference to 5a's py file and its function
+#reference to 5a's py file and its function
 from CalendarAPI_5a import *
 
 
@@ -34,25 +34,59 @@ conn = psycopg2.connect(host="127.0.0.1", dbname="cs462team3db", user="team3user
 cur = conn.cursor()
 conn.autocommit = True
 
+def resetCounter():
+    '''
+    when no motion in room is detected 
+    no change in distance(89) from the 2 ultrasonic sensors
+    reset occupancy to 0 (insert a new entry where occupancy is 0)
+    '''
+
+
+
+
+def checkMotion(new_occupancy):
+    '''
+    function will be called when:
+    1. the occupancy is <=0 to check if there is no one inside
+    2. every 5 mins since calendar event start to see if there are people
+    '''
+    try:
+        cur.execute('SELECT * FROM latest_record WHERE sensor_id ="X001" ORDER BY "id" DESC;')
+        latest_pir_reading = cur.fetchone()
+    except Exception as e:
+        return(str(e))
+
+    if latest_pir_reading[2]=="Motion not detected":       #######to be changed
+        return True #nobody in the room
+    else:
+        return False     #people in the room
+
 
 def UpdateOccupancy():
     ##1. want to find out which are the new datas in the records db.
     ##  compare the ids that are in record db and the ids of those in occupancy db
 
-    #get all ids in Occupancy db
-    cur.execute('SELECT ("id") FROM occupancy')
-    ids_occupancy = cur.fetchall()
-    all_ids_occupancy = [i[0] for i in ids_occupancy]
+    # #get all ids in Occupancy db
+    # cur.execute('SELECT ("id") FROM occupancy')
+    # ids_occupancy = cur.fetchall()
+    # all_ids_occupancy = [i[0] for i in ids_occupancy]
 
 
-    latest_occu_id = all_ids_occupancy[-1] #ie 16
+    # latest_occu_id = all_ids_occupancy[-1] #ie 16
 
-    #get detailed records of all new entreies with reference to the new_entries
-    #ie: id of entry, value (actual sensor reading in cm ), timestamp, sensor_id
-    cur.execute('SELECT * FROM record WHERE "id">%s;',(latest_occu_id,))
+    # #get detailed records of all new entreies with reference to the new_entries
+    # #ie: id of entry, value (actual sensor reading in cm ), timestamp, sensor_id
+    # cur.execute('SELECT * FROM record WHERE "id">%s;',(latest_occu_id,))
+    # details_list = cur.fetchall()
+    # # ouput of details_list = [(3, 74, datetime.datetime(2020, 3, 5, 16, 19, 7), 0), (4, 70, datetime.datetime(2020, 3, 5, 16, 19, 10), 0)]
+    # # list of tuples
+
+
+
+    #get all the ids from latest_record db
+    cur.execute('SELECT * FROM latest_record WHERE (sensor_id="e6f5f2bb5b0e") OR (sensor_id="fb48fc3a6ee3")')
     details_list = cur.fetchall()
-    # ouput of details_list = [(3, 74, datetime.datetime(2020, 3, 5, 16, 19, 7), 0), (4, 70, datetime.datetime(2020, 3, 5, 16, 19, 10), 0)]
-    # list of tuples
+    #OUTPUT [(3, 74, datetime.datetime(2020, 3, 5, 16, 19, 7), 0), (4, 70, datetime.datetime(2020, 3, 5, 16, 19, 10), 0)]
 
     
     '''
@@ -124,7 +158,7 @@ def UpdateOccupancy():
     # else:
     #     last_occupancy = occupancy_list[0]
 
-    cur.execute('SELECT ("value") FROM occupancy;')
+    cur.execute('SELECT ("value") FROM occupancy;') 
     occupancy_list = cur.fetchall()[-1]
     if occupancy_list == []:
         last_occupancy = 0
@@ -143,20 +177,18 @@ def UpdateOccupancy():
     new_occupancy = int(last_occupancy) + int(human_traffic)
 
 
-    cur.execute('SELECT ("id", "timestamp") FROM record;')
-    last_record_list = cur.fetchall()[-1][0][1:-1]
-    # print("last_record_list: {}".format(last_record_list))
-    last_record_list_new = last_record_list.split(",")
 
-    new_id = last_record_list_new[0]
-    time = last_record_list_new[1].strip('"')
-    # print("new id: {}".format(new_id))
-    # print("time: {}".format(time))
-    
-    meeting_room_id = 'G'
+    cur.execute('SELECT ("timestamp") FROM latest_record ORDER BY "id" DESC;')
+    last_record_list = cur.fetchone()
+    time = last_record_list[2]
+    meeting_room_id = 0
 
     if new_occupancy <= 0:
-        getCalendarEvents() #reference to CalendarAPI
-        cur.execute("INSERT INTO occupancy VALUES (%s, %s, %s, %s);",(new_id, time, meeting_room_id, new_occupancy))
+        if checkMotion(new_occupancy)== True:  #there's no one
+            getCalendarEvents() #reference to CalendarAPI (to be changed)
+            cur.execute("INSERT INTO occupancy VALUES (DEFAULT, %s, %s, %s);",(time, meeting_room_id, new_occupancy))
+        elif checkMotion(new_occupancy)== False:
+            new_occupancy += 1
+            cur.execute("INSERT INTO occupancy VALUES (DEFAULT, %s, %s, %s);",(time, meeting_room_id, new_occupancy))
     elif new_occupancy>=1:
-        cur.execute("INSERT INTO occupancy VALUES (%s, %s, %s, %s);",(new_id, time, meeting_room_id, new_occupancy))
+        cur.execute("INSERT INTO occupancy VALUES (DEFAULT, %s, %s, %s);",(time, meeting_room_id, new_occupancy))

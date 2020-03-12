@@ -8,7 +8,7 @@ from datetime import datetime
 from pytz import timezone
 import pytz
 import requests
-from UpdateOccupancy_4b import check_occupancy #to change to actual function name
+from UpdateOccupancy_4b import UpdateOccupancy, resetCounter #to change to actual function name
 
 conn = psycopg2.connect(host="127.0.0.1", dbname="cs462team3db", user="team3user", password="password")
 # Cursor is created by the Connection object and using the Cursor object we will be able to execute our commands.
@@ -33,32 +33,42 @@ def on_message(client, userdata, message):
     print(i2)
     cur.execute("DELETE FROM latest_record;")
     conn.commit()
+
+    # if sensor normal data --> call function sensor_data()
+
+    # if only pir data --> call function pir_data()
+        # need to add in part where data received is only PIR motion sensor data, nobody coming in or out
+        # --> if data is that there is no motion, call the function resetCounter()
+
+    # if health sensor data --> call function sensor_data()
+
+
     for msg in i2:
         print("msg recevied: {}".format(msg))
-        for i in range(len(msg['result'])):
-            timestamp_unix = msg['timestamp']
-            timestamp = datetime.utcfromtimestamp(timestamp_unix)
-            MAC_address = msg['mac_add']
-            # sensorType = msg['result'][i]['type']
-            value = float(msg['result'][i]['reading'])
-            sensorType = 'USS'
+        # print("mac_add: {}".format(msg['result'][0]['mac_add']))
+        # for i in range(len(msg['result'])):
+        timestamp_unix = msg['result'][0]['timestamp']
+        timestamp = datetime.utcfromtimestamp(timestamp_unix)
+        MAC_address = msg['result'][0]['mac_add']
+        # sensorType = msg['result'][i]['type']
+        value = float(msg['result'][0]['value'])
+        sensorType = 'USS'
+        print("looked through variables")
 
-            try:
-                print("executing_record")
-                cur.execute("INSERT INTO record VALUES (DEFAULT, %s, %s, %s);",(value, timestamp, MAC_address))
-                conn.commit()
-                print("committed_record")
-                print("executing_latest_record")
-                cur.execute("INSERT INTO latest_record VALUES (DEFAULT, %s, %s, %s);",(value, timestamp, MAC_address))
-                conn.commit()
-                print("committed_latest_record")
+        try:
+            print("executing_record")
+            cur.execute("INSERT INTO record VALUES (DEFAULT, %s, %s, %s);",(value, timestamp, MAC_address))
+            conn.commit()
+            print("committed_record")
+            print("executing_latest_record")
+            cur.execute("INSERT INTO latest_record VALUES (DEFAULT, %s, %s, %s);",(value, timestamp, MAC_address))
+            conn.commit()
+            print("committed_latest_record")               
+            
+        except Exception as e:
+            return(str(e))
 
-                # call (function from) 4b.py file
-                UpdateOccupancy() #to change to actual function name
-                    
-                
-            except Exception as e:
-                return(str(e))
+    UpdateOccupancy()
 
     return
 
