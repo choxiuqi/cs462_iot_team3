@@ -39,9 +39,32 @@ def resetCounter():
     when no motion in room is detected 
     no change in distance(89) from the 2 ultrasonic sensors
     reset occupancy to 0 (insert a new entry where occupancy is 0)
-    '''
-    
 
+    retrieve last 5 min         from pir_record table (tak)
+    if sum> 0, there is people
+    else no people, reset counter
+    '''
+    #take the last 5 readings from pir_record table
+    ## if value 0= no movement (in 1 1min frame) 1=movement(in that 1 1min frame)
+    cur.execute('SELECT "value", "timestamp" FROM pir_record WHERE id ="X001" ORDER BY "id" DESC LIMIT 5;')
+    last_five_readings = cur.fetchall()
+    
+    occupied_or_not = 0
+
+    for reading in last_five_readings:
+        value = reading[0]
+        occupied_or_not += value
+
+    if occupied_or_not >0:
+        return 
+    else:
+        #post ocupancy 1 new row to make occupancy 0,
+        time = last_five_readings[0][1]        
+        meeting_room_id = 'G'
+        new_occupancy = 0
+        remarks = "resetted"
+        cur.execute("INSERT INTO occupancy VALUES (DEFAULT, %s, %s, %s, %s);",(time, meeting_room_id, new_occupancy, remarks))
+        return 
 
 
 
@@ -167,7 +190,7 @@ def UpdateOccupancy():
         new_id = 0
         time = 0
         meeting_room_id  = 'G'
-        cur.execute("INSERT INTO occupancy VALUES (%s, %s, %s, %s);",(new_id, time, meeting_room_id, last_occupancy))
+        cur.execute("INSERT INTO occupancy VALUES (DEAFULT %s, %s, %s);",(time, meeting_room_id, last_occupancy))
     else:
         last_occupancy = occupancy_list[0]
 
