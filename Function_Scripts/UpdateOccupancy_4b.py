@@ -40,6 +40,7 @@ def resetCounter():
     no change in distance(89) from the 2 ultrasonic sensors
     reset occupancy to 0 (insert a new entry where occupancy is 0)
     '''
+    
 
 
 
