@@ -10,24 +10,6 @@ import requests
 from CalendarAPI_5a import *
 
 
-'''
-assuming there are 3 people walking,
-will have 6 new records, and push into records db
- 
-my function:
-1. we now know that we have 6 new data. call the 6 new data. 
-- i will be the only adding entries into the occupancy
-- possible way to call the newest 6 data is to see which id is not in the occupancy db already
-
-2. determine if people walking in/out/noise
-- assumption that people will pass between the 2 seconds within 2 seconds frame
-
-3. then add into the occupancy data base
-- hold variables to see isit 2 people walking in and 1 out?
-- then i get the nett number of people and then this nett data will
-be entered into the occupancy db
-
-'''
 
 conn = psycopg2.connect(host="127.0.0.1", dbname="cs462team3db", user="team3user", password="password")
 # Cursor is created by the Connection object and using the Cursor object we will be able to execute our commands.
@@ -35,15 +17,6 @@ cur = conn.cursor()
 conn.autocommit = True
 
 def resetCounter():
-    '''
-    when no motion in room is detected 
-    no change in distance(89) from the 2 ultrasonic sensors
-    reset occupancy to 0 (insert a new entry where occupancy is 0)
-
-    retrieve last 5 min         from pir_record table (tak)
-    if sum> 0, there is people
-    else no people, reset counter
-    '''
     #take the last 5 readings from pir_record table
     ## if value 0= no movement (in 1 1min frame) 1=movement(in that 1 1min frame)
     cur.execute('SELECT "value", "timestamp" FROM pir_record WHERE id ="X001" ORDER BY "id" DESC LIMIT 5;')
@@ -80,7 +53,7 @@ def checkMotion(new_occupancy):
     except Exception as e:
         return(str(e))
 
-    if latest_pir_reading[2]=="Motion not detected":       #######to be changed
+    if latest_pir_reading[2]==0:     
         return True #nobody in the room
     else:
         return False     #people in the room
@@ -89,23 +62,6 @@ def checkMotion(new_occupancy):
 def UpdateOccupancy():
     ##1. want to find out which are the new datas in the records db.
     ##  compare the ids that are in record db and the ids of those in occupancy db
-
-    # #get all ids in Occupancy db
-    # cur.execute('SELECT ("id") FROM occupancy')
-    # ids_occupancy = cur.fetchall()
-    # all_ids_occupancy = [i[0] for i in ids_occupancy]
-
-
-    # latest_occu_id = all_ids_occupancy[-1] #ie 16
-
-    # #get detailed records of all new entreies with reference to the new_entries
-    # #ie: id of entry, value (actual sensor reading in cm ), timestamp, sensor_id
-    # cur.execute('SELECT * FROM record WHERE "id">%s;',(latest_occu_id,))
-    # details_list = cur.fetchall()
-    # # ouput of details_list = [(3, 74, datetime.datetime(2020, 3, 5, 16, 19, 7), 0), (4, 70, datetime.datetime(2020, 3, 5, 16, 19, 10), 0)]
-    # # list of tuples
-
-
 
     #get all the ids from latest_record db
     cur.execute('SELECT * FROM latest_record WHERE (sensor_id="e6f5f2bb5b0e") OR (sensor_id="fb48fc3a6ee3")')
@@ -187,7 +143,6 @@ def UpdateOccupancy():
     if occupancy_list == []:
         last_occupancy = 0
         #add an empty row into db
-        new_id = 0
         time = 0
         meeting_room_id  = 'G'
         cur.execute("INSERT INTO occupancy VALUES (DEAFULT %s, %s, %s);",(time, meeting_room_id, last_occupancy))
