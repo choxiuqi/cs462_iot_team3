@@ -8,13 +8,30 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://team3user:password@localho
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
-from models import Sensor, Record, MeetingRoom
+from models import Sensor, MeetingRoom, USSRecord, LatestUSSRecord, Occupancy, SensorHealth, PIRRecord
 
 @app.route('/hello/', methods=['GET']) 
 def hello():
     # print('hello')
     return 'hello'
 
+@app.route('/meeting-room', methods=['GET']) 
+def get_meetingRoom(): 
+    # if 'id' in request.args: 
+    #     id = int(request.args.get('id'))
+        
+    #     print (request.json())
+    # else: 
+    #     students = Student.query.all() 
+    #     return jsonify([s.serialize() for s in students])
+
+    meeting_room = MeetingRoom.query.all()
+    return jsonify([m.serialize() for m in meeting_room])
+
+@app.route('/sensors', methods=['GET']) 
+def get_sensors(): 
+    sensors = Sensor.query.all()
+    return jsonify([s.serialize() for s in sensors])
 
 #to get the current reading occupancy in database 
 

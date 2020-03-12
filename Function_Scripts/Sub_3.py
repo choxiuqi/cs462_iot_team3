@@ -23,37 +23,25 @@ def on_connect(client, userdata, flags, rc):
     else:
         print("Connection failed")
 
-def on_message(client, userdata, message):
-    print("message received")
-    data = message.payload.decode("utf-8").replace("'", '"')
-    # print(data)
-    # for i2 in data:
-    print("yes")
-    i2 = json.loads(data)
-    print(i2)
+def commit_sensor_data(data):
+    '''
+    This function will push in ONLY USS sensor data into latest_record AND record tables
+    When this function is called, it means that a person walking through the door is detected, and we want to find out if there is a change in occupancy.
+    USS sensor data is collated every 30s from the first USS sensor data received FROM THE RPI
+
+    '''
+    # first delete old data from latest_record
     cur.execute("DELETE FROM latest_record;")
     conn.commit()
 
-    # if sensor normal data --> call function sensor_data()
-
-    # if only pir data --> call function pir_data()
-        # need to add in part where data received is only PIR motion sensor data, nobody coming in or out
-        # --> if data is that there is no motion, call the function resetCounter()
-
-    # if health sensor data --> call function sensor_data()
-
-
-    for msg in i2:
-        print("msg recevied: {}".format(msg))
-        # print("mac_add: {}".format(msg['result'][0]['mac_add']))
-        # for i in range(len(msg['result'])):
+    for msg in data:
+        print("USS msg recevied: {}".format(msg))
         timestamp_unix = msg['result'][0]['timestamp']
         timestamp = datetime.utcfromtimestamp(timestamp_unix)
         MAC_address = msg['result'][0]['mac_add']
-        # sensorType = msg['result'][i]['type']
         value = float(msg['result'][0]['value'])
-        sensorType = 'USS'
-        print("looked through variables")
+        # sensorType = 'USS'
+        print("looked through USS variables")
 
         try:
             print("executing_record")
@@ -68,7 +56,67 @@ def on_message(client, userdata, message):
         except Exception as e:
             return(str(e))
 
-    UpdateOccupancy()
+        UpdateOccupancy()
+
+    return
+
+
+def commit_pir_data(data):
+    '''
+    This function will push in only PIR sensor data in PIR_record(tentative, NEW!!)
+    '''
+    for msg in data:
+        print("PIR msg recevied: {}".format(msg))
+        timestamp_unix = msg['result'][0]['timestamp']
+        timestamp = datetime.utcfromtimestamp(timestamp_unix)
+        MAC_address = msg['result'][0]['mac_add']
+        value = float(msg['result'][0]['value'])
+        # sensorType = 'USS'
+        print("looked through PIR variables")
+
+        # not sure about the flow now..... but anw below shows inserting into db, and the very basic calling amelia's function
+        try:
+            print("executing_record")
+            cur.execute("INSERT INTO PIR_record VALUES (DEFAULT, %s, %s, %s);",(value, timestamp, MAC_address))
+            conn.commit()
+            print("committed_record")               
+            
+        except Exception as e:
+            return(str(e))
+
+    resetCounter()
+
+def commit_health_data(data):
+    '''
+    This function will push in only sensor health data in sensor_health(tentative, NEW!!)
+    '''   
+
+    return 
+
+
+def on_message(client, userdata, message):
+    print("message received")
+    data = message.payload.decode("utf-8").replace("'", '"')
+    # print(data)
+    # for i2 in data:
+    print("yes")
+    i2 = json.loads(data)
+    print(i2)
+    
+
+    # if sensor normal data --> call function commit_sensor_data()
+    if i2["type"] == "ultrasonic":
+        commit_sensor_data(i2["result"])
+
+    # if only pir data --> call function commit_pir_data()
+        # need to add in part where data received is only PIR motion sensor data, nobody coming in or out
+        # --> if data is that there is no motion, call the function resetCounter()
+
+    if i2["type"] == "PIR": # not sure what's the real var name
+        commit_pir_data(i2["result"])
+
+    # if health sensor data --> call function commit_health_data()
+    
 
     return
 
