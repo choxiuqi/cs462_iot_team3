@@ -123,6 +123,7 @@ class Occupancy(db.Model):
     timestamp = db.Column(db.DateTime, unique=False) 
     meeting_room_id = db.Column(db.Integer, db.ForeignKey('meeting_room.id'), unique=False, nullable=False)
     value = db.Column(db.Integer, unique=False, nullable=True)
+    remarks = db.Column(db.String(120), unique=False, nullable=True)
 
     # one-to-many relationship
     meeting_room = db.relationship('MeetingRoom', back_populates='occupancy_records')

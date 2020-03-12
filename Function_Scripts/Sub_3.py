@@ -77,7 +77,7 @@ def commit_pir_data(data):
         # not sure about the flow now..... but anw below shows inserting into db, and the very basic calling amelia's function
         try:
             print("executing_record")
-            cur.execute("INSERT INTO PIR_record VALUES (DEFAULT, %s, %s, %s);",(value, timestamp, MAC_address))
+            cur.execute("INSERT INTO PIR_record VALUES (DEFAULT, %s, %s, %s);",(timestamp, MAC_address, value))
             conn.commit()
             print("committed_record")               
             
