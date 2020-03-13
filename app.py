@@ -34,7 +34,7 @@ def get_sensors():
     return jsonify([s.serialize() for s in sensors])
 
 @app.route('/current_occupancy', methods=['GET']) 
-def get_sensors(): 
+def get_occupancy(): 
     sensors = Sensor.query.all()
     return jsonify([s.serialize() for s in sensors])
 
