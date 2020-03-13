@@ -61,7 +61,7 @@ while True:
         creator = results[counter]['creator']
         start = results[counter]['start']
         end = results[counter]['end']
-        cur.execute("INSERT INTO upcoming VALUES (DEFAULT, %s, %s, %s);",(creator, start, end))
+        cur.execute("INSERT INTO upcoming VALUES(DEFAULT, %s, %s, %s);", (creator,start,end))
         counter += 1
     time.sleep(900)
     cur.execute("DELETE FROM upcoming;")
