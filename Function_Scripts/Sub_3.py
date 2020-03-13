@@ -163,7 +163,7 @@ def on_message(client, userdata, message):
     # if uss_health data --> call function commit_health_data()
 
     if i2["type"] == "ultrasonic_health":
-        commit_uss_health_data(i2['sensor_health'][0]['results'])
+        commit_uss_health_data(i2['sensor_health'])
 
     
     if i2["type"] == "raspberry pi":
