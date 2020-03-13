@@ -16,10 +16,12 @@ cur = conn.cursor()
 conn.autocommit = True
 
 def resetCounter():
+    print("rest Counter called")
     #take the last 5 readings from pir_record table
     ## if value 0= no movement (in 1 1min frame) 1=movement(in that 1 1min frame)
     cur.execute('SELECT "value", "timestamp" FROM pir_record WHERE id ="X001" ORDER BY "id" DESC LIMIT 5;')
     last_five_readings = cur.fetchall()
+    print("resetCounter - selected last 5 pir record")
     
     occupied_or_not = 0
 
@@ -41,13 +43,14 @@ def resetCounter():
 
 
 def checkMotion(new_occupancy):
+    print("checkMotion called")
     '''
     function will be called when:
     1. the occupancy is <=0 to check if there is no one inside
     2. every 5 mins since calendar event start to see if there are people
     '''
     try:
-        cur.execute('SELECT * FROM latest_record WHERE sensor_id ="X001" ORDER BY "id" DESC;')
+        cur.execute('SELECT * FROM pir_record ORDER BY "id" DESC;')
         latest_pir_reading = cur.fetchone()
     except Exception as e:
         return(str(e))
