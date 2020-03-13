@@ -2,9 +2,9 @@ from __future__ import print_function
 import datetime
 import pickle
 import os.path
-from googleapiclient.discovery import build
-from google_auth_oauthlib.flow import InstalledAppFlow
-from google.auth.transport.requests import Request
+import sys
+from oauth2client import client
+from googleapiclient import sample_tools
 import pytz
 import time
 import psycopg2
@@ -13,32 +13,12 @@ conn = psycopg2.connect(host="127.0.0.1", dbname="cs462team3db", user="team3user
 cur = conn.cursor()
 conn.autocommit = True
 
-SCOPES = ['https://www.googleapis.com/auth/calendar']
+def main(argv):
+    # Authenticate and construct service.
+    service, flags = sample_tools.init(
+        argv, 'calendar', 'v3', __doc__, __file__,
+        scope='https://www.googleapis.com/auth/calendar')
 
-def authService():
-    """Shows basic usage of the Google Calendar API.
-    Prints the start and name of the next 10 events on the user's calendar.
-    """
-    creds = None
-    # The file token.pickle stores the user's access and refresh tokens, and is
-    # created automatically when the authorization flow completes for the first
-    # time.
-    if os.path.exists('token.pickle'):
-        with open('token.pickle', 'rb') as token:
-            creds = pickle.load(token)
-    # If there are no (valid) credentials available, let the user log in.
-    if not creds or not creds.valid:
-        if creds and creds.expired and creds.refresh_token:
-            creds.refresh(Request())
-        else:
-            flow = InstalledAppFlow.from_client_secrets_file(
-                'client_secret.json', SCOPES)
-            creds = flow.run_local_server(port=0)
-        # Save the credentials for the next run
-        with open('token.pickle', 'wb') as token:
-            pickle.dump(creds, token)
-
-    service = build('calendar', 'v3', credentials=creds)
     return service
 
 def getCalendarEvents(service):
@@ -65,7 +45,7 @@ def getCalendarEvents(service):
         details = {'eid':eid, 'creator':creator, 'start':start, 'end':end}
         eidDict[counter] = details
         counter += 1
-        
+
     no_of_events = len(events)
     print("Number of events: ", no_of_events)
     #print(eidDict)
@@ -73,13 +53,15 @@ def getCalendarEvents(service):
     return eidDict
 
 while True:
-    results = getCalendarEvents(authService())
+    service = main(sys.argv)
+    results = getCalendarEvents(service)
     length = len(results)
     counter = 0
     while counter<length:
         creator = results[counter]['creator']
         start = results[counter]['start']
         end = results[counter]['end']
-        cur.execute("INSERT INTO upcoming VALUES (%s, %s, %s);",(creator, start, end))
+        cur.execute("INSERT INTO upcoming VALUES (DEFAULT, %s, %s, %s);",(creator, start, end))
+	    counter += 1
     time.sleep(900)
     cur.execute("DELETE FROM upcoming;")
