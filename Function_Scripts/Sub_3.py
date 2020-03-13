@@ -66,10 +66,10 @@ def commit_pir_data(data, id):
     This function will push in only PIR sensor data in PIR_record(tentative, NEW!!)
     '''
     for msg in data:
-        print("PIR msg recevied: {}".format(msg))
+        print("PIR msg recevied: {}".format(data))
         timestamp_unix = msg['result'][0]['timestamp']
         timestamp = datetime.utcfromtimestamp(timestamp_unix)
-        MAC_address = msg['result'][0]['mac_add']
+        MAC_address = id
         value = float(msg['result'][0]['value'])
         # sensorType = 'USS'
         print("looked through PIR variables")
@@ -157,7 +157,7 @@ def on_message(client, userdata, message):
         # --> if data is that there is no motion, call the function resetCounter()
 
     if i2["type"] == "pir": 
-        commit_pir_data(i2["sensor_health"][0], i2["mac_add"])
+        commit_pir_data(i2["sensor_health"], i2["mac_add"])
 
     # if uss_health data --> call function commit_health_data()
 

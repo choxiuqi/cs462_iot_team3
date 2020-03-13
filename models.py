@@ -180,8 +180,7 @@ class PIRRecord(db.Model):
     # one-to-many relationship
     sensor = db.relationship('Sensor', back_populates='pir_records')
 
-    def __init__(self, id, timestamp, sensor_id, value): 
-        self.id = id 
+    def __init__(self, timestamp, sensor_id, value): 
         self.timestamp = timestamp
         self.sensor_id = sensor_id
         self.value = value
