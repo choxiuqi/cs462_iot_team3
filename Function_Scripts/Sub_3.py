@@ -118,7 +118,7 @@ def on_message(client, userdata, message):
     # if health sensor data --> call function commit_health_data()
 
     if i2["type"] == "":
-        commit_health_data(i2[])
+        commit_health_data(i2[...])
     
 
     return
