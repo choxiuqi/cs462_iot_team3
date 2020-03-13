@@ -7,7 +7,7 @@ class Sensor(db.Model):
     id = db.Column(db.String(80), primary_key=True) 
     desc = db.Column(db.String(80), unique=False, nullable=False)
     type = db.Column(db.String(10), unique=False, nullable=False)   
-    meeting_room_id = db.Column(db.String(10), db.ForeignKey('meeting_room.id'), unique=False, nullable=False) 
+    meeting_room_id = db.Column(db.Integer, db.ForeignKey('meeting_room.id'), unique=False, nullable=False) 
 
     # one-to-many model
 
@@ -44,7 +44,7 @@ class Sensor(db.Model):
 
 class MeetingRoom(db.Model): 
     __tablename__ = 'meeting_room' 
-    id = db.Column(db.String(10), primary_key=True) 
+    id = db.Column(db.Integer, primary_key=True) 
     capacity = db.Column(db.Integer, unique=False, nullable=True)
 
     # one-to-many relationship
@@ -121,7 +121,7 @@ class Occupancy(db.Model):
     __tablename__ = 'occupancy' 
     id = db.Column(db.Integer, primary_key=True)
     timestamp = db.Column(db.DateTime, unique=False) 
-    meeting_room_id = db.Column(db.String(10), db.ForeignKey('meeting_room.id'), unique=False, nullable=False)
+    meeting_room_id = db.Column(db.Integer, db.ForeignKey('meeting_room.id'), unique=False, nullable=False)
     value = db.Column(db.Integer, unique=False, nullable=True)
     remarks = db.Column(db.String(120), unique=False, nullable=True)
 
@@ -144,17 +144,18 @@ class Occupancy(db.Model):
 
 
 class SensorHealth(db.Model): 
-    __tablename__ = 'sensor_health' 
+    __tablename__ = 'sensorHealth' 
     id = db.Column(db.Integer, primary_key=True)
     sensor_id = db.Column(db.String(80), db.ForeignKey('sensor.id'), unique=False, nullable=False)
-    value = db.Column(db.Float, unique=False, nullable=True)
+    value = db.Column(db.Integer, unique=False, nullable=True)
     timestamp = db.Column(db.DateTime, unique=False) 
     temperature = db.Column(db.Float, unique = False, nullable = True)
 
     # one-to-many relationship
     sensor = db.relationship('Sensor', back_populates='sensor_health')
 
-    def __init__(self, timestamp, sensor_id, value, temperature=None): 
+    def __init__(self, id, timestamp, sensor_id, value, temperature): 
+        self.id = id 
         self.timestamp = timestamp
         self.sensor_id = sensor_id
         self.value = value
@@ -180,7 +181,8 @@ class PIRRecord(db.Model):
     # one-to-many relationship
     sensor = db.relationship('Sensor', back_populates='pir_records')
 
-    def __init__(self, timestamp, sensor_id, value): 
+    def __init__(self, id, timestamp, sensor_id, value): 
+        self.id = id 
         self.timestamp = timestamp
         self.sensor_id = sensor_id
         self.value = value
@@ -194,13 +196,14 @@ class PIRRecord(db.Model):
         }
 
 class Upcoming(db.Model):
-    tablename = 'upcoming'
+    __tablename__ = 'upcoming'
     id = db.Column(db.Integer, primary_key=True)
     creator = db.Column(db.String(80), unique=False, nullable=False)
     start = db.Column(db.DateTime, unique=False)
     end = db.Column(db.DateTime, unique=False)
 
-    def init(self, creator, start, end):
+    def __init__(self, id, creator, start, end):
+        self.id = id 
         self.creator = creator
         self.start = start
         self.end = end

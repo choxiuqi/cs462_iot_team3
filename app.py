@@ -8,7 +8,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://team3user:password@localho
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
-from models import Sensor, MeetingRoom, USSRecord, LatestUSSRecord, Occupancy, SensorHealth, PIRRecord, Upcoming
+from models import Sensor, MeetingRoom, USSRecord, LatestUSSRecord, Occupancy, SensorHealth, PIRRecord
 
 @app.route('/hello/', methods=['GET']) 
 def hello():
@@ -30,11 +30,6 @@ def get_meetingRoom():
 
 @app.route('/sensors', methods=['GET']) 
 def get_sensors(): 
-    sensors = Sensor.query.all()
-    return jsonify([s.serialize() for s in sensors])
-
-@app.route('/current_occupancy', methods=['GET']) 
-def get_occupancy(): 
     sensors = Sensor.query.all()
     return jsonify([s.serialize() for s in sensors])
 
