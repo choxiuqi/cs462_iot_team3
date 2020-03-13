@@ -35,7 +35,7 @@ def commit_sensor_data(data):
     cur.execute("DELETE FROM latest_uss_record;")
     conn.commit()
     print("deleted from latest_uss_record")
-    print("USS msg recevied: {}".format(msg))
+    print("USS msg received: {}".format(data))
     
     for msg in data:
         timestamp_unix = msg['result'][0]['timestamp']
