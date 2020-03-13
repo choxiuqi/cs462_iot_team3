@@ -102,7 +102,7 @@ def commit_uss_health_data(data):
         # not sure about the flow now..... but anw below shows inserting into db, and the very basic calling amelia's function
         try:
             print("executing_record")
-            cur.execute("INSERT INTO sensorHealth VALUES (DEFAULT, %s, %s, %s);",(timestamp, MAC_address, value))
+            cur.execute("INSERT INTO sensor_health VALUES (DEFAULT, %s, %s, %s);",(timestamp, MAC_address, value))
             conn.commit()
             print("committed_record")               
             
@@ -126,7 +126,7 @@ def commit_rpi_health_data(data, id):
     # not sure about the flow now..... but anw below shows inserting into db, and the very basic calling amelia's function
     try:
         print("executing_record")
-        cur.execute("INSERT INTO sensorHealth VALUES (DEFAULT, %s, %s, %s, %s);",(timestamp, MAC_address, value, temperature))
+        cur.execute("INSERT INTO sensor_health VALUES (DEFAULT, %s, %s, %s, %s);",(timestamp, MAC_address, value, temperature))
         conn.commit()
         print("committed_record")               
         

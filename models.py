@@ -144,7 +144,7 @@ class Occupancy(db.Model):
 
 
 class SensorHealth(db.Model): 
-    __tablename__ = 'sensorHealth' 
+    __tablename__ = 'sensor_health' 
     id = db.Column(db.Integer, primary_key=True)
     sensor_id = db.Column(db.String(80), db.ForeignKey('sensor.id'), unique=False, nullable=False)
     value = db.Column(db.Float, unique=False, nullable=True)
