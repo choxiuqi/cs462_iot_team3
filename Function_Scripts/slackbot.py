@@ -2,8 +2,8 @@ import json
 import requests
 
 chat_id = 148720480 # fill in your chat id here
-oauth_token = 'xoxp-995394136980-983062033826-999451430375-499fe93848085c3aa8f4c4867a9590cb' # OAuth Access Token
-bot_token = 'xoxb-995394136980-986657601185-R1iM9DR5vpIiQn0g9wLel8ik' # Bot User OAuth Access Token
+oauth_token = 'xoxp-995394136980-983062033826-997691015381-414084fcf090c2549927324d7863a143' # OAuth Access Token
+bot_token = 'xoxb-995394136980-986657601185-KnQToaE9gVPz4N56VZdIyCKZ' # Bot User OAuth Access Token
 baseURL = 'https://slack.com/api/'
 
 sendMessage_url = baseURL + 'chat.postMessage'
