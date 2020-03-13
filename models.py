@@ -44,7 +44,7 @@ class Sensor(db.Model):
 
 class MeetingRoom(db.Model): 
     __tablename__ = 'meeting_room' 
-    id = db.Column(db.Integer, primary_key=True) 
+    id = db.Column(db.String(10), primary_key=True) 
     capacity = db.Column(db.Integer, unique=False, nullable=True)
 
     # one-to-many relationship
