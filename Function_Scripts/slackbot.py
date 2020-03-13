@@ -2,8 +2,8 @@ import json
 import requests
 
 chat_id = 148720480 # fill in your chat id here
-oauth_token = 'xoxp-995394136980-983062033826-985371856035-911c96855d6a6795c0ff1059c6f85a0f' # OAuth Access Token
-bot_token = 'xoxb-995394136980-986657601185-mICVRNdVOmb4l4vhvkcrabmF' # Bot User OAuth Access Token
+oauth_token = 'xoxp-995394136980-983062033826-999451430375-499fe93848085c3aa8f4c4867a9590cb' # OAuth Access Token
+bot_token = 'xoxb-995394136980-986657601185-R1iM9DR5vpIiQn0g9wLel8ik' # Bot User OAuth Access Token
 baseURL = 'https://slack.com/api/'
 
 sendMessage_url = baseURL + 'chat.postMessage'
@@ -27,11 +27,19 @@ def getConversation(token):
     print(r.json())
     return 
 
+# ------get users (https://api.slack.com/methods/users.list)------
 def getUsers(token, cursor):
     params = {'token':token, 'limit':2, 'cursor':cursor}
     r = requests.get(getUsers_url, params=params)
-    print(r.json())
-    return r.json()['response_metadata']['next_cursor']
+    # print(r.json())
+    # for i in r.json()['members']:
+    #     if i['id'] is not 'USLACKBOT':
+    #         user = {'id': i['id'], 'name': i['name'], 'unixtime': i['updated']}
+    i = r.json()['members'][-1]
+    user = {'id': i['id'], 'name': i['name'], 'unixtime': i['updated']}
+    cursor = r.json()['response_metadata']['next_cursor']
+    print(user)
+    return user, cursor
 
 # ------post message (https://api.slack.com/methods/chat.postMessage)------
 def postMessage(token,channel,msg):
@@ -46,12 +54,12 @@ def main():
     # postMessage(bot_token, 'random', 'hello')
     # getIdentity(oauth_token)
     # getConversation(bot_token)
+    new_cursor = 0
     cursor = 0
-    while cursor is not '':
+    while new_cursor is not '':
         getUsers(bot_token, cursor)
-        new_cursor = getUsers(bot_token, cursor) 
         cursor = new_cursor
-        new_cursor = ''
+        new_cursor = getUsers(bot_token, cursor) 
 
 	
 main()
