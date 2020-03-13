@@ -116,6 +116,9 @@ def on_message(client, userdata, message):
         commit_pir_data(i2["result"])
 
     # if health sensor data --> call function commit_health_data()
+
+    if i2["type"] == "":
+        commit_health_data(i2[])
     
 
     return
