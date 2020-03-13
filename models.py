@@ -149,22 +149,25 @@ class SensorHealth(db.Model):
     sensor_id = db.Column(db.String(80), db.ForeignKey('sensor.id'), unique=False, nullable=False)
     value = db.Column(db.Integer, unique=False, nullable=True)
     timestamp = db.Column(db.DateTime, unique=False) 
+    temperature = db.Column(db.Float, unique = False, nullable = True)
 
     # one-to-many relationship
     sensor = db.relationship('Sensor', back_populates='sensor_health')
 
-    def __init__(self, id, timestamp, sensor_id, value): 
+    def __init__(self, id, timestamp, sensor_id, value, temperature): 
         self.id = id 
         self.timestamp = timestamp
         self.sensor_id = sensor_id
         self.value = value
+        self.temperature = temperature
 
     def serialize(self):
         return {
             'id' : self.id,
             'timestamp' : self.timestamp,
             'sensor_id': self.sensor_id,
-            'value' : self.value
+            'value' : self.value,
+            'temperature': self.temperature
         }
 
 
