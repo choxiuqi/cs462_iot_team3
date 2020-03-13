@@ -31,11 +31,13 @@ def commit_sensor_data(data):
 
     '''
     # first delete old data from latest_record
+    print("deleting from latest_record")
     cur.execute("DELETE FROM latest_record;")
     conn.commit()
-
+    print("deleted from latest_record")
+    print("USS msg recevied: {}".format(msg))
+    
     for msg in data:
-        print("USS msg recevied: {}".format(msg))
         timestamp_unix = msg['result'][0]['timestamp']
         timestamp = datetime.utcfromtimestamp(timestamp_unix)
         MAC_address = msg['result'][0]['mac_add']
@@ -65,8 +67,8 @@ def commit_pir_data(data, id):
     '''
     This function will push in only PIR sensor data in PIR_record(tentative, NEW!!)
     '''
+    print("PIR msg recevied: {}".format(data))
     for msg in data:
-        print("PIR msg recevied: {}".format(data))
         timestamp_unix = msg['result'][0]['timestamp']
         timestamp = datetime.utcfromtimestamp(timestamp_unix)
         MAC_address = id
@@ -90,8 +92,8 @@ def commit_uss_health_data(data):
     '''
     This function will push in only sensor health data in sensor_health(tentative, NEW!!)
     '''   
+    print("USS_health msg recevied: {}".format(msg))
     for msg in data:
-        print("USS_health msg recevied: {}".format(msg))
         timestamp_unix = msg['results'][0]['timestamp']
         timestamp = datetime.utcfromtimestamp(timestamp_unix)
         MAC_address = msg['results'][0]['mac_add']
@@ -139,13 +141,12 @@ def commit_rpi_health_data(data, id):
 
 
 def on_message(client, userdata, message):
-    print("message received")
+    print("subscriber message received")
     data = message.payload.decode("utf-8").replace("'", '"')
     # print(data)
     # for i2 in data:
-    print("yes")
     i2 = json.loads(data)
-    print(i2)
+    print("JSON sub data: {}".format(i2))
     
 
     # if sensor normal data --> call function commit_sensor_data()
