@@ -171,3 +171,6 @@ def UpdateOccupancy():
             cur.execute("INSERT INTO occupancy VALUES (DEFAULT, %s, %s, %s);",(time, meeting_room_id, new_occupancy))
     elif new_occupancy>=1:
         cur.execute("INSERT INTO occupancy VALUES (DEFAULT, %s, %s, %s);",(time, meeting_room_id, new_occupancy))
+
+    print("new occupancy is: {}".format(new_occupancy))
+    return
