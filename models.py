@@ -7,7 +7,7 @@ class Sensor(db.Model):
     id = db.Column(db.String(80), primary_key=True) 
     desc = db.Column(db.String(80), unique=False, nullable=False)
     type = db.Column(db.String(10), unique=False, nullable=False)   
-    meeting_room_id = db.Column(db.Integer, db.ForeignKey('meeting_room.id'), unique=False, nullable=False) 
+    meeting_room_id = db.Column(db.String(10), db.ForeignKey('meeting_room.id'), unique=False, nullable=False) 
 
     # one-to-many model
 
