@@ -1,5 +1,4 @@
 import psycopg2
-
 from datetime import datetime
 from pytz import timezone
 import pytz
@@ -64,7 +63,8 @@ def UpdateOccupancy():
     ##  compare the ids that are in record db and the ids of those in occupancy db
 
     #get all the ids from latest_record db
-    cur.execute('SELECT * FROM latest_record WHERE (sensor_id="e6f5f2bb5b0e") OR (sensor_id="fb48fc3a6ee3")')
+    print("Update Occupancy called")
+    cur.execute('SELECT * FROM latest_uss_record WHERE (sensor_id="e6f5f2bb5b0e") OR (sensor_id="fb48fc3a6ee3")')
     details_list = cur.fetchall()
     #OUTPUT [(3, 74, datetime.datetime(2020, 3, 5, 16, 19, 7), 0), (4, 70, datetime.datetime(2020, 3, 5, 16, 19, 10), 0)]
 
@@ -157,7 +157,7 @@ def UpdateOccupancy():
 
 
 
-    cur.execute('SELECT ("timestamp") FROM latest_record ORDER BY "id" DESC;')
+    cur.execute('SELECT ("timestamp") FROM latest_uss_record ORDER BY "id" DESC;')
     last_record_list = cur.fetchone()
     time = last_record_list[2]
     meeting_room_id = 0
