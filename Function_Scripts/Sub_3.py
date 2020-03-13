@@ -31,8 +31,8 @@ def commit_sensor_data(data):
 
     '''
     # first delete old data from latest_record
-    print("deleting from latest_record")
-    cur.execute("DELETE FROM latest_record;")
+    print("deleting from latest_uss_record")
+    cur.execute("DELETE FROM latest_uss_record;")
     conn.commit()
     print("deleted from latest_uss_record")
     print("USS msg recevied: {}".format(msg))
