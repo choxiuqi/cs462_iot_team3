@@ -7,7 +7,7 @@ import pytz
 import requests
 
 #reference to 5a's py file and its function
-from CalendarAPI_5a import *
+# from CalendarAPI_5a import *
 
 
 
@@ -164,7 +164,7 @@ def UpdateOccupancy():
 
     if new_occupancy <= 0:
         if checkMotion(new_occupancy)== True:  #there's no one
-            getCalendarEvents() #reference to CalendarAPI (to be changed)
+            # getCalendarEvents() #reference to CalendarAPI (to be changed)
             cur.execute("INSERT INTO occupancy VALUES (DEFAULT, %s, %s, %s);",(time, meeting_room_id, new_occupancy))
         elif checkMotion(new_occupancy)== False:
             new_occupancy += 1
