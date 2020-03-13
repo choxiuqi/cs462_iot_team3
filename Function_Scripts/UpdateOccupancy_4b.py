@@ -198,5 +198,5 @@ def UpdateOccupancy():
     print("line isnerted into occ")
 
     print("new occupancy is: {}".format(new_occupancy))
-    print("num pairs", len)
+    print("num pairs", len(pairs_in_out))
     return
