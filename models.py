@@ -192,3 +192,23 @@ class PIRRecord(db.Model):
             'sensor_id': self.sensor_id,
             'value' : self.value
         }
+
+class Upcoming(db.Model):
+    tablename = 'upcoming'
+    id = db.Column(db.Integer, primary_key=True)
+    creator = db.Column(db.String(80), unique=False, nullable=False)
+    start = db.Column(db.DateTime, unique=False)
+    end = db.Column(db.DateTime, unique=False)
+
+    def init(self, creator, start, end):
+        self.creator = creator
+        self.start = start
+        self.end = end
+
+    def serialize(self):
+        return {
+            'id' : self.id,
+            'creator' : self.creator,
+            'start': self.start,
+            'end' : self.end
+        }
