@@ -64,12 +64,9 @@ def UpdateOccupancy():
     ##  compare the ids that are in record db and the ids of those in occupancy db
 
     #get all the ids from latest_record db
-<<<<<<< HEAD
     print("Update Occupancy called")
     cur.execute('SELECT * FROM latest_uss_record;')
-=======
     cur.execute('SELECT * FROM latest_record WHERE (sensor_id="e6f5f2bb5b0e") OR (sensor_id="fb48fc3a6ee3")')
->>>>>>> 2096f6b63de540228fa60ad0c1b12bb543012355
     details_list = cur.fetchall()
     #OUTPUT [(3, 74, datetime.datetime(2020, 3, 5, 16, 19, 7), 0), (4, 70, datetime.datetime(2020, 3, 5, 16, 19, 10), 0)]
 
@@ -146,13 +143,10 @@ def UpdateOccupancy():
     # else:
     #     last_occupancy = occupancy_list[0]
 
-<<<<<<< HEAD
     print("selecting value from occupancy")
 
     cur.execute('SELECT value FROM occupancy;') 
-=======
     cur.execute('SELECT ("value") FROM occupancy;') 
->>>>>>> 2096f6b63de540228fa60ad0c1b12bb543012355
     occupancy_list = cur.fetchall()[-1]
     print("occupancy_list: {}".format(occupancy_list))
     print("selected value from occupancy - line 156")
