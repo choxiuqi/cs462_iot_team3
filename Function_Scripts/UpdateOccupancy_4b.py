@@ -64,7 +64,12 @@ def UpdateOccupancy():
     ##  compare the ids that are in record db and the ids of those in occupancy db
 
     #get all the ids from latest_record db
+<<<<<<< HEAD
+    print("Update Occupancy called")
+    cur.execute('SELECT * FROM latest_uss_record;')
+=======
     cur.execute('SELECT * FROM latest_record WHERE (sensor_id="e6f5f2bb5b0e") OR (sensor_id="fb48fc3a6ee3")')
+>>>>>>> 2096f6b63de540228fa60ad0c1b12bb543012355
     details_list = cur.fetchall()
     #OUTPUT [(3, 74, datetime.datetime(2020, 3, 5, 16, 19, 7), 0), (4, 70, datetime.datetime(2020, 3, 5, 16, 19, 10), 0)]
 
@@ -106,6 +111,9 @@ def UpdateOccupancy():
             #means that there is a change// means that there is someone passing through both sensors
             if ((previous_record['sensor_id']) != sensor_id_current) and (previous_record['value']!=89) and (value_current!=89) and (time_difference<=2):
                 pairs_in_out.append([(previous_record['sensor_id']), sensor_id_current])
+                print("time difference:{}".format(time_difference))
+                print("time_current", time_current)
+                print("previous time", previous_record["timestamp"])
             previous_record = {'id':id_current, 'value': value_current, 'timestamp':time_current, 'sensor_id':sensor_id_current}
             counter +=1
 
@@ -138,14 +146,23 @@ def UpdateOccupancy():
     # else:
     #     last_occupancy = occupancy_list[0]
 
+<<<<<<< HEAD
+    print("selecting value from occupancy")
+
+    cur.execute('SELECT value FROM occupancy;') 
+=======
     cur.execute('SELECT ("value") FROM occupancy;') 
+>>>>>>> 2096f6b63de540228fa60ad0c1b12bb543012355
     occupancy_list = cur.fetchall()[-1]
+    print("occupancy_list: {}".format(occupancy_list))
+    print("selected value from occupancy - line 156")
     if occupancy_list == []:
         last_occupancy = 0
         #add an empty row into db
         time = 0
         meeting_room_id  = 'G'
         cur.execute("INSERT INTO occupancy VALUES (DEAFULT %s, %s, %s);",(time, meeting_room_id, last_occupancy))
+        print("inserted into occ value")
     else:
         last_occupancy = occupancy_list[0]
 
@@ -155,6 +172,12 @@ def UpdateOccupancy():
 
     new_occupancy = int(last_occupancy) + int(human_traffic)
 
+
+    cur.execute('SELECT timestamp FROM latest_uss_record ORDER BY id DESC;')
+    time = cur.fetchone()[0]
+    print("selected timestamp frm l_u_r: {}".format(time))
+    # time = last_record_list[2]
+    meeting_room_id = 'G'
 
 
     cur.execute('SELECT ("timestamp") FROM latest_record ORDER BY "id" DESC;')
@@ -171,3 +194,9 @@ def UpdateOccupancy():
             cur.execute("INSERT INTO occupancy VALUES (DEFAULT, %s, %s, %s);",(time, meeting_room_id, new_occupancy))
     elif new_occupancy>=1:
         cur.execute("INSERT INTO occupancy VALUES (DEFAULT, %s, %s, %s);",(time, meeting_room_id, new_occupancy))
+
+    print("line isnerted into occ")
+
+    print("new occupancy is: {}".format(new_occupancy))
+    print("num pairs", len(pairs_in_out))
+    return
