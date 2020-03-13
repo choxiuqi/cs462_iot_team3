@@ -58,7 +58,7 @@ def commit_sensor_data(data):
         except Exception as e:
             return(str(e))
 
-        UpdateOccupancy()
+    UpdateOccupancy()
 
     return
 
