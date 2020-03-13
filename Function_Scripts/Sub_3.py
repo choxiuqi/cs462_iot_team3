@@ -61,7 +61,7 @@ def commit_sensor_data(data):
     return
 
 
-def commit_pir_data(data):
+def commit_pir_data(data, id):
     '''
     This function will push in only PIR sensor data in PIR_record(tentative, NEW!!)
     '''
@@ -86,12 +86,56 @@ def commit_pir_data(data):
 
     resetCounter()
 
-def commit_health_data(data):
+def commit_uss_health_data(data):
     '''
     This function will push in only sensor health data in sensor_health(tentative, NEW!!)
     '''   
+    for msg in data:
+        print("USS_health msg recevied: {}".format(msg))
+        timestamp_unix = msg['results'][0]['timestamp']
+        timestamp = datetime.utcfromtimestamp(timestamp_unix)
+        MAC_address = msg['results'][0]['mac_add']
+        value = float(msg['results'][0]['value'])
+        # sensorType = 'USS'
+        print("looked through USS_health variables")
+
+        # not sure about the flow now..... but anw below shows inserting into db, and the very basic calling amelia's function
+        try:
+            print("executing_record")
+            cur.execute("INSERT INTO sensorHealth VALUES (DEFAULT, %s, %s, %s);",(timestamp, MAC_address, value))
+            conn.commit()
+            print("committed_record")               
+            
+        except Exception as e:
+            return(str(e))
 
     return 
+
+def commit_rpi_health_data(data, id):
+    '''
+    This function will push in only sensor health data in sensor_health(tentative, NEW!!)
+    '''
+    print("raspberry pi health data received: {}".format(data))
+    timestamp_unix = data[1]['timestamp']
+    timestamp = datetime.utcfromtimestamp(timestamp_unix)
+    MAC_address = id
+    value = float(data[0]['value'])
+    # sensorType = 'USS'
+    print("looked through raspberry pi variables")
+
+    # not sure about the flow now..... but anw below shows inserting into db, and the very basic calling amelia's function
+    try:
+        print("executing_record")
+        cur.execute("INSERT INTO sensorHealth VALUES (DEFAULT, %s, %s, %s, %s);",(timestamp, MAC_address, value, temperature))
+        conn.commit()
+        print("committed_record")               
+        
+    except Exception as e:
+        return(str(e))
+
+    
+
+    return
 
 
 def on_message(client, userdata, message):
@@ -112,13 +156,17 @@ def on_message(client, userdata, message):
         # need to add in part where data received is only PIR motion sensor data, nobody coming in or out
         # --> if data is that there is no motion, call the function resetCounter()
 
-    if i2["type"] == "PIR": # not sure what's the real var name
-        commit_pir_data(i2["result"])
+    if i2["type"] == "pir": 
+        commit_pir_data(i2["sensor_health"][0], i2["mac_add"])
 
-    # if health sensor data --> call function commit_health_data()
+    # if uss_health data --> call function commit_health_data()
 
-    # if i2["type"] == "":
-    #     commit_health_data(i2[...])
+    if i2["type"] == "ultrasonic_health":
+        commit_uss_health_data(i2['sensor_health'][0]['results'])
+
+    
+    if i2["type"] == "raspberry pi":
+        commit_rpi_health_data(i2['sensor_health'], i2["mac_add"])
     
 
     return
