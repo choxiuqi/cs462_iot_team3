@@ -9,11 +9,18 @@ conn = psycopg2.connect(host="127.0.0.1", dbname="cs462team3db", user="team3user
 cur = conn.cursor()
 conn.autocommit = True
 
-cur.execute('SELECT * FROM uss_record')
-records = cur.fetchall()
-rec_dic = {}
-rec_dic['results'] = records
+# cur.execute('SELECT * FROM uss_record')
+# records = cur.fetchall()
+# rec_dic = {}
+# rec_dic['results'] = records
 
-output_file='uss_record_2.csv'
-with open(output_file, 'w') as f1:
-    f1.write(str(rec_dic))
+# output_file='uss_record_2.csv'
+# with open(output_file, 'w') as f1:
+#     f1.write(str(rec_dic))
+
+# cur.execute('SELECT * FROM pir_record')
+# records = cur.fetchall()
+
+# output_file='pir_record.txt'
+# with open(output_file, 'w') as f1:
+#     f1.write(str(rec_dic))
