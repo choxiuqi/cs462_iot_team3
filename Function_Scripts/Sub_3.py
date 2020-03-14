@@ -52,7 +52,7 @@ def commit_sensor_data(data):
             conn.commit()
             print("committed_record")
             print("executing_latest_record")
-            cur.execute("INSERT INTO latest_record VALUES (DEFAULT, %s, %s, %s);",(value, timestamp, MAC_address))
+            cur.execute("INSERT INTO latest_uss_record VALUES (DEFAULT, %s, %s, %s);",(value, timestamp, MAC_address))
             conn.commit()
             print("committed_latest_record")               
             
