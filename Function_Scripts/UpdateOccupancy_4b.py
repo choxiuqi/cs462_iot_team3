@@ -19,8 +19,10 @@ def resetCounter():
     print("reset Counter called")
     #take the last 5 readings from pir_record table
     ## if value 0= no movement (in 1 1min frame) 1=movement(in that 1 1min frame)
-    cur.execute('SELECT value, timestamp FROM pir_record WHERE ORDER BY id DESC LIMIT 5;')
+    cur.execute('SELECT "value", "timestamp" FROM pir_record ORDER BY id DESC LIMIT 5;')
+    #cur.execute('SELECT * FROM pir_record ORDER BY id;')
     last_five_readings = cur.fetchall()
+    print(last_five_readings)
     print("resetCounter - selected last 5 pir record")
     
     occupied_or_not = 0
@@ -45,7 +47,7 @@ def resetCounter():
         print("inserted and reset done")
         return 
 
-    
+resetCounter()
 
 def checkMotion(new_occupancy):
     print("checkMotion called")
@@ -66,7 +68,6 @@ def checkMotion(new_occupancy):
         return True #nobody in the room
     else:
         return False     #people in the room
-
 
 def UpdateOccupancy():
     ##1. want to find out which are the new datas in the records db.
