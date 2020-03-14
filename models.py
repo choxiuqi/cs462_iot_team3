@@ -121,7 +121,7 @@ class Occupancy(db.Model):
     __tablename__ = 'occupancy' 
     id = db.Column(db.Integer, primary_key=True)
     timestamp = db.Column(db.DateTime, unique=False) 
-    meeting_room_id = db.Column(db.Integer, db.ForeignKey('meeting_room.id'), unique=False, nullable=False)
+    meeting_room_id = db.Column(db.String(10), db.ForeignKey('meeting_room.id'), unique=False, nullable=False)
     value = db.Column(db.Integer, unique=False, nullable=True)
     remarks = db.Column(db.String(120), unique=False, nullable=True)
 
