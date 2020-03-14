@@ -108,7 +108,7 @@ def commit_uss_health_data(data):
             return(str(e))
     return 
 
-def commit_rpi_health_data(data, id):
+def commit_rpi_health_data(data, sensor_id):
     '''
     This function will push in only sensor health data in sensor_health(tentative, NEW!!)
     '''
@@ -116,12 +116,12 @@ def commit_rpi_health_data(data, id):
 
     #timestamp_unix = int(data[1]['timestamp'])
     epoch_time = (data[1]['timestamp'])
-    epoch_time = str(epoch_time)[0:10]
+    epoch_time = int(str(epoch_time)[0:10])
     print("timestamp_unix:",epoch_time)
-    timestamp = datetime.utcfromtimestamp(float(epoch_time))
+    timestamp = datetime.utcfromtimestamp(epoch_time)
     print("timestamp:",timestamp)
-    MAC_address = id
-    print("id:",id)
+    MAC_address = sensor_id
+    print("id:",sensor_id)
     value = float(data[0]['value'])
     print("value:",value)
     temperature = float(data[2]['temperature'])
