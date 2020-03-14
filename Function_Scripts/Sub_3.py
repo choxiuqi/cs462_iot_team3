@@ -164,10 +164,10 @@ def on_message(client, userdata, message):
         commit_pir_data(i2["sensor_health"], i2["mac_add"])
 
     # if uss_health data --> call function commit_health_data()
-     if i2["type"] == "ultrasonic_health":
+    if i2["type"] == "ultrasonic_health":
         commit_uss_health_data(i2['sensor_health'])
 
-     if i2["type"] == "raspberry pi":
+    if i2["type"] == "raspberry pi":
         commit_rpi_health_data(i2['sensor_health'], i2["mac_add"])
     
 
