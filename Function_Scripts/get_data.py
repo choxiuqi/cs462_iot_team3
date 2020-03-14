@@ -11,9 +11,9 @@ conn.autocommit = True
 
 cur.execute('SELECT * FROM uss_record')
 records = cur.fetchall()
+rec_dic = {}
+rec_dic['results'] = records
 
-output_file='uss_record.csv'
+output_file='uss_record_2.csv'
 with open(output_file, 'w') as f1:
-    for i in records:
-        i2 = str(i) + "\n"
-        f1.write(i2)
+    f1.write(str(rec_dic))
