@@ -118,11 +118,12 @@ def commit_rpi_health_data(data, id):
     This function will push in only sensor health data in sensor_health(tentative, NEW!!)
     '''
     print("raspberry pi health data received: {}".format(data))
+    
     timestamp_unix = data[1]['timestamp']
     timestamp = datetime.utcfromtimestamp(timestamp_unix)
     MAC_address = id
     value = float(data[0]['value'])
-    # sensorType = 'USS'
+    temperature = float(data[2]['temperature'])
     print("looked through raspberry pi variables")
 
     # not sure about the flow now..... but anw below shows inserting into db, and the very basic calling amelia's function
