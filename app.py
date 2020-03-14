@@ -9,6 +9,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 from models import Sensor, MeetingRoom, USSRecord, LatestUSSRecord, Occupancy, SensorHealth, PIRRecord, Upcoming
+from get_json import getjson
 
 @app.route('/hello/', methods=['GET']) 
 def hello():
@@ -27,6 +28,12 @@ def get_meetingRoom():
 
     meeting_room = MeetingRoom.query.all()
     return jsonify([m.serialize() for m in meeting_room])
+
+@app.route('/get-data', methods=['GET']) 
+def get_meetingRoom(): 
+    meeting_room = MeetingRoom.query.all()
+    getjson(meeting_room)
+    return 
 
 @app.route('/sensors', methods=['GET']) 
 def get_sensors(): 
