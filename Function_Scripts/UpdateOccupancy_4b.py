@@ -1,7 +1,7 @@
 import psycopg2
 from datetime import datetime
-from pytz import timezone
-import pytz
+# from pytz import timezone
+# import pytz
 
 import requests
 
@@ -25,13 +25,16 @@ def resetCounter():
     
     occupied_or_not = 0
 
+    #finding the total movements
     for reading in last_five_readings:
         value = reading[0]
         occupied_or_not += value
 
+    #when there is a movement
     if occupied_or_not >0:
         print("reset done")
         return 
+    #when there is no movement (occipied_or_not==1)
     else:
         #post ocupancy 1 new row to make occupancy 0,
         time = last_five_readings[0][1]        
@@ -59,7 +62,7 @@ def checkMotion(new_occupancy):
 
     print("selected from pir_record - check mortion")
 
-    if latest_pir_reading[2]==0:     
+    if latest_pir_reading[3]==0:     
         return True #nobody in the room
     else:
         return False     #people in the room
