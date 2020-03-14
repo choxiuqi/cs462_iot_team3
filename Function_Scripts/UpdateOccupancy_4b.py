@@ -62,7 +62,7 @@ def checkMotion(new_occupancy):
     except Exception as e:
         return(str(e))
 
-    print("selected from pir_record - check mortion")
+    print("selected from pir_record - check motion")
 
     if latest_pir_reading[3]==0:     
         return True #nobody in the room
@@ -119,9 +119,9 @@ def UpdateOccupancy():
             #means that there is a change// means that there is someone passing through both sensors
             if ((previous_record['sensor_id']) != sensor_id_current) and (previous_record['value']!=89) and (value_current!=89) and (time_difference<=2):
                 pairs_in_out.append([(previous_record['sensor_id']), sensor_id_current])
-                print("time difference:{}".format(time_difference))
-                print("time_current", time_current)
-                print("previous time", previous_record["timestamp"])
+                # print("time difference:{}".format(time_difference))
+                # print("time_current", time_current)
+                # print("previous time", previous_record["timestamp"])
             previous_record = {'id':id_current, 'value': value_current, 'timestamp':time_current, 'sensor_id':sensor_id_current}
             counter +=1
 
@@ -158,7 +158,7 @@ def UpdateOccupancy():
 
     cur.execute('SELECT value FROM occupancy;') 
     occupancy_list = cur.fetchall()[-1]
-    print("occupancy_list: {}".format(occupancy_list))
+    # print("occupancy_list: {}".format(occupancy_list))
     print("selected value from occupancy - line 156")
     if occupancy_list == []:
         last_occupancy = 0
