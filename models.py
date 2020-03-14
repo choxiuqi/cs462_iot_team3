@@ -154,7 +154,7 @@ class SensorHealth(db.Model):
     # one-to-many relationship
     sensor = db.relationship('Sensor', back_populates='sensor_health')
 
-    def __init__(self, timestamp, sensor_id, value, temperature=None): 
+    def __init__(self, timestamp, sensor_id, value, temperature): 
         self.timestamp = timestamp
         self.sensor_id = sensor_id
         self.value = value
