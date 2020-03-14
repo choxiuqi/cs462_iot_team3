@@ -116,7 +116,7 @@ def commit_rpi_health_data(data, sensor_id):
 
     #timestamp_unix = int(data[1]['timestamp'])
     epoch_time = (data[1]['timestamp'])
-    epoch_time = str(epoch_time)[0:10]
+    epoch_time = int(str(epoch_time)[0:10])
     print("timestamp_unix:",epoch_time)
     timestamp = str(datetime.fromtimestamp(epoch_time))
     print("timestamp:",timestamp)
