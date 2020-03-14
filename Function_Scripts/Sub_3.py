@@ -131,7 +131,7 @@ def commit_rpi_health_data(data, sensor_id):
     # not sure about the flow now..... but anw below shows inserting into db, and the very basic calling amelia's function
     try:
         print("executing_record")
-        cur.execute("INSERT INTO sensor_health VALUES (DEFAULT, %s, %s, %s, %s);",(str(timestamp), str(MAC_address), float(value), float(temperature)))
+        cur.execute('INSERT INTO sensor_health ("id", "timestamp", "sensor_id", "value", "temperature") VALUES (DEFAULT, %s, %s, %s, %s);',(str(timestamp), str(MAC_address), float(value), float(temperature)))
         print("committed_record")               
         
     except Exception as e:
