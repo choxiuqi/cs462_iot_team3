@@ -114,6 +114,7 @@ def commit_rpi_health_data(data, id):
     '''
     print("raspberry pi health data received: {}".format(data))
     
+
     timestamp_unix = data[1]['timestamp']
     timestamp = datetime.utcfromtimestamp(timestamp_unix)
     MAC_address = id
