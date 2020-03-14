@@ -42,8 +42,8 @@ def get_sensors():
 
 @app.route('/occupancy', methods=['GET']) 
 def get_occupancy(): 
-    sensors = Sensor.query.all()
-    return jsonify([s.serialize() for s in sensors])
+    occupancy = Occupancy.query.all()
+    return jsonify([o.serialize() for o in occupancy])
 
 #amelia added
 @app.route('/latest_uss_record', methods=['GET']) 
