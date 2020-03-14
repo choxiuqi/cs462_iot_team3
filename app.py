@@ -28,6 +28,13 @@ def get_meetingRoom():
     meeting_room = MeetingRoom.query.all()
     return jsonify([m.serialize() for m in meeting_room])
 
+@app.route('/get-data', methods=['GET']) 
+def get_Data(): 
+    meeting_room = MeetingRoom.query.all()
+    with open('output.txt', 'w') as f1:
+        json.dump(meeting_room, f1)
+    return ("Hello World")
+
 @app.route('/sensors', methods=['GET']) 
 def get_sensors(): 
     sensors = Sensor.query.all()
