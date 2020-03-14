@@ -31,10 +31,10 @@ def commit_sensor_data(data):
 
     '''
     # first delete old data from latest_record
-    print("deleting from latest_record")
+    print("deleting from latest_uss_record")
     cur.execute("DELETE FROM latest_uss_record;")
     conn.commit()
-    print("deleted from latest_record")
+    print("deleted from latest_uss_record")
     print("USS msg recevied: {}".format(data))
 
     for msg in data:
@@ -48,7 +48,7 @@ def commit_sensor_data(data):
 
         try:
             print("executing_record")
-            cur.execute("INSERT INTO record VALUES (DEFAULT, %s, %s, %s);",(value, timestamp, MAC_address))
+            cur.execute("INSERT INTO uss_record VALUES (DEFAULT, %s, %s, %s);",(value, timestamp, MAC_address))
             conn.commit()
             print("committed_record")
             print("executing_latest_record")
@@ -165,7 +165,7 @@ def on_message(client, userdata, message):
 
     # if uss_health data --> call function commit_health_data()
      if i2["type"] == "ultrasonic_health":
-        commit_uss_health_data(i2['sensor_health'][0]['results'])
+        commit_uss_health_data(i2['sensor_health'])
 
      if i2["type"] == "raspberry pi":
         commit_rpi_health_data(i2['sensor_health'], i2["mac_add"])
