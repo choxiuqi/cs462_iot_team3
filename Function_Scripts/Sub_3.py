@@ -120,10 +120,15 @@ def commit_rpi_health_data(data, id):
     print("raspberry pi health data received: {}".format(data))
     
     timestamp_unix = data[1]['timestamp']
-    timestamp = datetime.utcfromtimestamp(timestamp_unix)
+    print("timestamp_unix:",timestamp_unix)
+    timestamp = datetime.utcfromtimestamp(int(timestamp_unix))
+    print("timestamp:",timestamp)
     MAC_address = id
+    print("id:",id)
     value = float(data[0]['value'])
+    print("value:",value)
     temperature = float(data[2]['temperature'])
+    print("temperature:",temperature)
     print("looked through raspberry pi variables")
 
     # not sure about the flow now..... but anw below shows inserting into db, and the very basic calling amelia's function
