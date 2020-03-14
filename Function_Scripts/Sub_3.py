@@ -44,7 +44,7 @@ def commit_sensor_data(data):
         MAC_address = msg['result'][0]['mac_add']
         value = float(msg['result'][0]['value'])
         # sensorType = 'USS'
-        print("looked through USS variables")
+        # print("looked through USS variables")
 
         try:
             # print("executing_record")
