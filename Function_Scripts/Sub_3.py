@@ -35,7 +35,7 @@ def commit_sensor_data(data):
     cur.execute("DELETE FROM latest_uss_record;")
     conn.commit()
     print("deleted from latest_uss_record")
-    print("USS msg recevied: {}".format(data))
+    # print("USS msg recevied: {}".format(data))
 
     for msg in data:
         # print("USS msg recevied: {}".format(msg))
@@ -148,7 +148,7 @@ def on_message(client, userdata, message):
     # for i2 in data:
     print("yes")
     i2 = json.loads(data)
-    print("JSON sub data: {}".format(i2))
+    # print("JSON sub data: {}".format(i2))
     
 
     # if sensor normal data --> call function commit_sensor_data()
@@ -166,9 +166,11 @@ def on_message(client, userdata, message):
 
     # if uss_health data --> call function commit_health_data()
     if i2["type"] == "ultrasonic_health":
+        print("ultrasonic_health data received", i2)
         commit_uss_health_data(i2['sensor_health'])
 
     if i2["type"] == "raspberry pi":
+        print("raspberry pi data received", i2)
         commit_rpi_health_data(i2['sensor_health'], i2["mac_add"])
     
 
