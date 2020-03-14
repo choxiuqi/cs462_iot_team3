@@ -147,7 +147,7 @@ class SensorHealth(db.Model):
     __tablename__ = 'sensorHealth' 
     id = db.Column(db.Integer, primary_key=True)
     sensor_id = db.Column(db.String(80), db.ForeignKey('sensor.id'), unique=False, nullable=False)
-    value = db.Column(db.Integer, unique=False, nullable=True)
+    value = db.Column(db.Float, unique=False, nullable=True)
     timestamp = db.Column(db.DateTime, unique=False) 
     temperature = db.Column(db.Float, unique = False, nullable = True)
 
