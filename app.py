@@ -45,5 +45,10 @@ def get_occupancy():
     sensors = Sensor.query.all()
     return jsonify([s.serialize() for s in sensors])
 
+#amelia added
+@app.route('/latest_uss_record', methods=['GET']) 
+def get_latest_uss_record(): 
+    latest_records = LatestUSSRecord.query.all()
+    return jsonify([s.serialize() for l in latest_records])
 #to get the current reading occupancy in database 
 
