@@ -19,7 +19,7 @@ def resetCounter():
     print("rest Counter called")
     #take the last 5 readings from pir_record table
     ## if value 0= no movement (in 1 1min frame) 1=movement(in that 1 1min frame)
-    cur.execute('SELECT "value", "timestamp" FROM pir_record WHERE id ="X001" ORDER BY "id" DESC LIMIT 5;')
+    cur.execute('SELECT value, timestamp FROM pir_record WHERE ORDER BY id DESC LIMIT 5;')
     last_five_readings = cur.fetchall()
     print("resetCounter - selected last 5 pir record")
     
