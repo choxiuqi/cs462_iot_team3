@@ -33,7 +33,6 @@ def commit_sensor_data(data):
     # first delete old data from latest_record
     # print("deleting from latest_uss_record")
     cur.execute("DELETE FROM latest_uss_record;")
-    conn.commit()
     # print("deleted from latest_uss_record")
     # print("USS msg recevied: {}".format(data))
 
@@ -49,11 +48,9 @@ def commit_sensor_data(data):
         try:
             # print("executing_record")
             cur.execute("INSERT INTO uss_record VALUES (DEFAULT, %s, %s, %s);",(value, timestamp, MAC_address))
-            conn.commit()
             # print("committed_record")
             # print("executing_latest_record")
             cur.execute("INSERT INTO latest_uss_record VALUES (DEFAULT, %s, %s, %s);",(value, timestamp, MAC_address))
-            conn.commit()
             # print("committed_latest_record")               
             
         except Exception as e:
@@ -81,7 +78,6 @@ def commit_pir_data(data, id):
         try:
             print("executing_record")
             cur.execute("INSERT INTO PIR_record VALUES (DEFAULT, %s, %s, %s);",(timestamp, MAC_address, value))
-            conn.commit()
             print("committed_record")               
             
         except Exception as e:
@@ -106,7 +102,6 @@ def commit_uss_health_data(data):
         try:
             print("executing_record")
             cur.execute("INSERT INTO sensor_health VALUES (DEFAULT, %s, %s, %s);",(timestamp, MAC_address, value))
-            conn.commit()
             print("committed_record")               
             
         except Exception as e:
@@ -135,7 +130,6 @@ def commit_rpi_health_data(data, id):
     try:
         print("executing_record")
         cur.execute("INSERT INTO sensor_health VALUES (DEFAULT, %s, %s, %s, %s);",(timestamp, MAC_address, value, temperature))
-        conn.commit()
         print("committed_record")               
         
     except Exception as e:
