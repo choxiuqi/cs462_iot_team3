@@ -35,7 +35,7 @@ def commit_sensor_data(data):
     cur.execute("DELETE FROM latest_uss_record;")
     conn.commit()
     print("deleted from latest_uss_record")
-    print("USS msg recevied: {}".format(data))
+    # print("USS msg recevied: {}".format(data))
 
     for msg in data:
         # print("USS msg recevied: {}".format(msg))
@@ -52,7 +52,7 @@ def commit_sensor_data(data):
             conn.commit()
             print("committed_record")
             print("executing_latest_record")
-            cur.execute("INSERT INTO latest_record VALUES (DEFAULT, %s, %s, %s);",(value, timestamp, MAC_address))
+            cur.execute("INSERT INTO latest_uss_record VALUES (DEFAULT, %s, %s, %s);",(value, timestamp, MAC_address))
             conn.commit()
             print("committed_latest_record")               
             
@@ -118,11 +118,12 @@ def commit_rpi_health_data(data, id):
     This function will push in only sensor health data in sensor_health(tentative, NEW!!)
     '''
     print("raspberry pi health data received: {}".format(data))
+    
     timestamp_unix = data[1]['timestamp']
     timestamp = datetime.utcfromtimestamp(timestamp_unix)
     MAC_address = id
     value = float(data[0]['value'])
-    # sensorType = 'USS'
+    temperature = float(data[2]['temperature'])
     print("looked through raspberry pi variables")
 
     # not sure about the flow now..... but anw below shows inserting into db, and the very basic calling amelia's function
@@ -147,7 +148,7 @@ def on_message(client, userdata, message):
     # for i2 in data:
     print("yes")
     i2 = json.loads(data)
-    print("JSON sub data: {}".format(i2))
+    # print("JSON sub data: {}".format(i2))
     
 
     # if sensor normal data --> call function commit_sensor_data()
@@ -165,9 +166,11 @@ def on_message(client, userdata, message):
 
     # if uss_health data --> call function commit_health_data()
     if i2["type"] == "ultrasonic_health":
+        print("ultrasonic_health data received", i2)
         commit_uss_health_data(i2['sensor_health'])
 
     if i2["type"] == "raspberry pi":
+        print("raspberry pi data received", i2)
         commit_rpi_health_data(i2['sensor_health'], i2["mac_add"])
     
 
