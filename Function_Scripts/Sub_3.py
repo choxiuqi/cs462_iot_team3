@@ -124,7 +124,7 @@ def commit_rpi_health_data(data, sensor_id):
     print("id:",sensor_id)
     value = float(data[0]['value'])
     print("value:",value)
-    temperature = float(data[2]['temperature'])
+    temperature = round(float(data[2]['temperature']), 1)
     print("temperature:",temperature)
     print("looked through raspberry pi variables")
 
