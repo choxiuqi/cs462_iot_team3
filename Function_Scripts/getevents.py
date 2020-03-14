@@ -5,8 +5,8 @@ import os.path
 import sys
 from oauth2client import client
 from googleapiclient import sample_tools
-import pytz
 import time
+import pytz
 import psycopg2
 
 conn = psycopg2.connect(host="127.0.0.1", dbname="cs462team3db", user="team3user", password="password")
