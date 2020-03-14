@@ -118,20 +118,20 @@ def commit_rpi_health_data(data, sensor_id):
     epoch_time = (data[1]['timestamp'])
     epoch_time = int(str(epoch_time)[0:10])
     print("timestamp_unix:",epoch_time)
-    timestamp = datetime.fromtimestamp(epoch_time)
+    timestamp = str(datetime.utcfromtimestamp(epoch_time))
     print("timestamp:",timestamp)
     MAC_address = sensor_id
     print("id:",sensor_id)
     value = float(data[0]['value'])
     print("value:",value)
-    temperature = float(data[2]['temperature'])
+    temperature = round(float(data[2]['temperature']), 1)
     print("temperature:",temperature)
     print("looked through raspberry pi variables")
 
     # not sure about the flow now..... but anw below shows inserting into db, and the very basic calling amelia's function
     try:
         print("executing_record")
-        cur.execute("INSERT INTO sensor_health VALUES (DEFAULT, %s, %s, %s, %s);",(timestamp, MAC_address, value, temperature))
+        cur.execute('INSERT INTO sensor_health ("id", "timestamp", "sensor_id", "value", "temperature") VALUES (DEFAULT, %s, %s, %s, %s);',(str(timestamp), str(MAC_address), float(value), float(temperature)))
         print("committed_record")               
         
     except Exception as e:
