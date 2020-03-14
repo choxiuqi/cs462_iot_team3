@@ -44,8 +44,6 @@ def resetCounter():
 
     
 
-
-
 def checkMotion(new_occupancy):
     print("checkMotion called")
     '''
