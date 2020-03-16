@@ -33,10 +33,10 @@ def main():
     print("meeting room called")
     s3(getoccupancy(meetingRoom))
     print("uploaded on s3")
-    sensorHealth = baseURL + '/sensor-health'
+    # sensorHealth = baseURL + '/sensor-health'
+    # s3(getsensorhealth(sensorHealth))
     events = baseURL + '/event'
     print("events called")
-    s3(getsensorhealth(sensorHealth))
     s3(getevents(events))
     print("uploaded on s3")
 
