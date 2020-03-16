@@ -43,7 +43,7 @@ def sensorHealth():
     # json_data = json.loads(j1)
     final_dict = {}
     for temp_dict in health:
-        for k,v in temp_dict.items():
+        for k,v in temp_dict.iteritems():
             if k != "desc" or k != "meeting_room_id":
                 final_dict[k] = v
             elif k == "desc" or k == "meeting_room_id":
