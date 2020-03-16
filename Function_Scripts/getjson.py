@@ -19,7 +19,7 @@ def getsensorhealth(url):
 def getevents(url):
     events = requests.get(url).json()
     with open('events.json', 'w') as f3:
-        json.dump(events, f2)
+        json.dump(events, f3)
     return ('events.json')
 
 def s3(file):
@@ -33,10 +33,10 @@ def main():
     print("meeting room called")
     s3(getoccupancy(meetingRoom))
     print("uploaded on s3")
-    # sensorHealth = baseURL + '/sensor-health'
+    sensorHealth = baseURL + '/sensor-health'
     events = baseURL + '/event'
     print("events called")
-    # s3(getsensorhealth(sensorHealth))
+    s3(getsensorhealth(sensorHealth))
     s3(getevents(events))
     print("uploaded on s3")
 
