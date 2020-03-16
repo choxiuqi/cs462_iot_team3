@@ -24,11 +24,11 @@ def getevents(url):
 
 def s3(file):
     cmd = 'aws s3 cp {} s3://cs462g3'.format(file)
-    subprocess.call(cmd)
+    os.system(cmd)
     return
 
 def main():
-    baseURL = 'http://52.87.236.66:5000'
+    baseURL = 'http://3.80.134.50:5000'
     meetingRoom = baseURL + '/occupancy'
     print("meeting room called")
     s3(getoccupancy(meetingRoom))
