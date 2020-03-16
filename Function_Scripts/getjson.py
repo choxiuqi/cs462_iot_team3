@@ -24,7 +24,7 @@ def getevents(url):
 
 def s3(file):
     cmd = 'aws s3 cp {} s3://cs462g3'.format(file)
-    subprocess.check_output(cmd, shell=True)
+    subprocess.call(cmd)
     return
 
 def main():
