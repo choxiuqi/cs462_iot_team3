@@ -38,11 +38,11 @@ def get_sensors():
 @app.route('/sensor-health', methods=['GET'])
 def sensorHealth():
     health = Sensor.query.all()
-    a1 = jsonify([h.health() for h in health])
-    s1 = json.dumps(a1)
-    json_data = json.loads(j1)
+    # a1 = jsonify([h.health() for h in health])
+    # s1 = json.dumps(a1)
+    # json_data = json.loads(j1)
     final_dict = {}
-    for temp_dict in json_data:
+    for temp_dict in health:
         for k,v in temp_dict:
             if k != "desc" or k != "meeting_room_id":
                 final_dict[k] = v
