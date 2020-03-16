@@ -102,7 +102,7 @@ def commit_uss_health_data(data):
         try:
             print("executing_record")
             # cur.execute("INSERT INTO sensor_health VALUES (DEFAULT, %s, %s, %s);",(timestamp, MAC_address, value))
-            cur.execute('INSERT INTO sensor_health ("id", "timestamp", "sensor_id", "value") VALUES (DEFAULT, %s, %s, %s, %s);',(str(timestamp), str(MAC_address), float(value))
+            cur.execute('INSERT INTO sensor_health ("id", "timestamp", "sensor_id", "value") VALUES (DEFAULT, %s, %s, %s, %s);',(str(timestamp), str(MAC_address), float(value)))
             print("committed_record")               
             
         except Exception as e:
