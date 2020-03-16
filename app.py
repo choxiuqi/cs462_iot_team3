@@ -50,7 +50,7 @@ def sensorHealth():
                 for a in v:
                     a["desc"] = d1["desc"]
                     a["meeting_room_id"] = d1["meeting_room_id"]
-        final_dict2.update(final_dict1)
+        final_dict2.update(final_dict)
     return jsonify(final_dict)
 
 @app.route('/occupancy', methods=['GET']) 
