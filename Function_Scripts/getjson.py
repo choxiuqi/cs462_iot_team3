@@ -24,6 +24,7 @@ def tocsv(msg):
 
 def getoccupancy(url):
     occupancy = requests.get(url).json()[0]
+    print(occupancy)
     occ_dict = json.dumps(occupancy)
     dictionary = json.loads(occ_dict)
 
@@ -41,7 +42,7 @@ def getoccupancy(url):
         #         f1.write(v)
         # json.dump(occupancy, f1)
     print(dictionary)
-    return occupancy
+    return 
 
 def getsensorhealth(url):
     sensors = requests.get(url).json()[0]['sensor_health']
