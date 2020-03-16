@@ -39,7 +39,8 @@ def get_sensors():
 def sensorHealth():
     health = Sensor.query.all()
     # json_data = jsonify([h.health() for h in health])
-    json_data = json.loads(health)
+    s1 = json.dumps(health)
+    json_data = json.loads(j1)
     final_dict = {}
     for temp_dict in json_data:
         for k,v in temp_dict:
