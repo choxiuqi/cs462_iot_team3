@@ -6,7 +6,7 @@ import subprocess
 import csv
 
 def getoccupancy(url):
-    occupancy = requests.get(url).json()[0]
+    occupancy = dict(requests.get(url).json()[0])
     with open('occupancy.csv', 'w') as f1:
         for key in occupancy.keys():
             f1.write("%s, %s\n"%(key, occupancy[key]))
@@ -49,14 +49,14 @@ def main():
     print("meeting room called")
     s3(getoccupancy(meetingRoom))
     print("uploaded on s3")
-    sensorHealth = baseURL + '/sensor-health'
-    print("sensor health called")
-    s3(getsensorhealth(sensorHealth))
-    print("uploaded on s3")
-    events = baseURL + '/event'
-    print("events called")
-    s3(getevents(events))
-    print("uploaded on s3")
+    # sensorHealth = baseURL + '/sensor-health'
+    # print("sensor health called")
+    # s3(getsensorhealth(sensorHealth))
+    # print("uploaded on s3")
+    # events = baseURL + '/event'
+    # print("events called")
+    # s3(getevents(events))
+    # print("uploaded on s3")
 
 while True:
     main()
