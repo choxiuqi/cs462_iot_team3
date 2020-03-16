@@ -1,6 +1,5 @@
 from flask import Flask, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
-import json
 
 app = Flask(__name__)
 app.debug = True #to set in staging development
@@ -32,10 +31,13 @@ def get_meetingRoom():
 @app.route('/sensors', methods=['GET']) 
 def get_sensors(): 
     sensors = Sensor.query.all()
-    # json = jsonify([s.serialize() for s in sensors])
-    return type(sensors)
-    json_data = json.loads(a)
-    return json_data
+    return jsonify([s.serialize() for s in sensors])
+
+# api for dashboard
+@app.route('/sensor-health', methods=['GET'])
+def sensorHealth():
+    health = Sensor.query.all()
+    json_data = jsonify([h.health() for h in health])
     final_dict = {}
     for temp_dict in json_data:
         for k,v in temp_dict:
@@ -46,12 +48,6 @@ def get_sensors():
             elif k == "sensor_health":
                 final_dict["sensor_health"] = v
     return final_dict
-
-# api for dashboard
-@app.route('/sensor-health', methods=['GET'])
-def sensorHealth():
-    health = Sensor.query.all()
-    return jsonify([h.health() for h in health])
 
 @app.route('/occupancy', methods=['GET']) 
 def get_occupancy(): 
