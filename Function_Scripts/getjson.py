@@ -18,7 +18,7 @@ def getoccupancy(url):
     return ('occupancy.csv')
 
 def getsensorhealth(url):
-    sensors = requests.get(url).json()[0]['sensors']['sensor_health']
+    sensors = requests.get(url).json()[0]['sensor_health']
     # with open('sensors.json', 'w') as f2:
     #     json.dump(uss_in, f2)
     with open('sensors.csv', 'w') as f2:
