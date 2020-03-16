@@ -51,7 +51,7 @@ def sensorHealth():
                     a["desc"] = d1["desc"]
                     a["meeting_room_id"] = d1["meeting_room_id"]
         final_dict2.update(final_dict)
-    return jsonify(final_dict)
+    return jsonify(final_dict2)
 
 @app.route('/occupancy', methods=['GET']) 
 def get_occupancy(): 
