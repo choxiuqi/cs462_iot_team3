@@ -37,7 +37,7 @@ def get_sensors():
 @app.route('/sensor-health', methods=['GET'])
 def sensorHealth():
     health = Sensor.query.all()
-    return jsonify([h.health() for h in sensors])
+    return jsonify([h.health() for h in health])
 
 @app.route('/occupancy', methods=['GET']) 
 def get_occupancy(): 
