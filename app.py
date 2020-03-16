@@ -50,8 +50,9 @@ def sensorHealth():
                 for a in v:
                     a["desc"] = d1["desc"]
                     a["meeting_room_id"] = d1["meeting_room_id"]
-        final_list.append(final_dict)
-    return jsonify(final_list)
+        return jsonify(final_dict)
+    #     final_list.append(final_dict)
+    # return jsonify(final_list)
 
 @app.route('/occupancy', methods=['GET']) 
 def get_occupancy(): 
