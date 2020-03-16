@@ -42,7 +42,7 @@ def getsensorhealth(url):
         #     json.dump(uss_in, f2)
             with open('sensors.csv', 'a') as f2:
                 for key in sensors.keys():
-                    f1.write("%s, %s\n"%(key, sensors[key]))
+                    f2.write("%s, %s\n"%(key, sensors[key]))
     return ('sensors.csv')
 
 def getevents(url):
