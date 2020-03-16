@@ -28,23 +28,27 @@ def get_meetingRoom():
     meeting_room = MeetingRoom.query.all()
     return jsonify([m.serialize() for m in meeting_room])
 
-@app.route('/get-data', methods=['GET']) 
-def get_Data(): 
-    meeting_room = MeetingRoom.query.all()
-    with open('output.txt', 'w') as f1:
-        json.dump(meeting_room, f1)
-    return ("Hello World")
-
 @app.route('/sensors', methods=['GET']) 
 def get_sensors(): 
     sensors = Sensor.query.all()
     
     return jsonify([s.serialize() for s in sensors])
 
+# api for dashboard
+@app.route('/sensor-health', methods=['GET'])
+def sensorHealth():
+    health = Sensor.query.all()
+    return jsonify([h.health() for h in health])
+
 @app.route('/occupancy', methods=['GET']) 
 def get_occupancy(): 
     occupancy = Occupancy.query.all()
     return jsonify([o.serialize() for o in occupancy])
+
+@app.route('/event', methods=['GET'])
+def get_event():
+    event = Upcoming.query.all()
+    return jsonify([e.serialize() for e in event])
 
 #amelia added
 @app.route('/latest_uss_record', methods=['GET']) 

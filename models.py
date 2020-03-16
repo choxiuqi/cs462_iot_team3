@@ -42,6 +42,14 @@ class Sensor(db.Model):
             'pir_records': [p.serialize() for p in self.pir_records] 
         }
 
+    def health(self):
+        return {
+            'id': self.id,
+            'desc': self.desc,
+            'meeting_room_id': self.meeting_room_id,
+            'sensor_health': [s.serialize() for s in self.sensor_health]
+        }
+
 class MeetingRoom(db.Model): 
     __tablename__ = 'meeting_room' 
     id = db.Column(db.String(10), primary_key=True) 
@@ -154,7 +162,7 @@ class SensorHealth(db.Model):
     # one-to-many relationship
     sensor = db.relationship('Sensor', back_populates='sensor_health')
 
-    def __init__(self, timestamp, sensor_id, value, temperature): 
+    def __init__(self, timestamp, sensor_id, value, temperature=None): 
         self.timestamp = timestamp
         self.sensor_id = sensor_id
         self.value = value
@@ -213,4 +221,4 @@ class Upcoming(db.Model):
             'creator' : self.creator,
             'start': self.start,
             'end' : self.end
-        }
+        } 
