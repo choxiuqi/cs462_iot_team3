@@ -44,14 +44,20 @@ def sensorHealth():
     final_dict = {}
     for temp_dict in health:
         d1 = temp_dict.serialize()
+        final_dict["id"] = d1["id"]
+        final_dict["pir_records"] = d1["pir_records"]
         final_dict["sensor_health"] = d1["sensor_health"]
-        # for k,v in d1.items():
-        #     if k == "desc" or k == "meeting_room_id":
-        #         final_dict["sensor_health"] = {k:v}
-        #     elif k == "sensor_health":
-        #         final_dict["sensor_health"] = v
-        #     elif k != "desc" or k != "meeting_room_id":
-        #         final_dict[k] = v
+        for k,v in d1.items():
+            if k == "sensor_health":
+                for a in v:
+                    a["desc"] = d1["desc"]
+                    a["meeting_room_id"] = d1["meeting_room_id"]
+            # if k == "desc" or k == "meeting_room_id":
+            #     final_dict["sensor_health"] = {k:v}
+            # elif k == "sensor_health":
+            #     final_dict["sensor_health"] = v
+            # elif k != "desc" or k != "meeting_room_id":
+            #     final_dict[k] = v
     return jsonify(final_dict)
 
 @app.route('/occupancy', methods=['GET']) 
