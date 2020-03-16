@@ -9,7 +9,7 @@ def getoccupancy(url):
     occupancy = requests.get(url).json()[0]
     with open('occupancy.csv', 'w') as f1:
         for key in occupancy.keys():
-            f1.write("%s, %s, %s, %s\n"%(key, occupancy[key]))
+            f1.write("%s, %s\n"%(key, occupancy[key]))
         # f1.write("id", "meeting_room_id", "timestamp", "value", '\n')
         # for i in occupancy:
         #     for k,v in i.items():
