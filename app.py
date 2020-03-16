@@ -38,9 +38,9 @@ def get_sensors():
 @app.route('/sensor-health', methods=['GET'])
 def sensorHealth():
     health = Sensor.query.all()
-    final_dict = {}
     final_list = []
     for temp_dict in health:
+        final_dict = {}
         d1 = temp_dict.serialize()
         final_dict["id"] = d1["id"]
         final_dict["pir_records"] = d1["pir_records"]
