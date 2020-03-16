@@ -31,27 +31,27 @@ def commit_sensor_data(data):
 
     '''
     # first delete old data from latest_record
-    # print("deleting from latest_uss_record")
+    print("deleting from latest_uss_record")
     cur.execute("DELETE FROM latest_uss_record;")
-    # print("deleted from latest_uss_record")
-    # print("USS msg recevied: {}".format(data))
+    print("deleted from latest_uss_record")
+    print("USS msg recevied: {}".format(data))
 
     for msg in data:
-        # print("USS msg recevied: {}".format(msg))
+        print("USS msg recevied: {}".format(msg))
         timestamp_unix = msg['result'][0]['timestamp']
         timestamp = datetime.utcfromtimestamp(timestamp_unix)
         MAC_address = msg['result'][0]['mac_add']
         value = float(msg['result'][0]['value'])
         # sensorType = 'USS'
-        # print("looked through USS variables")
+        print("looked through USS variables")
 
         try:
-            # print("executing_record")
+            print("executing_record")
             cur.execute("INSERT INTO uss_record VALUES (DEFAULT, %s, %s, %s);",(value, timestamp, MAC_address))
-            # print("committed_record")
-            # print("executing_latest_record")
+            print("committed_record")
+            print("executing_latest_record")
             cur.execute("INSERT INTO latest_uss_record VALUES (DEFAULT, %s, %s, %s);",(value, timestamp, MAC_address))
-            # print("committed_latest_record")               
+            print("committed_latest_record")               
             
         except Exception as e:
             return(str(e))
