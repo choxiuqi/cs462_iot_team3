@@ -23,12 +23,13 @@ def tocsv(msg):
 
 
 def getoccupancy(url):
-    occupancy = requests.get(url).json()[0]
-    occ_dict = json.dumps(occupancy)
-    dictionary = json.loads(occ_dict)
-    with open('occupancy.csv', 'w') as f1:
-        for key in dictionary.keys():
-            f1.write("%s, %s\n"%(key, dictionary[key]))
+    occupancy = requests.get(url).json()
+    for i in occupancy:
+        occ_dict = json.dumps(occupancy)
+        dictionary = json.loads(occ_dict)
+        with open('occupancy.csv', 'a') as f1:
+            for key in dictionary.keys():
+                f1.write("%s, %s\n"%(key, dictionary[key]))
     return ('occupancy.csv') 
 
 def getsensorhealth(url):
