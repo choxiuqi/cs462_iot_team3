@@ -38,8 +38,8 @@ def get_sensors():
 @app.route('/sensor-health', methods=['GET'])
 def sensorHealth():
     health = Sensor.query.all()
-    # json_data = jsonify([h.health() for h in health])
-    s1 = json.dumps(health)
+    a1 = jsonify([h.health() for h in health])
+    s1 = json.dumps(a1)
     json_data = json.loads(j1)
     final_dict = {}
     for temp_dict in json_data:
