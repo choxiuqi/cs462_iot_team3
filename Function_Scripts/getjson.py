@@ -53,9 +53,9 @@ def getevents(url):
         event_dict = json.dumps(i)
         events = json.loads(event_dict)
         with open('events.csv', 'w') as f3:
-            for i in events:
-                for key in i.keys():
-                    f3.write("%s, %s\n"%(key, i[key]))
+            for a in events:
+                for key in a.keys():
+                    f3.write("%s, %s\n"%(key, a[key]))
         # for i in events:
         #     f3.write(i)
     return ('events.csv')
