@@ -43,7 +43,7 @@ def sensorHealth():
     # json_data = json.loads(j1)
     final_dict = {}
     for temp_dict in health:
-        d1 = serialize(temp_dict)
+        d1 = temp_dict.serialize()
         for k,v in d1.items():
             if k != "desc" or k != "meeting_room_id":
                 final_dict[k] = v
