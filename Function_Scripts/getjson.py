@@ -5,11 +5,28 @@ import time
 import subprocess
 import csv
 
+
+
+
+
+
 def getoccupancy(url):
-    occupancy = dict(requests.get(url).json()[0])
-    with open('occupancy.csv', 'w') as f1:
-        for key in occupancy.keys():
-            f1.write("%s, %s\n"%(key, occupancy[key]))
+    occupancy = requests.get(url).json()[0]
+    with open('occupancy.json', 'w') as f1:
+        json.dump(occupancy, f1)
+    data = json.loads('occupancy.json')
+    with open('occupancy.csv', 'w') as f2:
+        csvwriter = csv.writer(f2)
+        count = 0
+        for i in data:
+            if count == 0:
+                header = data.keys()
+                csvwriter.writerow(header)
+                count += 1
+            csvwriter.writerow(data.values())
+
+        # for key in occupancy.keys():
+        #     f1.write("%s, %s\n"%(key, occupancy[key]))
         # f1.write("id", "meeting_room_id", "timestamp", "value", '\n')
         # for i in occupancy:
         #     for k,v in i.items():
@@ -39,7 +56,7 @@ def getevents(url):
     return ('events.csv')
 
 def s3(file):
-    cmd = 'aws s3 cp {} s3://cs462g3'.format(file)
+    cmd = 'aws s3 cp {} s3://cs462g3/data'.format(file)
     os.system(cmd)
     return
 
@@ -49,14 +66,14 @@ def main():
     print("meeting room called")
     s3(getoccupancy(meetingRoom))
     print("uploaded on s3")
-    sensorHealth = baseURL + '/sensor-health'
-    print("sensor health called")
-    s3(getsensorhealth(sensorHealth))
-    print("uploaded on s3")
-    events = baseURL + '/event'
-    print("events called")
-    s3(getevents(events))
-    print("uploaded on s3")
+    # sensorHealth = baseURL + '/sensor-health'
+    # print("sensor health called")
+    # s3(getsensorhealth(sensorHealth))
+    # print("uploaded on s3")
+    # events = baseURL + '/event'
+    # print("events called")
+    # s3(getevents(events))
+    # print("uploaded on s3")
 
 while True:
     main()
