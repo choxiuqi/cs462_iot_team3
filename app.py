@@ -42,9 +42,8 @@ def sensorHealth():
     # s1 = json.dumps(a1)
     # json_data = json.loads(j1)
     final_dict = {}
-    for temp_dict in health:
-        t1 = jsonify(temp_dict)
-        for k,v in t1:
+    for temp_dict in health.items():
+        for k,v in temp_dict:
             if k != "desc" or k != "meeting_room_id":
                 final_dict[k] = v
             elif k == "desc" or k == "meeting_room_id":
