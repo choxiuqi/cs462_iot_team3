@@ -2,6 +2,7 @@ import json
 import requests
 import os
 import time
+import subprocess
 
 def getoccupancy(url):
     occupancy = requests.get(url).json()
@@ -52,19 +53,19 @@ def upload_file(file_name, bucket, object_name=None):
 
 def s3(file):
     cmd = 'aws s3 cp {} s3://cs462g3'.format(file)
-    os.system(cmd)
+    subprocess.call(cmd)
 
 def main():
     baseURL = 'http://52.87.236.66:5000'
     meetingRoom = baseURL + '/occupancy'
     print("meeting room called")
-    upload_file(getoccupancy(meetingRoom), cs462g3)
+    s3(getoccupancy(meetingRoom))
     print("uploaded on s3")
     # sensorHealth = baseURL + '/sensor-health'
     events = baseURL + '/event'
     print("events called")
     # s3(getsensorhealth(sensorHealth))
-    upload_file(getevents(events), cs462g3)
+    s3(getevents(events))
     print("uploaded on s3")
 
 while True:
