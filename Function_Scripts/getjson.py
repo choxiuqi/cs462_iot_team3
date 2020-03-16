@@ -6,24 +6,32 @@ import subprocess
 
 def getoccupancy(url):
     occupancy = requests.get(url).json()
-    with open('occupancy.json', 'w') as f1:
-        json.dump(occupancy, f1)
-    return ('occupancy.json')
+    with open('occupancy.csv', 'w') as f1:
+        for i in occupancy:
+            f1.write(i)
+        # json.dump(occupancy, f1)
+    return ('occupancy.csv')
 
 def getsensorhealth(url):
-    uss_in = requests.get(url).json()[0]['sensors']['sensor_health']
-    with open('sensors.json', 'w') as f2:
-        json.dump(uss_in, f2)
-    return ('sensors.json')
+    sensors = requests.get(url).json()[0]['sensors']['sensor_health']
+    # with open('sensors.json', 'w') as f2:
+    #     json.dump(uss_in, f2)
+    with open('sensors.csv', 'w') as f2:
+        for i in sensors:
+            f2.write(i)
+    return ('sensors.csv')
 
 def getevents(url):
     events = requests.get(url).json()
-    with open('events.json', 'w') as f3:
-        json.dump(events, f3)
-    return ('events.json')
+    # with open('events.json', 'w') as f3:
+    #     json.dump(events, f3)
+    with open('events.csv', 'w') as f3:
+        for i in events:
+            f3.write(i)
+    return ('events.csv')
 
 def s3(file):
-    cmd = 'aws s3 cp {} s3://cs462g3'.format(file)
+    cmd = 'aws s3 cp {} s3://cs462g3/data'.format(file)
     os.system(cmd)
     return
 
