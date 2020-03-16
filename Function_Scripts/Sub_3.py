@@ -92,7 +92,9 @@ def commit_uss_health_data(data):
     print("USS_health msg recevied: {}".format(data))  
     for msg in data:
         timestamp_unix = msg['results'][0]['timestamp']
+        print("timestamp_unix: ",timestamp_unix)
         timestamp = datetime.utcfromtimestamp(timestamp_unix)
+        print("timestamp: ",timestamp)
         MAC_address = msg['results'][0]['mac_add']
         value = float(msg['results'][0]['value'])
         # sensorType = 'USS'
