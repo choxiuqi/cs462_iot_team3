@@ -55,7 +55,8 @@ def getevents(url):
         with open('events.csv', 'w') as f3:
             for a in events:
                 for key in a.keys():
-                    f3.write("%s, %s\n"%(key, a[key]))
+                    if key != "id":
+                        f3.write("%s, %s\n"%(key, a[key]))
         # for i in events:
         #     f3.write(i)
     return ('events.csv')
