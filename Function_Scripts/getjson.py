@@ -23,21 +23,25 @@ def tocsv(msg):
 
 
 def getoccupancy(url):
-    occupancy = json.dumps(requests.get(url).json()[0])
-    dictionary = json.loads(occupancy)
+    occupancy = requests.get(url).json()[0]
+    occ_dict = json.dumps(occupancy)
+    dictionary = json.loads(occ_dict)
 
 
     # with open('occupancy.json', 'w') as f1:
     #     json.dump(occupancy, f1)
-    with open('occupancy.csv', 'w') as f1:
-        for key in dictionary.keys():
-            f1.write("%s, %s\n"%(key, dictionary[key]))
+
+    # with open('occupancy.csv', 'w') as f1:
+    #     for key in dictionary.keys():
+    #         f1.write("%s, %s\n"%(key, dictionary[key]))
+
         # f1.write("id", "meeting_room_id", "timestamp", "value", '\n')
         # for i in occupancy:
         #     for k,v in i.items():
         #         f1.write(v)
         # json.dump(occupancy, f1)
-    return ('occupancy.csv')
+    print(dictionary)
+    return 
 
 def getsensorhealth(url):
     sensors = requests.get(url).json()[0]['sensor_health']
@@ -69,8 +73,9 @@ def main():
     baseURL = 'http://3.80.134.50:5000'
     meetingRoom = baseURL + '/occupancy'
     print("meeting room called")
-    s3(getoccupancy(meetingRoom))
-    print("uploaded on s3")
+    getoccupancy(meetingRoom)
+    # s3(getoccupancy(meetingRoom))
+    # print("uploaded on s3")
     # sensorHealth = baseURL + '/sensor-health'
     # print("sensor health called")
     # s3(getsensorhealth(sensorHealth))
