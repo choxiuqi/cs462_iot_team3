@@ -31,8 +31,17 @@ def get_meetingRoom():
 @app.route('/sensors', methods=['GET']) 
 def get_sensors(): 
     sensors = Sensor.query.all()
-    
-    return jsonify([s.serialize() for s in sensors])
+    json = jsonify([s.serialize() for s in sensors])
+    final_dict = {}
+    for temp_dict in json:
+        for k,v in temp_dict:
+            if k != "desc" or k != "meeting_room_id":
+                final_dict[k] = v
+            elif k == "desc" or k == "meeting_room_id":
+                final_dict["sensor_health"] = {k:v}
+            elif k == "sensor_health":
+                final_dict["sensor_health"] = v
+    return json
 
 # api for dashboard
 @app.route('/sensor-health', methods=['GET'])
