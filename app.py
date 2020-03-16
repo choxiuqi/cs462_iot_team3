@@ -33,7 +33,7 @@ def get_meetingRoom():
 def get_sensors(): 
     sensors = Sensor.query.all()
     # json = jsonify([s.serialize() for s in sensors])
-    a = sensors.json()
+    return type(sensors)
     json_data = json.loads(a)
     return json_data
     final_dict = {}
