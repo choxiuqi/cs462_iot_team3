@@ -41,7 +41,7 @@ def getoccupancy(url):
         #         f1.write(v)
         # json.dump(occupancy, f1)
     print(dictionary)
-    return 
+    return occupancy
 
 def getsensorhealth(url):
     sensors = requests.get(url).json()[0]['sensor_health']
