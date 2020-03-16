@@ -36,7 +36,7 @@ def getevents(url):
     return ('events.csv')
 
 def s3(file):
-    cmd = 'aws s3 cp {} s3://cs462g3/data'.format(file)
+    cmd = 'aws s3 cp {} s3://cs462g3'.format(file)
     os.system(cmd)
     return
 
