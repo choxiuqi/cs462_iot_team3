@@ -25,7 +25,7 @@ def tocsv(msg):
 def getoccupancy(url):
     occupancy = requests.get(url).json()
     for i in occupancy:
-        occ_dict = json.dumps(occupancy)
+        occ_dict = json.dumps(i)
         dictionary = json.loads(occ_dict)
         with open('occupancy.csv', 'a') as f1:
             for key in dictionary.keys():
