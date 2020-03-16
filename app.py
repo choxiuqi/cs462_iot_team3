@@ -39,6 +39,7 @@ def get_sensors():
 def sensorHealth():
     health = Sensor.query.all()
     final_dict = {}
+    final_dict2 = {}
     for temp_dict in health:
         d1 = temp_dict.serialize()
         final_dict["id"] = d1["id"]
@@ -49,7 +50,8 @@ def sensorHealth():
                 for a in v:
                     a["desc"] = d1["desc"]
                     a["meeting_room_id"] = d1["meeting_room_id"]
-    return jsonify(final_dict)
+        final_dict2.update(final_dict)
+    return jsonify(final_dict2)
 
 @app.route('/occupancy', methods=['GET']) 
 def get_occupancy(): 
