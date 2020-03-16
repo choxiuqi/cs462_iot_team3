@@ -35,25 +35,27 @@ def getoccupancy(url):
 def getsensorhealth(url):
     for i in range(0, 4):
         sensor = requests.get(url).json()[i]['sensor_health']
-        sensor_dict = json.dumps(sensor)
-        sensors = json.loads(sensor_dict)
-    # with open('sensors.json', 'w') as f2:
-    #     json.dump(uss_in, f2)
-        with open('sensors.csv', 'a') as f2:
-            for key in sensors.keys():
-                f1.write("%s, %s\n"%(key, sensors[key]))
+        for i in sensor:
+            sensor_dict = json.dumps(i)
+            sensors = json.loads(sensor_dict)
+        # with open('sensors.json', 'w') as f2:
+        #     json.dump(uss_in, f2)
+            with open('sensors.csv', 'a') as f2:
+                for key in sensors.keys():
+                    f1.write("%s, %s\n"%(key, sensors[key]))
     return ('sensors.csv')
 
 def getevents(url):
     event = requests.get(url).json()
     # with open('events.json', 'w') as f3:
     #     json.dump(events, f3)
-    event_dict = json.dumps(event)
-    events = json.loads(event_dict)
-    with open('events.csv', 'w') as f3:
-        for i in events:
-            for key in i.keys():
-                f3.write("%s, %s\n"%(key, i[key]))
+    for i in event:
+        event_dict = json.dumps(i)
+        events = json.loads(event_dict)
+        with open('events.csv', 'w') as f3:
+            for i in events:
+                for key in i.keys():
+                    f3.write("%s, %s\n"%(key, i[key]))
         # for i in events:
         #     f3.write(i)
     return ('events.csv')
