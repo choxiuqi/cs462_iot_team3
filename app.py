@@ -39,7 +39,7 @@ def get_sensors():
 def sensorHealth():
     health = Sensor.query.all()
     final_dict = {}
-    final_dict2 {}
+    final_dict2 = {}
     for temp_dict in health:
         d1 = temp_dict.serialize()
         final_dict["id"] = d1["id"]
