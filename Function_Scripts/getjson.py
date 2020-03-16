@@ -3,12 +3,17 @@ import requests
 import os
 import time
 import subprocess
+import csv
 
 def getoccupancy(url):
-    occupancy = requests.get(url).json()
+    occupancy = requests.get(url).json()[0]
     with open('occupancy.csv', 'w') as f1:
-        for i in occupancy:
-            f1.write(i)
+        for key in occupancy.keys():
+            f1.write("%s, %s, %s, %s\n"%(key, occupancy[key]))
+        # f1.write("id", "meeting_room_id", "timestamp", "value", '\n')
+        # for i in occupancy:
+        #     for k,v in i.items():
+        #         f1.write(v)
         # json.dump(occupancy, f1)
     return ('occupancy.csv')
 
@@ -43,10 +48,10 @@ def main():
     print("uploaded on s3")
     # sensorHealth = baseURL + '/sensor-health'
     # s3(getsensorhealth(sensorHealth))
-    events = baseURL + '/event'
-    print("events called")
-    s3(getevents(events))
-    print("uploaded on s3")
+    # events = baseURL + '/event'
+    # print("events called")
+    # s3(getevents(events))
+    # print("uploaded on s3")
 
 while True:
     main()
