@@ -28,7 +28,7 @@ def s3(file):
     return
 
 def main():
-    baseURL = 'http://52.87.236.66:5000'
+    baseURL = 'http://3.80.134.50:5000'
     meetingRoom = baseURL + '/occupancy'
     print("meeting room called")
     s3(getoccupancy(meetingRoom))
