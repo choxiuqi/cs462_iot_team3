@@ -39,15 +39,16 @@ def sensorHealth():
     health = Sensor.query.all()
     json_data = jsonify([h.health() for h in health])
     final_dict = {}
-    for temp_dict in json_data:
-        for k,v in temp_dict:
-            if k != "desc" or k != "meeting_room_id":
-                final_dict[k] = v
-            elif k == "desc" or k == "meeting_room_id":
-                final_dict["sensor_health"] = {k:v}
-            elif k == "sensor_health":
-                final_dict["sensor_health"] = v
-    return final_dict
+    return type(json_data)
+    # for temp_dict in json_data:
+    #     for k,v in temp_dict:
+    #         if k != "desc" or k != "meeting_room_id":
+    #             final_dict[k] = v
+    #         elif k == "desc" or k == "meeting_room_id":
+    #             final_dict["sensor_health"] = {k:v}
+    #         elif k == "sensor_health":
+    #             final_dict["sensor_health"] = v
+    # return final_dict
 
 @app.route('/occupancy', methods=['GET']) 
 def get_occupancy(): 
