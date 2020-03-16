@@ -9,15 +9,15 @@ def tocsv(msg):
     input_file = msg + '.json'
     output_file = msg + '.csv'
     data = json.loads(input_file)
-        with open(output_file, 'w') as f2:
-            csvwriter = csv.writer(f2)
-            count = 0
-            for i in data:
-                if count == 0:
-                    header = data.keys()
-                    csvwriter.writerow(header)
-                    count += 1
-                csvwriter.writerow(data.values())
+    with open(output_file, 'w') as f2:
+        csvwriter = csv.writer(f2)
+        count = 0
+        for i in data:
+            if count == 0:
+                header = data.keys()
+                csvwriter.writerow(header)
+                count += 1
+            csvwriter.writerow(data.values())
     return (output_file)
 
 
