@@ -35,6 +35,7 @@ def get_sensors():
     # json = jsonify([s.serialize() for s in sensors])
     a = sensors.json()
     json_data = json.loads(a)
+    return json_data
     final_dict = {}
     for temp_dict in json_data:
         for k,v in temp_dict:
