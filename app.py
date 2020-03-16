@@ -42,7 +42,7 @@ def get_sensors():
                 final_dict["sensor_health"] = {k:v}
             elif k == "sensor_health":
                 final_dict["sensor_health"] = v
-    return json
+    return final_dict
 
 # api for dashboard
 @app.route('/sensor-health', methods=['GET'])
