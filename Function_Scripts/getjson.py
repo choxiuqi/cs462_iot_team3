@@ -65,7 +65,7 @@ def main():
     baseURL = 'http://3.80.134.50:5000'
     meetingRoom = baseURL + '/occupancy'
     print("meeting room called")
-    s3(to_csv(getoccupancy(meetingRoom)))
+    s3(tocsv(getoccupancy(meetingRoom)))
     print("uploaded on s3")
     # sensorHealth = baseURL + '/sensor-health'
     # print("sensor health called")
