@@ -42,6 +42,14 @@ class Sensor(db.Model):
             'pir_records': [p.serialize() for p in self.pir_records] 
         }
 
+    def health(self):
+        return {
+            'id': self.id,
+            'desc': self.desc,
+            'meeting_room_id': self.meeting_room_id,
+            'sensor_health': [s.serialize() for s in self.sensor_health]
+        }
+
 class MeetingRoom(db.Model): 
     __tablename__ = 'meeting_room' 
     id = db.Column(db.String(10), primary_key=True) 
