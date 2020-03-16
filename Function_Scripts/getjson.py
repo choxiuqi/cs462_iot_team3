@@ -1,7 +1,5 @@
 import json
 import requests
-import csv
-import pandas as pd
 import os
 import time
 
@@ -30,11 +28,15 @@ def s3(file):
 def main():
     baseURL = 'http://52.87.236.66:5000'
     meetingRoom = baseURL + '/occupancy'
+    print("meeting room called")
+    s3(getoccupancy(meetingRoom))
+    print("uploaded on s3")
     # sensorHealth = baseURL + '/sensor-health'
     events = baseURL + '/event'
-    s3(getoccupancy(meetingRoom))
+    print("events called")
     # s3(getsensorhealth(sensorHealth))
     s3(getevents(events))
+    print("uploaded on s3")
 
 while True:
     main()
