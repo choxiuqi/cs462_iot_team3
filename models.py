@@ -213,4 +213,4 @@ class Upcoming(db.Model):
             'creator' : self.creator,
             'start': self.start,
             'end' : self.end
-        }
+        } 
