@@ -5,8 +5,20 @@ import time
 import subprocess
 import csv
 
-
-
+def tocsv(msg):
+    input_file = msg + '.json'
+    output_file = msg + '.csv'
+    data = json.loads(input_file)
+        with open(output_file, 'w') as f2:
+            csvwriter = csv.writer(f2)
+            count = 0
+            for i in data:
+                if count == 0:
+                    header = data.keys()
+                    csvwriter.writerow(header)
+                    count += 1
+                csvwriter.writerow(data.values())
+    return (output_file)
 
 
 
@@ -14,17 +26,6 @@ def getoccupancy(url):
     occupancy = requests.get(url).json()[0]
     with open('occupancy.json', 'w') as f1:
         json.dump(occupancy, f1)
-    data = json.loads('occupancy.json')
-    with open('occupancy.csv', 'w') as f2:
-        csvwriter = csv.writer(f2)
-        count = 0
-        for i in data:
-            if count == 0:
-                header = data.keys()
-                csvwriter.writerow(header)
-                count += 1
-            csvwriter.writerow(data.values())
-
         # for key in occupancy.keys():
         #     f1.write("%s, %s\n"%(key, occupancy[key]))
         # f1.write("id", "meeting_room_id", "timestamp", "value", '\n')
@@ -32,7 +33,7 @@ def getoccupancy(url):
         #     for k,v in i.items():
         #         f1.write(v)
         # json.dump(occupancy, f1)
-    return ('occupancy.csv')
+    return ('occupancy')
 
 def getsensorhealth(url):
     sensors = requests.get(url).json()[0]['sensor_health']
@@ -64,7 +65,7 @@ def main():
     baseURL = 'http://3.80.134.50:5000'
     meetingRoom = baseURL + '/occupancy'
     print("meeting room called")
-    s3(getoccupancy(meetingRoom))
+    s3(to_csv(getoccupancy(meetingRoom)))
     print("uploaded on s3")
     # sensorHealth = baseURL + '/sensor-health'
     # print("sensor health called")
