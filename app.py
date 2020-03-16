@@ -31,7 +31,8 @@ def get_meetingRoom():
 @app.route('/sensors', methods=['GET']) 
 def get_sensors(): 
     sensors = Sensor.query.all()
-    json = jsonify([s.serialize() for s in sensors])
+    # json = jsonify([s.serialize() for s in sensors])
+    json = json.loads(sensors)
     final_dict = {}
     for temp_dict in json:
         for k,v in temp_dict:
