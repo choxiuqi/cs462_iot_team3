@@ -28,7 +28,7 @@ def getoccupancy(url):
 
     # with open('occupancy.json', 'w') as f1:
     #     json.dump(occupancy, f1)
-    with open('occupancy.csv', 'w') as f1
+    with open('occupancy.csv', 'w') as f1:
         for key in dictionary.keys():
             f1.write("%s, %s\n"%(key, dictionary[key]))
         # f1.write("id", "meeting_room_id", "timestamp", "value", '\n')
