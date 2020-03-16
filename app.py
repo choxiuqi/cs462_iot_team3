@@ -41,7 +41,7 @@ def sensorHealth():
     # a1 = jsonify([h.health() for h in health])
     # s1 = json.dumps(a1)
     # json_data = json.loads(j1)
-    final_dict = {}
+    final_dict = {} 
     for temp_dict in health:
         d1 = temp_dict.serialize()
         final_dict["id"] = d1["id"]
