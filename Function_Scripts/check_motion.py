@@ -33,7 +33,7 @@ def check_reset():
     else:
         # get current occupancy
         cur.execute('SELECT "value" FROM occupancy_debug ORDER BY id DESC LIMIT 1;')
-        last_occupancy = cur.fetchall()
+        last_occupancy = cur.fetchone()
         print("last_occupancy is: ",last_occupancy)
 
         # if current occupancy > 0
