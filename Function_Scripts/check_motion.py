@@ -57,7 +57,7 @@ def check_sensor_health():
         else: we will add error msg: _____ sensor hasn't gotten a reading in the last 60 min'''
 
     # get reading for out USS
-    cur.execute('select * from sensor_health where "sensor_id" = "pi123" order by id desc limit 1;')
+    cur.execute('select "timestamp" from sensor_health where "sensor_id" = \'pi123\' order by id desc limit 1;')
     last_pi_rec = cur.fetchone()[0]
     print(last_pi_rec)
 
