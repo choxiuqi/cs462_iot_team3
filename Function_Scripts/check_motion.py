@@ -77,8 +77,9 @@ def check_sensor_health():
     rpi_time_diff = (datetime.now() - last_pi_rec).total_seconds() / 60         # time difference in minutes
     print ("rpi time diff:", rpi_time_diff, '\n')
 
-    if (rpi_time_diff <0):
-        errors.append("Raspberry pi hasn't gotten a reading in the last 60 min")
+    if (rpi_time_diff <60):
+        print("yeah")
+        errors.append("Raspberry pi")
     
     # get reading for in USS
     cur.execute('select "timestamp" from sensor_health where "sensor_id" = \'fb48fc3a6ee3\' order by id desc limit 1;')
@@ -89,8 +90,8 @@ def check_sensor_health():
     inUSS_time_diff = (datetime.now() - last_inUSS_rec).total_seconds() / 60         # time difference in minutes
     print ("in uss time diff:", inUSS_time_diff, '\n')
 
-    if (inUSS_time_diff <0):
-        errors.append("Inside USS hasn't gotten a reading in the last 60 min")
+    if (inUSS_time_diff < 60):
+        errors.append("Inside USS")
 
     # get reading for pir USS
     cur.execute('select "timestamp" from sensor_health where "sensor_id" = \'e6f5f2bb5b0e\' order by id desc limit 1;')
@@ -101,14 +102,17 @@ def check_sensor_health():
     outUSS_time_diff = (datetime.now() - last_outUSS_rec).total_seconds() / 60         # time difference in minutes
     print ("out uss time diff:", outUSS_time_diff, '\n')
 
-    if (outUSS_time_diff <0):
-        errors.append("Outisde USS hasn't gotten a reading in the last 60 min")
+    if (outUSS_time_diff < 60):
+        errors.append("Outisde USS")
 
+    print(errors)
+    error_msg = ""
 
     if len(errors) > 0:
         for error in errors:
-            error_msg += error + ". "
-        error_msg.strip(" ")      
+            error_msg += error + ", "
+        error_msg.strip(", ")
+        error_msg += "did not receive a reading in the last 60 min"      
 
         params = {'chat_id':chat_id, 'text':error_msg}
         r = requests.get(url=url_sendMsg, params = params)  
