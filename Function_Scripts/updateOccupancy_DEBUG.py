@@ -127,8 +127,8 @@ def UpdateOccupancy():
                 counter += 2
             else:
                 previous_record = {'id':id_current, 'value': value_current, 'timestamp':time_current, 'sensor_id':sensor_id_current}
-            print("line 129 prev record: ",previous_record)
-            counter += 1
+                print("line 129 prev record: ",previous_record)
+                counter += 1
 
     print("finding ppl in/out")    
     #find number of people who enter and exit
