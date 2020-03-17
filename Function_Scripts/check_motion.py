@@ -17,9 +17,9 @@ conn.autocommit = True
 # ----------------telebot -----------------------
 chat_id = 344832007 # fill in your chat id here
 api_token = '1101942872:AAE7Z80sUtx2KhWDmh-r7mATB0xM1EuV3a0' # fill in your api token here
-base_url = 'https://api.telegram.org/bot{}/'.format(api_token)
-# getUpdates_url = base_url + 'getUpdates'
-sendMsg_url = base_url + 'sendMessage'
+url_base = 'https://api.telegram.org/bot{}/'.format(api_token)
+url_getUpdates = '{}getupdates'.format(url_base)
+url_sendMsg = '{}sendMessage'.format(url_base)
 
 
 def check_reset():
@@ -77,7 +77,7 @@ def check_sensor_health():
     rpi_time_diff = (datetime.now() - last_pi_rec).total_seconds() / 60         # time difference in minutes
     print ("rpi time diff:", rpi_time_diff, '\n')
 
-    if (rpi_time_diff > 60):
+    if (rpi_time_diff <0):
         errors.append("Raspberry pi hasn't gotten a reading in the last 60 min")
     
     # get reading for in USS
@@ -89,7 +89,7 @@ def check_sensor_health():
     inUSS_time_diff = (datetime.now() - last_inUSS_rec).total_seconds() / 60         # time difference in minutes
     print ("in uss time diff:", inUSS_time_diff, '\n')
 
-    if (inUSS_time_diff > 60):
+    if (inUSS_time_diff <0):
         errors.append("Inside USS hasn't gotten a reading in the last 60 min")
 
     # get reading for pir USS
@@ -101,15 +101,17 @@ def check_sensor_health():
     outUSS_time_diff = (datetime.now() - last_outUSS_rec).total_seconds() / 60         # time difference in minutes
     print ("in uss time diff:", outUSS_time_diff, '\n')
 
-    if (outUSS_time_diff > 60):
+    if (outUSS_time_diff <0):
         errors.append("Outisde USS hasn't gotten a reading in the last 60 min")
 
 
     if len(errors > 0):
         for error in errors:
             error_msg += error + ". "
-        error_msg.strip(" ")        
+        error_msg.strip(" ")      
 
+        params = {'chat_id':chat_id, 'text':error_msg}
+        r = requests.get(url=url_sendMsg, params = params)  
     
     ''' for pir, a bit more difficult.... perhaps don't do first'''
 
