@@ -99,13 +99,13 @@ def check_sensor_health():
     print("current time:", datetime.now())
     print("out uss timestamp:", last_outUSS_rec)
     outUSS_time_diff = (datetime.now() - last_outUSS_rec).total_seconds() / 60         # time difference in minutes
-    print ("in uss time diff:", outUSS_time_diff, '\n')
+    print ("out uss time diff:", outUSS_time_diff, '\n')
 
     if (outUSS_time_diff <0):
         errors.append("Outisde USS hasn't gotten a reading in the last 60 min")
 
 
-    if len(errors > 0):
+    if len(errors) > 0:
         for error in errors:
             error_msg += error + ". "
         error_msg.strip(" ")      
