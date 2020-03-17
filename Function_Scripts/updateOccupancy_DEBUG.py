@@ -72,7 +72,7 @@ def checkMotion(new_occupancy):
     else:
         return False     #people in the room
 
-checkMotion()
+# checkMotion()
 
 def UpdateOccupancy():
     ##1. want to find out which are the new datas in the records db.
@@ -145,20 +145,6 @@ def UpdateOccupancy():
         human_traffic = 0
     #print(human_traffic)
 
-
-
-
-    #previous occupancy
-    ####################edit code to include if there's nothing in database #######################
-    
-    # cur.execute('SELECT ("value") FROM occupancy;')
-    # exist_one = cur.fetchone()
-    # occupancy_list = cur.fetchall()[-1]
-    # if exist_one == None:
-    #     last_occupancy = 0
-    # else:
-    #     last_occupancy = occupancy_list[0]
-
     print("selecting value from occupancy")
 
     cur.execute('SELECT value FROM occupancy;') 
@@ -189,9 +175,7 @@ def UpdateOccupancy():
     print("selected timestamp frm l_u_r: {}".format(time))
     # time = last_record_list[2]
     meeting_room_id = 'G'
-
-    
-
+  
     if new_occupancy <= 0:
         print("new occupancy detected negative change")
         if checkMotion(new_occupancy)== True:  #there's no one
@@ -211,3 +195,6 @@ def UpdateOccupancy():
     print("new occupancy is: {}".format(new_occupancy))
     print("num pairs", len(pairs_in_out))
     return
+
+
+UpdateOccupancy()
