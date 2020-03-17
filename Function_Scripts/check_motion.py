@@ -12,6 +12,7 @@ cur = conn.cursor()
 conn.autocommit = True
 
 def check_reset():
+    print('function called...\n')
     cur.execute('SELECT "value", "timestamp" FROM pir_record_debug ORDER BY id DESC LIMIT 3;')
     last_three_readings = cur.fetchall()    
     occupied_or_not = 0
