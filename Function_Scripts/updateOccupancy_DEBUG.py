@@ -44,7 +44,7 @@ def resetCounter():
         meeting_room_id = 'G'
         new_occupancy = 0
         remarks = "resetted"
-        # cur.execute("INSERT INTO occupancy VALUES (DEFAULT, %s, %s, %s, %s);",(time, meeting_room_id, new_occupancy, remarks))
+        cur.execute("INSERT INTO occupancy_debug VALUES (DEFAULT, %s, %s, %s, %s);",(time, meeting_room_id, new_occupancy, remarks))
         print("inserted and reset done")
         return 
 
