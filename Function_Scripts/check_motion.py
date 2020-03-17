@@ -4,6 +4,7 @@
 
 import psycopg2
 from datetime import datetime
+import time
 import requests
 conn = psycopg2.connect(host="127.0.0.1", dbname="cs462team3db", user="team3user", password="password")
 # Cursor is created by the Connection object and using the Cursor object we will be able to execute our commands.
