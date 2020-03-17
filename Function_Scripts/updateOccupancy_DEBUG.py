@@ -38,17 +38,17 @@ def resetCounter():
     #     return 
     # #when there is no movement (occipied_or_not==1)
     # else:
-        #post ocupancy 1 new row to make occupancy 0,
-    time = last_five_readings[0][1]
-        # print("line 42- time is: ",time)        
-    meeting_room_id = 'G'
-    new_occupancy = 0
-    remarks = "resetted"
-    cur.execute("INSERT INTO occupancy_debug VALUES (DEFAULT, %s, %s, %s, %s);",(time, meeting_room_id, new_occupancy, remarks))
-    print("inserted and reset done")
+        # #post ocupancy 1 new row to make occupancy 0,
+        # time = last_five_readings[0][1]
+        #     # print("line 42- time is: ",time)        
+        # meeting_room_id = 'G'
+        # new_occupancy = 0
+        # remarks = "resetted"
+        # cur.execute("INSERT INTO occupancy_debug VALUES (DEFAULT, %s, %s, %s, %s);",(time, meeting_room_id, new_occupancy, remarks))
+        # print("inserted and reset done")
     return 
 
-resetCounter()
+# resetCounter()
 
 def checkMotion(new_occupancy):
     print("checkMotion called")
@@ -60,6 +60,8 @@ def checkMotion(new_occupancy):
     try:
         cur.execute('SELECT * FROM pir_record ORDER BY "id" DESC;')
         latest_pir_reading = cur.fetchone()
+        print('latest_pir_reading: ', latest_pir_reading)
+        print('latest_pir_reading[3]: ',latest_pir_reading[3])
     except Exception as e:
         return(str(e))
 
@@ -69,6 +71,8 @@ def checkMotion(new_occupancy):
         return True #nobody in the room
     else:
         return False     #people in the room
+
+checkMotion()
 
 def UpdateOccupancy():
     ##1. want to find out which are the new datas in the records db.
@@ -166,7 +170,7 @@ def UpdateOccupancy():
         #add an empty row into db
         time = 0
         meeting_room_id  = 'G'
-        # cur.execute("INSERT INTO occupancy VALUES (DEAFULT %s, %s, %s);",(time, meeting_room_id, last_occupancy))
+        # cur.execute("INSERT INTO occupancy VALUES (DEAFULT, %s, %s, %s);",(time, meeting_room_id, last_occupancy))
         print("inserted into occ value")
     else:
         last_occupancy = occupancy_list[0]
