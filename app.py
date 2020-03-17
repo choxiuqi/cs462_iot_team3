@@ -42,18 +42,20 @@ def sensorHealth():
     for temp_dict in health:
         final_dict = {}
         d1 = temp_dict.serialize()
-        final_dict["id"] = d1["id"]
-        final_dict["pir_records"] = d1["pir_records"]
+        # final_dict["id"] = d1["id"]
+        # final_dict["pir_records"] = d1["pir_records"]
         final_dict["sensor_health"] = d1["sensor_health"]
         for k,v in d1.items():
             if k == "sensor_health":
                 for a in v:
                     a["desc"] = d1["desc"]
                     a["meeting_room_id"] = d1["meeting_room_id"]
-                    if "temperature" not in k:
-                        a["temperature"] = "null"
-                    if "meeting_room_id" not in k:
-                        a["meeting_room_id"] = "G"
+            # if k == "pir_records":
+            #     for i in v:
+            #         if "temperature" not in k:
+            #             i["temperature"] = "null"
+            #         if "meeting_room_id" not in k:
+            #             i["meeting_room_id"] = "G"
         final_list.append(final_dict)
     return jsonify(final_list)
 
