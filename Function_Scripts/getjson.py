@@ -71,11 +71,11 @@ def getsensorhealth(url):
         json_parsed = json.loads(json.dump)
         json_data = open('sensor.csv', 'w')
         csvwriter = csv.writer(json_data)
-
-        header = json_parsed[0].keys()
-        csvwriter.writerow(header)
-        for i in range(0,len(json_parsed)):
-            csvwriter.writerow(json_parsed[i].values())
+        if len(sensor) > 0:
+            header = json_parsed[0].keys()
+            csvwriter.writerow(header)
+            for i in range(0,len(json_parsed)):
+                csvwriter.writerow(json_parsed[i].values())
             # print(i, json_parsed[i].values())
         json_data.close()
         # for i in sensor:
