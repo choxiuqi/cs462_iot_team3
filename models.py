@@ -16,6 +16,8 @@ class Sensor(db.Model):
     latest_uss_records = db.relationship('LatestUSSRecord', back_populates='sensor', cascade='all', lazy=True, uselist=True)
     sensor_health =  db.relationship('SensorHealth', back_populates='sensor', cascade='all', lazy=True, uselist=True)
     pir_records = db.relationship('PIRRecord', back_populates='sensor', cascade='all', lazy=True, uselist=True)
+    pir_records_debug = db.relationship('PIRRecordDebug', back_populates='sensor', cascade='all', lazy=True, uselist=True)
+
 
 
     def __init__(self, id, desc, meeting_room_id, uss_records=None, latest_uss_records=None, sensor_health=None, pir_records=None): 
@@ -213,6 +215,30 @@ class PIRRecord(db.Model):
 
     # one-to-many relationship
     sensor = db.relationship('Sensor', back_populates='pir_records')
+
+    def __init__(self, id, timestamp, sensor_id, value): 
+        self.id = id 
+        self.timestamp = timestamp
+        self.sensor_id = sensor_id
+        self.value = value
+
+    def serialize(self):
+        return {
+            'id' : self.id,
+            'timestamp' : self.timestamp,
+            'sensor_id': self.sensor_id,
+            'value' : self.value
+        }
+
+class PIRRecordDebug(db.Model): 
+    __tablename__ = 'pir_record_debug' 
+    id = db.Column(db.Integer, primary_key=True)
+    timestamp = db.Column(db.DateTime, unique=False) 
+    sensor_id = db.Column(db.String(80), db.ForeignKey('sensor.id'), unique=False, nullable=False)
+    value = db.Column(db.Integer, unique=False, nullable=True)
+
+    # one-to-many relationship
+    sensor = db.relationship('Sensor', back_populates='pir_records_debug')
 
     def __init__(self, id, timestamp, sensor_id, value): 
         self.id = id 

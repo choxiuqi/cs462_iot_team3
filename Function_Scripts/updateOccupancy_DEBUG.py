@@ -17,6 +17,7 @@ conn.autocommit = True
 
 def resetCounter():
     print("reset Counter called")
+
     #take the last 5 readings from pir_record table
     ## if value 0= no movement (in 1 1min frame) 1=movement(in that 1 1min frame)
     cur.execute('SELECT "value", "timestamp" FROM pir_record ORDER BY id DESC LIMIT 5;')
@@ -27,28 +28,28 @@ def resetCounter():
     
     occupied_or_not = 0
 
-    # #finding the total movements
-    # for reading in last_five_readings:
-    #     value = reading[0]
-    #     occupied_or_not += value
+    #finding the total movements
+    for reading in last_five_readings:
+        value = reading[0]
+        occupied_or_not += value
 
-    # #when there is a movement
-    # if occupied_or_not >0:
-    #     print("reset done")
-    #     return 
-    # #when there is no movement (occipied_or_not==1)
-    # else:
-        # #post ocupancy 1 new row to make occupancy 0,
-        # time = last_five_readings[0][1]
-        #     # print("line 42- time is: ",time)        
-        # meeting_room_id = 'G'
-        # new_occupancy = 0
-        # remarks = "resetted"
-        # cur.execute("INSERT INTO occupancy_debug VALUES (DEFAULT, %s, %s, %s, %s);",(time, meeting_room_id, new_occupancy, remarks))
-        # print("inserted and reset done")
+    #when there is a movement
+    if occupied_or_not >0:
+        print("reset done")
+        return 
+    #when there is no movement (occipied_or_not==1)
+    else:
+        #post ocupancy 1 new row to make occupancy 0,
+        time = last_five_readings[0][1]
+            # print("line 42- time is: ",time)        
+        meeting_room_id = 'G'
+        new_occupancy = 0
+        remarks = "resetted"
+        cur.execute("INSERT INTO occupancy_debug VALUES (DEFAULT, %s, %s, %s, %s);",(time, meeting_room_id, new_occupancy, remarks))
+        print("inserted and reset done")
     return 
 
-# resetCounter()
+resetCounter()
 
 def checkMotion(new_occupancy):
     print("checkMotion called")
