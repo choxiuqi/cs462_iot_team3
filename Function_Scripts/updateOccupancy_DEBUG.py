@@ -153,25 +153,13 @@ def UpdateOccupancy():
     occupancy_list = cur.fetchall()[-1]
     # print("occupancy_list: {}".format(occupancy_list))
     print("selected value from occupancy - line 156")
-    if occupancy_list == []:
-        last_occupancy = 0
-        #add an empty row into db
-        time = 0
-        meeting_room_id  = 'G'
-        # cur.execute("INSERT INTO occupancy VALUES (DEAFULT, %s, %s, %s);",(time, meeting_room_id, last_occupancy))
-        print("inserted into occ value")
-    else:
-        last_occupancy = occupancy_list[0]
-
+    last_occupancy = occupancy_list[0]
     # print("occup list: {}".format(occupancy_list))
     # print("last occup: {}".format(last_occupancy))
     
-    print("selected value from occupancy")
-
     new_occupancy = int(last_occupancy) + int(human_traffic)
 
     print("selecting timestamp from latest_uss_record")
-
     cur.execute('SELECT timestamp FROM latest_uss_record ORDER BY id DESC;')
     time = cur.fetchone()[0]
     print("selected timestamp frm l_u_r: {}".format(time))
@@ -189,7 +177,7 @@ def UpdateOccupancy():
             print('line 197 - new occupancy is: ',new_occupancy)
             # cur.execute("INSERT INTO occupancy VALUES (DEFAULT, %s, %s, %s);",(time, meeting_room_id, new_occupancy))
     elif new_occupancy>=1:
-        # cur.execute("INSERT INTO occupancy VALUES (DEFAULT, %s, %s, %s);",(time, meeting_room_id, new_occupancy))
+        cur.execute("INSERT INTO occupancy_debug VALUES (DEFAULT, %s, %s, %s);",(time, meeting_room_id, new_occupancy))
         print("line 202- new occupancy is more than more and the new occupancy is: ", new_occupancy)
 
     print("line isnerted into occ")
