@@ -31,7 +31,8 @@ def check_reset():
     #when there is no movement (occipied_or_not==1)
     else:
         #post ocupancy 1 new row to make occupancy 0,
-        time = last_three_readings[0][1]        
+        # time = last_three_readings[0][1]
+        time = time.now()        
         meeting_room_id = 'G'
         new_occupancy = 0
         remarks = "resetted"
