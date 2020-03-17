@@ -13,7 +13,7 @@ conn.autocommit = True
 
 def check_reset():
     print('function called...')
-    cur.execute('SELECT "value", "timestamp" FROM pir_record_debug ORDER BY id DESC LIMIT 3;')
+    cur.execute('SELECT "value", "timestamp" FROM pir_record ORDER BY id DESC LIMIT 3;')
     last_three_readings = cur.fetchall()    
     occupied_or_not = 0
 
@@ -36,7 +36,7 @@ def check_reset():
         meeting_room_id = 'G'
         new_occupancy = 0
         remarks = "resetted"
-        cur.execute("INSERT INTO occupancy_debug VALUES (DEFAULT, %s, %s, %s, %s);",(timestamp, meeting_room_id, new_occupancy, remarks))
+        cur.execute("INSERT INTO occupancy VALUES (DEFAULT, %s, %s, %s, %s);",(timestamp, meeting_room_id, new_occupancy, remarks))
         print('inserted reset into occupancy table \n\n')
         return 
 
