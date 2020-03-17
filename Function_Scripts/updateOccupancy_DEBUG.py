@@ -45,29 +45,29 @@ def resetCounter():
         print("inserted and reset done")
     return 
 
-resetCounter()
+# resetCounter()
 
-def checkMotion(new_occupancy):
-    print("checkMotion called")
-    '''
-    function will be called when:
-    1. the occupancy is <=0 to check if there is no one inside
-    2. every 5 mins since calendar event start to see if there are people
-    '''
-    try:
-        cur.execute('SELECT * FROM pir_record ORDER BY "id" DESC;')
-        latest_pir_reading = cur.fetchone()
-        print('latest_pir_reading: ', latest_pir_reading)
-        print('latest_pir_reading[3]: ',latest_pir_reading[3])
-    except Exception as e:
-        return(str(e))
+# def checkMotion(new_occupancy):
+#     print("checkMotion called")
+#     '''
+#     function will be called when:
+#     1. the occupancy is <=0 to check if there is no one inside
+#     2. every 5 mins since calendar event start to see if there are people
+#     '''
+#     try:
+#         cur.execute('SELECT * FROM pir_record ORDER BY "id" DESC;')
+#         latest_pir_reading = cur.fetchone()
+#         print('latest_pir_reading: ', latest_pir_reading)
+#         print('latest_pir_reading[3]: ',latest_pir_reading[3])
+#     except Exception as e:
+#         return(str(e))
 
-    print("selected from pir_record - check motion")
+#     print("selected from pir_record - check motion")
 
-    if latest_pir_reading[3]==0:     
-        return True #nobody in the room
-    else:
-        return False     #people in the room
+#     if latest_pir_reading[3]==0:     
+#         return True #nobody in the room
+#     else:
+#         return False     #people in the room
 
 # checkMotion()
 
@@ -163,25 +163,30 @@ def UpdateOccupancy():
     # time = last_record_list[2]
     meeting_room_id = 'G'
   
-    if new_occupancy <= 0:
+    if new_occupancy < 0:
         print("new occupancy detected negative change")
-        if checkMotion(new_occupancy)== True:  #there's no one
-            print("line 192 - there is no one")
-            # getCalendarEvents() #reference to CalendarAPI (to be changed)
-            # cur.execute("INSERT INTO occupancy VALUES (DEFAULT, %s, %s, %s);",(time, meeting_room_id, new_occupancy))
-        elif checkMotion(new_occupancy)== False:
-            new_occupancy += 1
-            print('line 197 - new occupancy is: ',new_occupancy)
-            # cur.execute("INSERT INTO occupancy VALUES (DEFAULT, %s, %s, %s);",(time, meeting_room_id, new_occupancy))
-    elif new_occupancy>=1:
+        new_occupancy = 0
+        remarks = 'calculated -ve occupancy'
+        cur.execute("INSERT INTO occupancy_debug VALUES (DEFAULT, %s, %s, %s, %s);",(time, meeting_room_id, new_occupancy, remarks))
+        print('inserted 0 instead of negative value')
+
+        # if checkMotion(new_occupancy)== True:  #there's no one
+        #     print("line 192 - there is no one")
+        #     # getCalendarEvents() #reference to CalendarAPI (to be changed)
+        #     # cur.execute("INSERT INTO occupancy VALUES (DEFAULT, %s, %s, %s);",(time, meeting_room_id, new_occupancy))
+        # elif checkMotion(new_occupancy)== False:
+        #     new_occupancy += 1
+        #     print('line 197 - new occupancy is: ',new_occupancy)
+        #     # cur.execute("INSERT INTO occupancy VALUES (DEFAULT, %s, %s, %s);",(time, meeting_room_id, new_occupancy))
+
+    elif new_occupancy >=0:
         cur.execute("INSERT INTO occupancy_debug VALUES (DEFAULT, %s, %s, %s);",(time, meeting_room_id, new_occupancy))
         print("line 202- new occupancy is more than more and the new occupancy is: ", new_occupancy)
 
-    print("line isnerted into occ")
-
+    print("line inserted into occ")
     print("new occupancy is: {}".format(new_occupancy))
     print("num pairs", len(pairs_in_out))
     return
 
 
-# UpdateOccupancy()
+UpdateOccupancy()
