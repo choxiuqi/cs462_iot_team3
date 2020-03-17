@@ -58,6 +58,7 @@ class MeetingRoom(db.Model):
     # one-to-many relationship
     sensors = db.relationship('Sensor', back_populates='meeting_room', lazy=True, uselist=True)
     occupancy_records = db.relationship('Occupancy', back_populates='meeting_room', lazy=True, uselist=True)
+    occupancy_records_debug = db.relationship('OccupancyDebug', back_populates='meeting_room', lazy=True, uselist=True)
 
     def __init__(self, id, capacity, sensors=None, occupancy_records=None): 
         self.id = id 
@@ -135,6 +136,31 @@ class Occupancy(db.Model):
 
     # one-to-many relationship
     meeting_room = db.relationship('MeetingRoom', back_populates='occupancy_records')
+
+    def __init__(self, id, timestamp, meeting_room_id, value): 
+        self.id = id 
+        self.timestamp = timestamp
+        self.meeting_room_id = meeting_room_id
+        self.value = value
+
+    def serialize(self):
+        return {
+            'id' : self.id,
+            'timestamp' : self.timestamp,
+            'meeting_room_id': self.meeting_room_id,
+            'value' : self.value
+        }
+
+class OccupancyDebug(db.Model): 
+    __tablename__ = 'occupancy_debug' 
+    id = db.Column(db.Integer, primary_key=True)
+    timestamp = db.Column(db.DateTime, unique=False) 
+    meeting_room_id = db.Column(db.String(10), db.ForeignKey('meeting_room.id'), unique=False, nullable=False)
+    value = db.Column(db.Integer, unique=False, nullable=True)
+    remarks = db.Column(db.String(120), unique=False, nullable=True)
+
+    # one-to-many relationship
+    meeting_room = db.relationship('MeetingRoom', back_populates='occupancy_records_debug')
 
     def __init__(self, id, timestamp, meeting_room_id, value): 
         self.id = id 
