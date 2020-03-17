@@ -32,8 +32,6 @@ def resetCounter():
         cur.execute("INSERT INTO occupancy VALUES (DEFAULT, %s, %s, %s, %s);",(time, meeting_room_id, new_occupancy, remarks))
         return 
 
-resetCounter()
-
 def checkMotion(new_occupancy):
     print("checkMotion called")
     '''
