@@ -95,8 +95,6 @@ def UpdateOccupancy():
     4. readings still coming in when the data is 0
     
     '''
-    num_details = len(details_list)
-
     #possible to find two consecutive readings with mac address out and then in(person walking in) and with mac adress in then out(person walking out)
     #out_mac is the one outside, in_mac will be in the one inside
     out_mac = "e6f5f2bb5b0e"
@@ -114,25 +112,22 @@ def UpdateOccupancy():
         time_current = details_list[counter][2]
         sensor_id_current = details_list[counter][3]
         print("counter: ",counter)
-        if counter==0:
-            #initialise a previous records dictionary to compare to the current one
+
+        if counter == 0:
             previous_record = {'id':id_current, 'value': value_current, 'timestamp':time_current, 'sensor_id':sensor_id_current}
-            print("line 119 prev record: ",previous_record)
-            # output of print(previous_record): {'id': 3, 'value': 74, 'timestamp': datetime.datetime(2020, 3, 5, 16, 19, 7), 'sensor_id': 0}
-            counter +=1
-        elif counter>0:
+            print("line 118 prev record: ",previous_record)
+
+        else:
             time_difference = (time_current - previous_record['timestamp']).total_seconds()
-            #means that there is a change// means that there is someone passing through both sensors
-            add = 1
             if ((previous_record['sensor_id']) != sensor_id_current) and (previous_record['value']!=89) and (value_current!=89) and (time_difference<=2):
                 pairs_in_out.append([(previous_record['sensor_id']), sensor_id_current])
-                add = 2
-                # print("time difference:{}".format(time_difference))
-                # print("time_current", time_current)
-                # print("previous time", previous_record["timestamp"])
-            previous_record = {'id':id_current, 'value': value_current, 'timestamp':time_current, 'sensor_id':sensor_id_current}
-            print("line 131 prev record: ",previous_record)
-            counter += add
+                previous_record = {'id':details_list[counter+1][0], 'value': details_list[counter+1][1], 'timestamp':details_list[counter+1][2], 'sensor_id':details_list[counter+1][3]}
+                print("line 125 prev record: ",previous_record)
+                counter += 2
+            else:
+                previous_record = {'id':id_current, 'value': value_current, 'timestamp':time_current, 'sensor_id':sensor_id_current}
+            print("line 129 prev record: ",previous_record)
+            counter += 1
 
     print("finding ppl in/out")    
     #find number of people who enter and exit
