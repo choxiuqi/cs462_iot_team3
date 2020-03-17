@@ -137,7 +137,7 @@ class Occupancy(db.Model):
     # one-to-many relationship
     meeting_room = db.relationship('MeetingRoom', back_populates='occupancy_records')
 
-    def __init__(self, timestamp, meeting_room_id, value, remarks): 
+    def __init__(self, timestamp, meeting_room_id, value, remarks=None): 
         self.timestamp = timestamp
         self.meeting_room_id = meeting_room_id
         self.value = value
@@ -162,7 +162,7 @@ class OccupancyDebug(db.Model):
     # one-to-many relationship
     meeting_room = db.relationship('MeetingRoom', back_populates='occupancy_records_debug')
 
-    def __init__(self, timestamp, meeting_room_id, value): 
+    def __init__(self, timestamp, meeting_room_id, value, remarks=None): 
         self.timestamp = timestamp
         self.meeting_room_id = meeting_room_id
         self.value = value
