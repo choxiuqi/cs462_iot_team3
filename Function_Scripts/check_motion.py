@@ -52,11 +52,33 @@ def check_reset():
             # print("current occupancy is already 0")
             # return 
 
+def check_sensor_health():
+    ''' for pi and uss, readings must be less than 3 min from now
+        else: we will add error msg: _____ sensor hasn't gotten a reading in the last 60 min'''
+
+    # get reading for out USS
+    cur.execute('select * from sensor_health where "sensor_id" = "pi123" order by id desc limit 1;')
+    last_pi_rec = cur.fetchone()[0]
+    print(last_pi_rec)
+
+    
+    # get reading for in USS
+
+
+    # get reading for pir USS
+
+    
+    ''' for pir, a bit more difficult.... perhaps don't do first'''
+
 
 try:
     while True:
-        check_reset()
-        time.sleep(60)
+        for i in range(60):
+            time.sleep(60)
+            check_reset()
+
+            if i == 59:
+                check_sensor_health()
 
 except Exception as e:
     print(str(e))
