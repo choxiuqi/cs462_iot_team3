@@ -32,11 +32,11 @@ def check_reset():
     else:
         #post ocupancy 1 new row to make occupancy 0,
         # time = last_three_readings[0][1]
-        time = time.now()        
+        timestamp = time.now()        
         meeting_room_id = 'G'
         new_occupancy = 0
         remarks = "resetted"
-        cur.execute("INSERT INTO occupancy_debug VALUES (DEFAULT, %s, %s, %s, %s);",(time, meeting_room_id, new_occupancy, remarks))
+        cur.execute("INSERT INTO occupancy_debug VALUES (DEFAULT, %s, %s, %s, %s);",(timestamp, meeting_room_id, new_occupancy, remarks))
         print('inserted reset into occupancy table \n\n')
         return 
 
