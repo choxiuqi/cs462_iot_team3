@@ -101,7 +101,7 @@ def check_sensor_health():
     outUSS_time_diff = (datetime.now() - last_outUSS_rec).total_seconds() / 60         # time difference in minutes
     # print ("out uss time diff:", outUSS_time_diff, '\n')
 
-    if (outUSS_time_diff < 60):
+    if (outUSS_time_diff > 60):
         errors.append("Outisde USS")
 
     # print(errors)
@@ -125,7 +125,7 @@ try:
             time.sleep(60)
             check_reset()
 
-            if i == 1:
+            if i == 59:
                 check_sensor_health()
 
 
