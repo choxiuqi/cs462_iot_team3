@@ -166,7 +166,7 @@ def UpdateOccupancy():
         #add an empty row into db
         time = 0
         meeting_room_id  = 'G'
-        # cur.execute("INSERT INTO occupancy VALUES (DEAFULT %s, %s, %s);",(time, meeting_room_id, last_occupancy))
+        # cur.execute("INSERT INTO occupancy VALUES (DEAFULT, %s, %s, %s);",(time, meeting_room_id, last_occupancy))
         print("inserted into occ value")
     else:
         last_occupancy = occupancy_list[0]
