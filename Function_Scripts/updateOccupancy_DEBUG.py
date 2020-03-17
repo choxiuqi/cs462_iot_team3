@@ -116,6 +116,7 @@ def UpdateOccupancy():
         if counter == 0:
             previous_record = {'id':id_current, 'value': value_current, 'timestamp':time_current, 'sensor_id':sensor_id_current}
             print("line 118 prev record: ",previous_record)
+            counter += 1
 
         else:
             time_difference = (time_current - previous_record['timestamp']).total_seconds()
