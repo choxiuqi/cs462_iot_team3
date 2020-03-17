@@ -7,14 +7,10 @@ cur = conn.cursor()
 conn.autocommit = True
 
 def resetCounter():
-    print("reset Counter called")
     #take the last 5 readings from pir_record table
     ## if value 0= no movement (in 1 1min frame) 1=movement(in that 1 1min frame)
     cur.execute('SELECT "value", "timestamp" FROM pir_record ORDER BY id DESC LIMIT 5;')
-    last_five_readings = cur.fetchall()
-    print(last_five_readings)
-    print("resetCounter - selected last 5 pir record")
-    
+    last_five_readings = cur.fetchall()    
     occupied_or_not = 0
 
     #finding the total movements
@@ -34,7 +30,6 @@ def resetCounter():
         new_occupancy = 0
         remarks = "resetted"
         cur.execute("INSERT INTO occupancy VALUES (DEFAULT, %s, %s, %s, %s);",(time, meeting_room_id, new_occupancy, remarks))
-        print("inserted and reset done")
         return 
 
 resetCounter()
