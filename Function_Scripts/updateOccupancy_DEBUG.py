@@ -83,7 +83,7 @@ def UpdateOccupancy():
     cur.execute('SELECT * FROM latest_uss_record;')
     details_list = cur.fetchall()
     #OUTPUT [(3, 74, datetime.datetime(2020, 3, 5, 16, 19, 7), 0), (4, 70, datetime.datetime(2020, 3, 5, 16, 19, 10), 0)]
-    print("selected all from latest_uss_record: ",details_list)
+    print("selected all from latest_uss_record"
     
     '''
     --DETERMINE IF PEOPLE ARE WALKING IN/OUT/NOISE--
@@ -116,6 +116,7 @@ def UpdateOccupancy():
         if counter==0:
             #initialise a previous records dictionary to compare to the current one
             previous_record = {'id':id_current, 'value': value_current, 'timestamp':time_current, 'sensor_id':sensor_id_current}
+            print("line 119 prev record: ",previous_record)
             # output of print(previous_record): {'id': 3, 'value': 74, 'timestamp': datetime.datetime(2020, 3, 5, 16, 19, 7), 'sensor_id': 0}
             counter +=1
         elif counter>0:
@@ -127,6 +128,7 @@ def UpdateOccupancy():
                 # print("time_current", time_current)
                 # print("previous time", previous_record["timestamp"])
             previous_record = {'id':id_current, 'value': value_current, 'timestamp':time_current, 'sensor_id':sensor_id_current}
+            print("line 131 prev record: ",previous_record)
             counter +=1
 
     print("finding ppl in/out")    
