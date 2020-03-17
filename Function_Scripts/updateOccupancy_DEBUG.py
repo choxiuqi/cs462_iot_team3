@@ -83,7 +83,7 @@ def UpdateOccupancy():
     cur.execute('SELECT * FROM latest_uss_record;')
     details_list = cur.fetchall()
     #OUTPUT [(3, 74, datetime.datetime(2020, 3, 5, 16, 19, 7), 0), (4, 70, datetime.datetime(2020, 3, 5, 16, 19, 10), 0)]
-    print("selected all from latest_uss_record: ",details_list)
+    print("selected all from latest_uss_record")
     
     '''
     --DETERMINE IF PEOPLE ARE WALKING IN/OUT/NOISE--
@@ -116,18 +116,22 @@ def UpdateOccupancy():
         if counter==0:
             #initialise a previous records dictionary to compare to the current one
             previous_record = {'id':id_current, 'value': value_current, 'timestamp':time_current, 'sensor_id':sensor_id_current}
+            print("line 119 prev record: ",previous_record)
             # output of print(previous_record): {'id': 3, 'value': 74, 'timestamp': datetime.datetime(2020, 3, 5, 16, 19, 7), 'sensor_id': 0}
             counter +=1
         elif counter>0:
             time_difference = (time_current - previous_record['timestamp']).total_seconds()
             #means that there is a change// means that there is someone passing through both sensors
+            add = 1
             if ((previous_record['sensor_id']) != sensor_id_current) and (previous_record['value']!=89) and (value_current!=89) and (time_difference<=2):
                 pairs_in_out.append([(previous_record['sensor_id']), sensor_id_current])
+                add = 2
                 # print("time difference:{}".format(time_difference))
                 # print("time_current", time_current)
                 # print("previous time", previous_record["timestamp"])
             previous_record = {'id':id_current, 'value': value_current, 'timestamp':time_current, 'sensor_id':sensor_id_current}
-            counter +=1
+            print("line 131 prev record: ",previous_record)
+            counter += add
 
     print("finding ppl in/out")    
     #find number of people who enter and exit
@@ -136,6 +140,8 @@ def UpdateOccupancy():
         for pairs in pairs_in_out:
             first = pairs[0]
             second = pairs[1]
+            print("first: ",first)
+            print("second: ",second)
             if (first == out_mac) and (second == in_mac):
                 human_traffic +=1
             elif (first == in_mac) and (second == out_mac):
