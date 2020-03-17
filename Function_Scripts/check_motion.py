@@ -73,12 +73,18 @@ def check_sensor_health():
 
 try:
     while True:
-        for i in range(60):
-            time.sleep(60)
-            check_reset()
+        # for i in range(60):
+        #     time.sleep(60)
+        #     check_reset()
 
-            if i == 59:
-                check_sensor_health()
+        #     if i == 59:
+        #         check_sensor_health()
+
+
+        ''' for debug: '''
+        check_reset()
+        check_sensor_health()
+        time.sleep(60)
 
 except Exception as e:
     print(str(e))
