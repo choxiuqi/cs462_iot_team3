@@ -38,3 +38,11 @@ group:
 [] System monitoring - telebot, sensor health code (check when take out USS, what happens), rpi health
 [] db model changes: add: sensor health, slack information [userid, username, timestamp, meeting_room_id, solved]
 >>>>>>> 5a147ca3bec69cb3f0091e5b23177e350f27bc79
+
+
+17/3/2020
+** to change during deployment on fri:
+[] microbit get unique broadcast only
+[] microbit get 1 reading every hour
+[] rpi health get 1 reading every hour
+[] pir sensor debug
