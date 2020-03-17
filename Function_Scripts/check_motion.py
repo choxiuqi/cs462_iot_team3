@@ -6,10 +6,21 @@ import psycopg2
 from datetime import datetime
 import time
 import requests
+import json
+
+# -----------------db--------------------------
 conn = psycopg2.connect(host="127.0.0.1", dbname="cs462team3db", user="team3user", password="password")
 # Cursor is created by the Connection object and using the Cursor object we will be able to execute our commands.
 cur = conn.cursor()
 conn.autocommit = True
+
+# ----------------telebot -----------------------
+chat_id = 344832007 # fill in your chat id here
+api_token = '1101942872:AAE7Z80sUtx2KhWDmh-r7mATB0xM1EuV3a0' # fill in your api token here
+base_url = 'https://api.telegram.org/bot{}/'.format(api_token)
+# getUpdates_url = base_url + 'getUpdates'
+sendMsg_url = base_url + 'sendMessage'
+
 
 def check_reset():
     # print('function called...')
@@ -94,8 +105,10 @@ def check_sensor_health():
         errors.append("Outisde USS hasn't gotten a reading in the last 60 min")
 
 
-    # if len(errors > 0):
-        
+    if len(errors > 0):
+        for error in errors:
+            error_msg += error + ". "
+        error_msg.strip(" ")        
 
     
     ''' for pir, a bit more difficult.... perhaps don't do first'''
