@@ -83,7 +83,7 @@ def UpdateOccupancy():
     cur.execute('SELECT * FROM latest_uss_record;')
     details_list = cur.fetchall()
     #OUTPUT [(3, 74, datetime.datetime(2020, 3, 5, 16, 19, 7), 0), (4, 70, datetime.datetime(2020, 3, 5, 16, 19, 10), 0)]
-    print("selected all from latest_uss_record"
+    print("selected all from latest_uss_record")
     
     '''
     --DETERMINE IF PEOPLE ARE WALKING IN/OUT/NOISE--
