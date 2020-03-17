@@ -12,7 +12,7 @@ cur = conn.cursor()
 conn.autocommit = True
 
 def check_reset():
-    print('function called...\n')
+    print('function called...')
     cur.execute('SELECT "value", "timestamp" FROM pir_record_debug ORDER BY id DESC LIMIT 3;')
     last_three_readings = cur.fetchall()    
     occupied_or_not = 0
@@ -22,11 +22,11 @@ def check_reset():
         value = reading[0]
         occupied_or_not += value
     
-    print('final reading is: ', occupied_or_not)
+    print('final reading is: ', occupied_or_not,)
 
     #when there is a movement
     if occupied_or_not >0:
-        print("reset done")
+        print("reset done\n\n")
         return 
     #when there is no movement (occipied_or_not==1)
     else:
@@ -37,7 +37,9 @@ def check_reset():
         new_occupancy = 0
         remarks = "resetted"
         cur.execute("INSERT INTO occupancy_debug VALUES (DEFAULT, %s, %s, %s, %s);",(time, meeting_room_id, new_occupancy, remarks))
+        print('inserted reset into occupancy table \n\n')
         return 
+
 
 try:
     while True:
