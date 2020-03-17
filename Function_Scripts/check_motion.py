@@ -59,7 +59,8 @@ def check_sensor_health():
     # get reading for out USS
     cur.execute('select "timestamp" from sensor_health where "sensor_id" = \'pi123\' order by id desc limit 1;')
     last_pi_rec = cur.fetchone()[0]
-    print(last_pi_rec)
+    time_difference = (datetime.now - last_pi_rec).total_min() - (60*8)
+    print(time_difference)
 
     
     # get reading for in USS
