@@ -20,7 +20,6 @@ def resetCounter():
 
     #when there is a movement
     if occupied_or_not >0:
-        print("reset done")
         return 
     #when there is no movement (occipied_or_not==1)
     else:

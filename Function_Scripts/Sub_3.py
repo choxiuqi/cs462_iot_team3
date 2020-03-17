@@ -83,7 +83,7 @@ def commit_pir_data(data, id):
         except Exception as e:
             return(str(e))
 
-    resetCounter()
+    # resetCounter()
 
 def commit_uss_health_data(data):
     '''
