@@ -113,6 +113,7 @@ def UpdateOccupancy():
         value_current = details_list[counter][1]
         time_current = details_list[counter][2]
         sensor_id_current = details_list[counter][3]
+        print("counter: ",counter)
         if counter==0:
             #initialise a previous records dictionary to compare to the current one
             previous_record = {'id':id_current, 'value': value_current, 'timestamp':time_current, 'sensor_id':sensor_id_current}
