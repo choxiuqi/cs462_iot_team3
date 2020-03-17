@@ -106,7 +106,7 @@ def UpdateOccupancy():
 
     print("find 2 consecutive reading pairs")
 
-    while (counter<num_details):
+    while (counter<len(details_list)):
         id_current = details_list[counter][0]
         value_current = details_list[counter][1]
         time_current = details_list[counter][2]
