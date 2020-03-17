@@ -188,6 +188,7 @@ def UpdateOccupancy():
     
 
     if new_occupancy <= 0:
+        print("new occupancy detected negative change")
         if checkMotion(new_occupancy)== True:  #there's no one
             print("line 192 - there is no one")
             # getCalendarEvents() #reference to CalendarAPI (to be changed)
@@ -198,6 +199,7 @@ def UpdateOccupancy():
             # cur.execute("INSERT INTO occupancy VALUES (DEFAULT, %s, %s, %s);",(time, meeting_room_id, new_occupancy))
     elif new_occupancy>=1:
         # cur.execute("INSERT INTO occupancy VALUES (DEFAULT, %s, %s, %s);",(time, meeting_room_id, new_occupancy))
+        print("line 202- new occupancy is more than more and the new occupancy is: ", new_occupancy)
 
     print("line isnerted into occ")
 
