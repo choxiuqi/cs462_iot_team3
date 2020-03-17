@@ -122,14 +122,16 @@ def UpdateOccupancy():
         elif counter>0:
             time_difference = (time_current - previous_record['timestamp']).total_seconds()
             #means that there is a change// means that there is someone passing through both sensors
+            add = 1
             if ((previous_record['sensor_id']) != sensor_id_current) and (previous_record['value']!=89) and (value_current!=89) and (time_difference<=2):
                 pairs_in_out.append([(previous_record['sensor_id']), sensor_id_current])
+                add = 2
                 # print("time difference:{}".format(time_difference))
                 # print("time_current", time_current)
                 # print("previous time", previous_record["timestamp"])
             previous_record = {'id':id_current, 'value': value_current, 'timestamp':time_current, 'sensor_id':sensor_id_current}
             print("line 131 prev record: ",previous_record)
-            counter +=1
+            counter += add
 
     print("finding ppl in/out")    
     #find number of people who enter and exit
