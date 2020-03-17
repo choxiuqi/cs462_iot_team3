@@ -39,7 +39,8 @@ def resetCounter():
     #when there is no movement (occipied_or_not==1)
     else:
         #post ocupancy 1 new row to make occupancy 0,
-        time = last_five_readings[0][1]        
+        time = last_five_readings[0][1]
+        print("line 42- time is: ",time)        
         meeting_room_id = 'G'
         new_occupancy = 0
         remarks = "resetted"
