@@ -51,7 +51,7 @@ def sensorHealth():
                     a["desc"] = d1["desc"]
                     a["meeting_room_id"] = d1["meeting_room_id"]
                     if "temperature" not in k:
-                        a["temperature"] = null
+                        a["temperature"] = "null"
                     if "meeting_room_id" not in k:
                         a["meeting_room_id"] = "G"
         final_list.append(final_dict)
