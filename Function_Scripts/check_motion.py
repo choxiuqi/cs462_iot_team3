@@ -32,7 +32,7 @@ def check_reset():
     else:
         #post ocupancy 1 new row to make occupancy 0,
         # time = last_three_readings[0][1]
-        timestamp = datetime.now()        
+        timestamp = str(datetime.now())[0:19]        
         meeting_room_id = 'G'
         new_occupancy = 0
         remarks = "resetted"
