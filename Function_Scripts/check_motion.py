@@ -39,7 +39,7 @@ def check_reset():
 
 try:
     while True:
-        time.sleep(1)
+        time.sleep(60)
         check_reset()
 
 except Exception as e:
