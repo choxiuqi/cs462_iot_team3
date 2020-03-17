@@ -83,7 +83,7 @@ def UpdateOccupancy():
     cur.execute('SELECT * FROM latest_uss_record;')
     details_list = cur.fetchall()
     #OUTPUT [(3, 74, datetime.datetime(2020, 3, 5, 16, 19, 7), 0), (4, 70, datetime.datetime(2020, 3, 5, 16, 19, 10), 0)]
-    print("selected all from latest_uss_record")
+    print("selected all from latest_uss_record: ",details_list)
     
     '''
     --DETERMINE IF PEOPLE ARE WALKING IN/OUT/NOISE--
@@ -96,7 +96,6 @@ def UpdateOccupancy():
     
     '''
     num_details = len(details_list)
-
 
     #possible to find two consecutive readings with mac address out and then in(person walking in) and with mac adress in then out(person walking out)
     #out_mac is the one outside, in_mac will be in the one inside
