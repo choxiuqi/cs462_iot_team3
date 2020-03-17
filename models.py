@@ -137,11 +137,11 @@ class Occupancy(db.Model):
     # one-to-many relationship
     meeting_room = db.relationship('MeetingRoom', back_populates='occupancy_records')
 
-    def __init__(self, id, timestamp, meeting_room_id, value): 
-        self.id = id 
+    def __init__(self, timestamp, meeting_room_id, value, remarks): 
         self.timestamp = timestamp
         self.meeting_room_id = meeting_room_id
         self.value = value
+        self.remarks = remarks
 
     def serialize(self):
         return {
@@ -162,11 +162,11 @@ class OccupancyDebug(db.Model):
     # one-to-many relationship
     meeting_room = db.relationship('MeetingRoom', back_populates='occupancy_records_debug')
 
-    def __init__(self, id, timestamp, meeting_room_id, value): 
-        self.id = id 
+    def __init__(self, timestamp, meeting_room_id, value): 
         self.timestamp = timestamp
         self.meeting_room_id = meeting_room_id
         self.value = value
+        self.remarks = remarks
 
     def serialize(self):
         return {
