@@ -64,7 +64,7 @@ def check_sensor_health():
     print("current time:", datetime.now())
     print("pi timestamp:", last_pi_rec)
     rpi_time_diff = (datetime.now() - last_pi_rec).total_seconds() / 60         # time difference in minutes
-    print ("rpi time diff:", rpi_time_diff)
+    print ("rpi time diff:", rpi_time_diff, '\n')
 
     if (rpi_time_diff > 60):
         errors.append("Raspberry pi hasn't gotten a reading in the last 60 min")
@@ -76,7 +76,7 @@ def check_sensor_health():
     print("current time:", datetime.now())
     print("in uss timestamp:", last_inUSS_rec)
     inUSS_time_diff = (datetime.now() - last_inUSS_rec).total_seconds() / 60         # time difference in minutes
-    print ("in uss time diff:", inUSS_time_diff)
+    print ("in uss time diff:", inUSS_time_diff, '\n')
 
     if (inUSS_time_diff > 60):
         errors.append("Inside USS hasn't gotten a reading in the last 60 min")
@@ -88,7 +88,7 @@ def check_sensor_health():
     print("current time:", datetime.now())
     print("out uss timestamp:", last_outUSS_rec)
     outUSS_time_diff = (datetime.now() - last_outUSS_rec).total_seconds() / 60         # time difference in minutes
-    print ("in uss time diff:", outUSS_time_diff)
+    print ("in uss time diff:", outUSS_time_diff, '\n')
 
     if (outUSS_time_diff > 60):
         errors.append("Outisde USS hasn't gotten a reading in the last 60 min")
