@@ -31,7 +31,7 @@ def resetCounter():
 
     #when there is a movement
     if occupied_or_not >0:
-        print("reset done")
+        print("there is a movement, reset done")
         return 
     #when there is no movement (occipied_or_not==1)
     else:
@@ -184,4 +184,4 @@ def UpdateOccupancy():
     return
 
 
-UpdateOccupancy()
+# UpdateOccupancy()
