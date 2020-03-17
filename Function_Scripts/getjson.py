@@ -64,8 +64,9 @@ def getoccupancy(url):
 
 
 def getsensorhealth(url):
-    for i in range(0, 4):
-        sensor = requests.get(url).json()[i]['sensor_health']
+    data = requests.get(url).json()
+    for i in range(0, len(data)):
+        sensor = data[i]['sensor_health']
         json.dump = json.dumps(sensor)
         json_parsed = json.loads(json.dump)
         json_data = open('sensor.csv', 'w')
