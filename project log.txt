@@ -46,3 +46,4 @@ group:
 [] microbit get 1 reading every hour
 [] rpi health get 1 reading every hour
 [] pir sensor debug
+[] pir insert reading into DB every min
