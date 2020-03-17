@@ -140,6 +140,8 @@ def UpdateOccupancy():
         for pairs in pairs_in_out:
             first = pairs[0]
             second = pairs[1]
+            print("first: ",first)
+            print("second: ",second)
             if (first == out_mac) and (second == in_mac):
                 human_traffic +=1
             elif (first == in_mac) and (second == out_mac):
