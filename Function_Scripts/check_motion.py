@@ -56,17 +56,46 @@ def check_sensor_health():
     ''' for pi and uss, readings must be less than 3 min from now
         else: we will add error msg: _____ sensor hasn't gotten a reading in the last 60 min'''
 
+    errors = []
+
     # get reading for out USS
     cur.execute('select "timestamp" from sensor_health where "sensor_id" = \'pi123\' order by id desc limit 1;')
     last_pi_rec = cur.fetchone()[0]
-    time_difference = (((datetime.now() - last_pi_rec).total_seconds())%60) + (60*8)
-    print(time_difference)
+    print("current time:", datetime.now())
+    print("pi timestamp:", last_pi_rec)
+    rpi_time_diff = (datetime.now() - last_pi_rec).total_seconds() / 60         # time difference in minutes
+    print ("rpi time diff:", rpi_time_diff)
 
+    if (rpi_time_diff > 60):
+        errors.append("Raspberry pi hasn't gotten a reading in the last 60 min")
     
     # get reading for in USS
+    cur.execute('select "timestamp" from sensor_health where "sensor_id" = \'fb48fc3a6ee3\' order by id desc limit 1;')
+    last_inUSS_rec = cur.fetchone()[0]
 
+    print("current time:", datetime.now())
+    print("in uss timestamp:", last_inUSS_rec)
+    inUSS_time_diff = (datetime.now() - last_inUSS_rec).total_seconds() / 60         # time difference in minutes
+    print ("in uss time diff:", inUSS_time_diff)
+
+    if (inUSS_time_diff > 60):
+        errors.append("Inside USS hasn't gotten a reading in the last 60 min")
 
     # get reading for pir USS
+    cur.execute('select "timestamp" from sensor_health where "sensor_id" = \'e6f5f2bb5b0e\' order by id desc limit 1;')
+    last_outUSS_rec = cur.fetchone()[0]
+
+    print("current time:", datetime.now())
+    print("out uss timestamp:", last_outUSS_rec)
+    outUSS_time_diff = (datetime.now() - last_outUSS_rec).total_seconds() / 60         # time difference in minutes
+    print ("in uss time diff:", outUSS_time_diff)
+
+    if (outUSS_time_diff > 60):
+        errors.append("Outisde USS hasn't gotten a reading in the last 60 min")
+
+
+    # if len(errors > 0):
+        
 
     
     ''' for pir, a bit more difficult.... perhaps don't do first'''
