@@ -17,11 +17,7 @@ conn.autocommit = True
 
 def resetCounter():
     print("reset Counter called")
-
-    #take the last 5 readings from pir_record table
-    ## if value 0= no movement (in 1 1min frame) 1=movement(in that 1 1min frame)
-    cur.execute('SELECT "value", "timestamp" FROM pir_record ORDER BY id DESC LIMIT 5;')
-    #cur.execute('SELECT * FROM pir_record ORDER BY id;')
+    cur.execute('SELECT "value", "timestamp" FROM pir_record_debug ORDER BY id DESC LIMIT 5;')
     last_five_readings = cur.fetchall()
     print(last_five_readings)
     print("resetCounter - selected last 5 pir record")
@@ -41,7 +37,7 @@ def resetCounter():
     else:
         #post ocupancy 1 new row to make occupancy 0,
         time = last_five_readings[0][1]
-            # print("line 42- time is: ",time)        
+        print("line 42- time is: ",time)        
         meeting_room_id = 'G'
         new_occupancy = 0
         remarks = "resetted"
