@@ -115,7 +115,7 @@ def getsensorhealth(url):
         #         csvwriter.writerow(header)
         #         for i in range(0,len(json_parsed)):
         #             csvwriter.writerow(json_parsed[i].values())
-        if "id" != "X001":
+        if data[i]["id"] != "X001":
             sensor = data[i]['sensor_health']
             json_dump = json.dumps(sensor)
             json_parsed = json.loads(json_dump)
@@ -123,7 +123,7 @@ def getsensorhealth(url):
             if len(sensor) > 0:
                 for i in range(0,len(json_parsed)):
                     csvwriter.writerow(json_parsed[i].values())
-        elif "id" == "X001":
+        elif data[i]["id"] == "X001":
             sensor = data[i]['pir_records']
             json_dump = json.dumps(sensor)
             json_parsed = json.loads(json_dump)
