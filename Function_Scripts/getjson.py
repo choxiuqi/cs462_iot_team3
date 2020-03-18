@@ -85,18 +85,20 @@ def s3(file):
 def main():
     baseURL = 'http://3.86.89.118:5000'
     meetingRoom = baseURL + '/occupancy'
-    print("meeting room called")
+    # print("meeting room called")
     getoccupancy(meetingRoom)
-    s3(getoccupancy(meetingRoom))
-    print("uploaded on s3")
+    # s3(getoccupancy(meetingRoom))
+    # print("uploaded on s3")
     sensorHealth = baseURL + '/sensor-health-debug'
-    print("sensor health called")
-    s3(getsensorhealth(sensorHealth))
-    print("uploaded on s3")
+    getsensorhealth(sensorHealth)
+    # print("sensor health called")
+    # s3(getsensorhealth(sensorHealth))
+    # print("uploaded on s3")
     events = baseURL + '/event'
-    print("events called")
-    s3(getevents(events))
-    print("uploaded on s3")
+    getevents(events)
+    # print("events called")
+    # s3(getevents(events))
+    # print("uploaded on s3")
 
 while True:
     main()
