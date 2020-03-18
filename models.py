@@ -49,7 +49,7 @@ class Sensor(db.Model):
             'id': self.id,
             'desc': self.desc,
             'meeting_room_id': self.meeting_room_id,
-            'sensor_health': [s.serialize() for s in self.sensor_health] 
+            'sensor_health': [s.serialize() for s in self.sensor_health],
             'pir_records': [p.serialize() for p in self.pir_records]
         }
 
