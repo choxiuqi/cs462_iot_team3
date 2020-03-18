@@ -4,6 +4,7 @@
 
 import psycopg2
 from datetime import datetime
+from pytz import timezone
 import time
 import requests
 import json
@@ -20,6 +21,10 @@ api_token = '1101942872:AAE7Z80sUtx2KhWDmh-r7mATB0xM1EuV3a0' # fill in your api 
 url_base = 'https://api.telegram.org/bot{}/'.format(api_token)
 url_getUpdates = '{}getupdates'.format(url_base)
 url_sendMsg = '{}sendMessage'.format(url_base)
+
+# ----------------- time zone ------------------
+from_zone = tz.gettz('UTC')
+to_zone = tz.gettz('America/New_York')
 
 
 def check_reset():
@@ -78,7 +83,7 @@ def check_sensor_health():
     # print ("rpi time diff:", rpi_time_diff, '\n')
 
     if (rpi_time_diff > 60):
-        errors.append(("Raspberry pi",last_pi_rec))
+        errors.append(("Raspberry pi", last_pi_rec))
     
     # get reading for in USS
     cur.execute('select "timestamp" from sensor_health where "sensor_id" = \'fb48fc3a6ee3\' order by id desc limit 1;')
@@ -90,7 +95,7 @@ def check_sensor_health():
     # print ("in uss time diff:", inUSS_time_diff, '\n')
 
     if (inUSS_time_diff < 60):
-        errors.append(("Inside USS",last_inUSS_rec))
+        errors.append(("Inside USS", last_inUSS_rec))
 
     # get reading for pir USS
     cur.execute('select "timestamp" from sensor_health where "sensor_id" = \'e6f5f2bb5b0e\' order by id desc limit 1;')
@@ -102,7 +107,7 @@ def check_sensor_health():
     # print ("out uss time diff:", outUSS_time_diff, '\n')
 
     if (outUSS_time_diff < 60):
-        errors.append(("Outisde USS",last_outUSS_rec))
+        errors.append(("Outisde USS", last_outUSS_rec))
 
     # print(errors)
     error_msg = ""
@@ -114,7 +119,10 @@ def check_sensor_health():
         error_msg += "did not receive a reading in the last 60 min\n\n"   
 
         for error in errors:
-            s = error[0] + " - last heartbeat received at: " + error[1] + "\n"
+            utc = datetime.strptime(error[1], '%Y-%m-%d %H:%M:%S')
+            local_time= utc.astimezone(timezone('Asia/Singapore'))
+            print("new time:", local_time)
+            s = error[0] + " - last heartbeat received at: " + local_time + "\n"
             error_msg += s
 
         error_msg.strip("\n")
