@@ -79,23 +79,24 @@ def getevents(url):
 
 def s3(csvfile, folder):
     cmd = 'aws s3 cp {} s3://cs462g3/{}/{}'.format(csvfile, folder, csvfile)
-    os.system(cmd)
+    subprocess.call(cmd)
+    # os.system(cmd)
     return
 
 def main():
     baseURL = 'http://3.86.89.118:5000'
     meetingRoom = baseURL + '/occupancy'
     # print("meeting room called")
-    getoccupancy(meetingRoom)
+    # getoccupancy(meetingRoom)
     s3(getoccupancy(meetingRoom), 'occupancy')
     # print("uploaded on s3")
     sensorHealth = baseURL + '/sensor-health-debug'
-    getsensorhealth(sensorHealth)
+    # getsensorhealth(sensorHealth)
     # print("sensor health called")
     s3(getsensorhealth(sensorHealth), 'sensors')
     # print("uploaded on s3")
     events = baseURL + '/event'
-    getevents(events)
+    # getevents(events)
     # print("events called")
     s3(getevents(events), 'events')
     # print("uploaded on s3")
