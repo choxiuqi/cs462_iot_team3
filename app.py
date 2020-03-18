@@ -62,7 +62,21 @@ def sensorHealth():
 @app.route('/sensor-health-debug', methods=['GET'])
 def sensorHealthDebug():
     health = Sensor.query.all()
-    return jsonify([h.health() for h in health])
+    final_list = []
+    for temp_dict in health:
+        final_dict = {}
+        d1 = temp_dict.health()
+        for k,v in d1.items():
+            if d1["desc"] == "motion sensor" and k == "pir_records":
+                for a in v:
+                    a["desc"] = d1["desc"]
+                    a["meeting_room_id"] = d1["meeting_room_id"]
+            elif k == "sensor_health":
+                for a in v:
+                    a["desc"] = d1["desc"]
+                    a["meeting_room_id"] = d1["meeting_room_id"]
+        final_list.append(final_dict)
+    return jsonify(final_list)
 
 @app.route('/occupancy', methods=['GET']) 
 def get_occupancy(): 
