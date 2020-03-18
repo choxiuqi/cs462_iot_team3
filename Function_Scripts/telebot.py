@@ -67,8 +67,7 @@ def get_health_update(chat_id):
 
     if (rpi_time_diff < 60):
         errors.append("Raspberry pi")
-    else:
-        timestamps.append(("Raspberry pi",last_pi_rec))
+    timestamps.append(("Raspberry pi",last_pi_rec))
     
     # get reading for in USS
     cur.execute('select "timestamp" from sensor_health where "sensor_id" = \'fb48fc3a6ee3\' order by id desc limit 1;')
@@ -81,8 +80,7 @@ def get_health_update(chat_id):
 
     if (inUSS_time_diff < 60):
         errors.append("Inside USS")
-    else:
-        timestamps.append(("Inside USS", last_inUSS_rec))
+    timestamps.append(("Inside USS", last_inUSS_rec))
 
     # get reading for pir USS
     cur.execute('select "timestamp" from sensor_health where "sensor_id" = \'e6f5f2bb5b0e\' order by id desc limit 1;')
@@ -95,8 +93,7 @@ def get_health_update(chat_id):
 
     if (outUSS_time_diff > 60):
         errors.append("Outisde USS")
-    else:
-        timestamps.append(("Outside USS",last_outUSS_rec))
+    timestamps.append(("Outside USS",last_outUSS_rec))
 
     print("errors:",errors)
     print("timestamps:",timestamps)
@@ -113,7 +110,7 @@ def get_health_update(chat_id):
         send_msg += "did not receive health updates in the last 60min.\n\nLast hearbeats:\n"
 
     else:
-        send_msg = "All sensors and pi are working fine! :)\n\nLast hearbeats:\n"
+        send_msg = "All sensors and pi are working fine! :)\n\nLast heartbeats:\n"
 
     for t in timestamps:
         utc = datetime.strptime(str(t[1]), '%Y-%m-%d %H:%M:%S')
