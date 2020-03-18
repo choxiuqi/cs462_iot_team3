@@ -145,3 +145,6 @@ def get_health_update(chat_id):
     ''' for pir, a bit more difficult.... perhaps don't do first'''
 
     return
+
+while True:
+    check_text()
