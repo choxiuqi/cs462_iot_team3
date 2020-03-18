@@ -1,31 +1,25 @@
-import json
+import psycopg2
+from datetime import datetime
+from pytz import timezone
+import time
 import requests
+import json
 
-chat_id = 148720480 # fill in your chat id here
-api_token = '1080322521:AAEniAOZwvcueU0AKsLxEAPju3gAT9S-DvI' # fill in your api token here
-base_url = 'https://api.telegram.org/bot{}/'.format(api_token)
+# -----------------db--------------------------
+conn = psycopg2.connect(host="127.0.0.1", dbname="cs462team3db", user="team3user", password="password")
+# Cursor is created by the Connection object and using the Cursor object we will be able to execute our commands.
+cur = conn.cursor()
+conn.autocommit = True
 
-getUpdates_url = base_url + 'getUpdates'
-sendMsg_url = base_url + 'sendMessage'
+# ----------------telebot -----------------------
+# chat_id = 344832007 # fill in your chat id here (XQ)
+chat_id = -472331637    #(grp)
+api_token = '1101942872:AAE7Z80sUtx2KhWDmh-r7mATB0xM1EuV3a0' # fill in your api token here
+url_base = 'https://api.telegram.org/bot{}/'.format(api_token)
+url_getUpdates = '{}getupdates'.format(url_base)
+url_sendMsg = '{}sendMessage'.format(url_base)
 
 # ##################################################################################################################################
-
-# telebot's use is to inform us when there are any errors or alerts that we should take not of
-# e.g. when sensor didn't give us health reading, or when rpi no heartbeat, or (when too many errors?)
-
-# ------get chatId------
-def getChatID():
-    params = {'offset':0}
-    r = requests.get(getUpdates_url, params=params)
-    chatID = r.json()['result'][-1]['message']['chat']['id']
-    # print(chatID)
-    return chatID
-
-def alert(chatID, msg):
-    params = {'chat_id':chatID, 'text':msg}
-    r = requests.post(sendMsg_url, params=params)
-
-# ------main function------
 
 def check_sensor_health():
     ''' for pi and uss, readings must be less than 3 min from now
@@ -92,7 +86,9 @@ def check_sensor_health():
 
     if len(errors) > 0:
         for error in errors:
-            s = error[0] + " - last heartbeat received at: " + error[1] + "\n"
+            utc = datetime.strptime(str(error[1]), '%Y-%m-%d %H:%M:%S')
+            local_time= utc.astimezone(timezone('Asia/Singapore'))
+            s = error[0] + " - last heartbeat received at: " + str(error[1]) + "\n"
             send_msg += s
         send_msg.strip("\n")
         # error_msg += "did not receive a reading in the last 60 min"  
