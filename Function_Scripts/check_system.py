@@ -127,11 +127,11 @@ def check_sensor_health():
 
 try:
     while True:
-        for i in range(60):
+        for i in range(2):
             time.sleep(60)
             check_reset()
 
-            if i == 59:
+            if i == 1:
                 check_sensor_health()
 
 
