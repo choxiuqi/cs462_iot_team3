@@ -114,7 +114,7 @@ def check_sensor_health():
         error_msg += "did not receive a reading in the last 60 min\n\n"   
 
         for error in errors:
-            utc = datetime.strptime(error[1], '%Y-%m-%d %H:%M:%S')
+            utc = datetime.strptime(str(error[1]), '%Y-%m-%d %H:%M:%S')
             local_time= utc.astimezone(timezone('Asia/Singapore'))
             print("new time:", local_time)
             s = error[0] + " - last heartbeat received at: " + str(local_time) + "\n"
@@ -131,11 +131,12 @@ def check_sensor_health():
 try:
     while True:
         for i in range(2):
-            time.sleep(60)
+            # time.sleep(60)
             check_reset()
 
             if i == 1:
                 check_sensor_health()
+                time.sleep(60)
 
 
         ''' for debug: '''
