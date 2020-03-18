@@ -68,6 +68,7 @@ def check_sensor_health():
         else: we will add error msg: _____ sensor hasn't gotten a reading in the last 60 min'''
 
     errors = []
+    healthy = []
 
     # get reading for out USS
     cur.execute('select "timestamp" from sensor_health where "sensor_id" = \'pi123\' order by id desc limit 1;')
@@ -79,6 +80,8 @@ def check_sensor_health():
 
     if (rpi_time_diff >60):
         errors.append("Raspberry pi")
+    else:
+        healthy.append("Raspberry pi")
     
     # get reading for in USS
     cur.execute('select "timestamp" from sensor_health where "sensor_id" = \'fb48fc3a6ee3\' order by id desc limit 1;')
@@ -91,6 +94,8 @@ def check_sensor_health():
 
     if (inUSS_time_diff > 60):
         errors.append("Inside USS")
+    else:
+        healthy.append("Inside USS")
 
     # get reading for pir USS
     cur.execute('select "timestamp" from sensor_health where "sensor_id" = \'e6f5f2bb5b0e\' order by id desc limit 1;')
@@ -103,29 +108,58 @@ def check_sensor_health():
 
     if (outUSS_time_diff > 60):
         errors.append("Outisde USS")
+    else:
+        healthy.append("Outisde USS")
 
-    # print(errors)
-    error_msg = ""
+    print("errors:",errors)
+    print("health:",healthy)
+
+
+    send_msg = "Working: \n"
+
+    if len(healthy) > 0:
+        for health in healthy:
+            send_msg += health + ", "
+        send_msg.strip(", ")
+        send_msg += "\n\nNot working: \n"
+        # error_msg += "did not receive a reading in the last 60 min"  
+    else:
+        send_msg += "None\n\nNot working: \n"
 
     if len(errors) > 0:
         for error in errors:
-            error_msg += error + ", "
-        error_msg.strip(", ")
-        error_msg += "did not receive a reading in the last 60 min"      
+            send_msg += error + ", "
+        send_msg.strip(", ")
+        # error_msg += "did not receive a reading in the last 60 min"  
+    else:
+        send_msg += "None"
 
-        params = {'chat_id':chat_id, 'text':error_msg}
-        r = requests.get(url=url_sendMsg, params = params)  
+
+    print("\n final msg is:", send_msg)
+
+    params = {'chat_id':chat_id, 'text':send_msg}
+    r = requests.get(url=url_sendMsg, params = params)  
+
+
+    '''
+    Working:
+    rpi, inside uss, outside uss
+    
+    Not working:
+    none
+    '''
     
     ''' for pir, a bit more difficult.... perhaps don't do first'''
+    
 
 
 try:
     while True:
-        for i in range(60):
+        for i in range(2):
             time.sleep(60)
             check_reset()
 
-            if i == 59:
+            if i == 1:
                 check_sensor_health()
 
 
