@@ -22,11 +22,6 @@ url_base = 'https://api.telegram.org/bot{}/'.format(api_token)
 url_getUpdates = '{}getupdates'.format(url_base)
 url_sendMsg = '{}sendMessage'.format(url_base)
 
-# ----------------- time zone ------------------
-from_zone = tz.gettz('UTC')
-to_zone = tz.gettz('America/New_York')
-
-
 def check_reset():
     # print('function called...')
     cur.execute('SELECT "value", "timestamp" FROM pir_record ORDER BY id DESC LIMIT 3;')
