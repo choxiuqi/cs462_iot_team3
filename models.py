@@ -231,6 +231,15 @@ class PIRRecord(db.Model):
             'sensor_id': self.sensor_id,
             'value' : self.value
         }
+    
+    def health(self):
+        return {
+            'id' : self.id,
+            'timestamp' : self.timestamp,
+            'sensor_id' : self.sensor_id,
+            'temperature' : self.temperature,
+            'value' : self.value
+        }
 
 class PIRRecordDebug(db.Model): 
     __tablename__ = 'pir_record_debug' 
