@@ -66,7 +66,7 @@ def getoccupancy(url):
 def getsensorhealth(url):
     data = requests.get(url).json()
     for i in range(0, len(data)):
-        if "id" != "X001":
+        if "id" == "fb48fc3a6ee3":
             sensor = data[i]['sensor_health']
             json.dump = json.dumps(sensor)
             json_parsed = json.loads(json.dump)
@@ -75,6 +75,15 @@ def getsensorhealth(url):
             if len(sensor) > 0:
                 header = json_parsed[0].keys()
                 csvwriter.writerow(header)
+                for i in range(0,len(json_parsed)):
+                    csvwriter.writerow(json_parsed[i].values())
+        elif "id" != "X001":
+            sensor = data[i]['sensor_health']
+            json.dump = json.dumps(sensor)
+            json_parsed = json.loads(json.dump)
+            json_data = open('sensors.csv', 'a')
+            csvwriter = csv.writer(json_data)
+            if len(sensor) > 0:
                 for i in range(0,len(json_parsed)):
                     csvwriter.writerow(json_parsed[i].values())
         else:
@@ -97,6 +106,9 @@ def getsensorhealth(url):
         #         for key in sensors.keys():
         #             f2.write("%s, %s\n"%(key, sensors[key]))
     return ('sensors.csv')
+
+# def getsensors():
+#     cur.execute('select * from sensor_health;')
 
 def getevents(url):
     event = requests.get(url).json()
