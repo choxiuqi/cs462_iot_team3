@@ -213,15 +213,16 @@ class PIRRecord(db.Model):
     timestamp = db.Column(db.DateTime, unique=False) 
     sensor_id = db.Column(db.String(80), db.ForeignKey('sensor.id'), unique=False, nullable=False)
     value = db.Column(db.Integer, unique=False, nullable=True)
+    temperature = db.Column(db.Float, unique = False, nullable = True)
 
     # one-to-many relationship
     sensor = db.relationship('Sensor', back_populates='pir_records')
 
-    def __init__(self, id, timestamp, sensor_id, value): 
-        self.id = id 
+    def __init__(self, timestamp, sensor_id, value, temperature=None): 
         self.timestamp = timestamp
         self.sensor_id = sensor_id
         self.value = value
+        self.temperature = temperature
 
     def serialize(self):
         return {
@@ -241,8 +242,7 @@ class PIRRecordDebug(db.Model):
     # one-to-many relationship
     sensor = db.relationship('Sensor', back_populates='pir_records_debug')
 
-    def __init__(self, id, timestamp, sensor_id, value): 
-        self.id = id 
+    def __init__(self, timestamp, sensor_id, value): 
         self.timestamp = timestamp
         self.sensor_id = sensor_id
         self.value = value
@@ -262,8 +262,7 @@ class Upcoming(db.Model):
     start = db.Column(db.DateTime, unique=False)
     end = db.Column(db.DateTime, unique=False)
 
-    def __init__(self, id, creator, start, end):
-        self.id = id 
+    def __init__(self, creator, start, end):
         self.creator = creator
         self.start = start
         self.end = end
