@@ -99,7 +99,7 @@ def get_health_update(chat_id):
         timestamps.append(("Outside USS",last_outUSS_rec))
 
     print("errors:",errors)
-    print("health:",healthy)
+    print("timestamps:",timestamps)
 
 
     send_msg =''
