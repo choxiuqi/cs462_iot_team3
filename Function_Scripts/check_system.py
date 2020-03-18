@@ -77,7 +77,7 @@ def check_sensor_health():
     rpi_time_diff = (datetime.now() - last_pi_rec).total_seconds() / 60         # time difference in minutes
     # print ("rpi time diff:", rpi_time_diff, '\n')
 
-    if (rpi_time_diff > 60):
+    if (rpi_time_diff < 60):
         errors.append(("Raspberry pi", last_pi_rec))
     
     # get reading for in USS
