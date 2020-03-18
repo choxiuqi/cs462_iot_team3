@@ -69,7 +69,7 @@ def getsensorhealth(url):
         sensor = data[i]['sensor_health']
         json.dump = json.dumps(sensor)
         json_parsed = json.loads(json.dump)
-        json_data = open('sensor.csv', 'w')
+        json_data = open('sensors.csv', 'w')
         csvwriter = csv.writer(json_data)
         if len(sensor) > 0:
             header = json_parsed[0].keys()
@@ -94,7 +94,7 @@ def getevents(url):
     #     json.dump(events, f3)
     json.dump = json.dumps(event)
     json_parsed = json.loads(json.dump)
-    json_data = open('event.csv', 'w')
+    json_data = open('events.csv', 'w')
     csvwriter = csv.writer(json_data)
 
     header = json_parsed[0].keys()
