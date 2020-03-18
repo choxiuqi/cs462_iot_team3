@@ -145,3 +145,4 @@ def get_health_update(chat_id):
 
 while True:
     check_text()
+    time.sleep(5)
