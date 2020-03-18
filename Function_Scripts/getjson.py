@@ -67,60 +67,60 @@ def getsensorhealth(url):
     data = requests.get(url).json()
     json_data = open('sensors.csv', 'w')
     for i in range(0, len(data)):
-        if len(data[i]["sensor_health"]) > 0 and len(json_data) == 0:
-            sensor = data[i]['sensor_health']
-            json_dump = json.dumps(sensor)
-            json_parsed = json.loads(json_dump)
-            csvwriter = csv.writer(json_data)
-            header = json_parsed[0].keys()
-            csvwriter.writerow(header)
-            for i in range(0,len(json_parsed)):
-                csvwriter.writerow(json_parsed[i].values())
-        elif len(data[i]["sensor_health"]) > 0 and len(json_data) > 0:
-            sensor = data[i]['sensor_health']
-            json_dump = json.dumps(sensor)
-            json_parsed = json.loads(json_dump)
-            csvwriter = csv.writer(json_data)
-            for i in range(0,len(json_parsed)):
-                csvwriter.writerow(json_parsed[i].values())
-        else:
-            sensor = data[i]['pir_records']
-            json_dump = json.dumps(sensor)
-            json_parsed = json.loads(json_dump)
-            csvwriter = csv.writer(json_data)
-            if len(sensor) > 0:
-                for i in range(0,len(json_parsed)):
-                    csvwriter.writerow(json_parsed[i].values())
-
-        # if "id" == "fb48fc3a6ee3":
+        # if len(data[i]["sensor_health"]) > 0 and len(json_data) == 0:
         #     sensor = data[i]['sensor_health']
         #     json_dump = json.dumps(sensor)
         #     json_parsed = json.loads(json_dump)
-        #     json_data = open('sensors.csv', 'w')
         #     csvwriter = csv.writer(json_data)
-        #     if len(sensor) > 0:
-        #         header = json_parsed[0].keys()
-        #         csvwriter.writerow(header)
-        #         for i in range(0,len(json_parsed)):
-        #             csvwriter.writerow(json_parsed[i].values())
-        # elif "id" != "X001":
+        #     header = json_parsed[0].keys()
+        #     csvwriter.writerow(header)
+        #     for i in range(0,len(json_parsed)):
+        #         csvwriter.writerow(json_parsed[i].values())
+        # elif len(data[i]["sensor_health"]) > 0 and len(json_data) > 0:
         #     sensor = data[i]['sensor_health']
         #     json_dump = json.dumps(sensor)
         #     json_parsed = json.loads(json_dump)
-        #     json_data = open('sensors.csv', 'a')
         #     csvwriter = csv.writer(json_data)
-        #     if len(sensor) > 0:
-        #         for i in range(0,len(json_parsed)):
-        #             csvwriter.writerow(json_parsed[i].values())
+        #     for i in range(0,len(json_parsed)):
+        #         csvwriter.writerow(json_parsed[i].values())
         # else:
         #     sensor = data[i]['pir_records']
         #     json_dump = json.dumps(sensor)
         #     json_parsed = json.loads(json_dump)
-        #     json_data = open('sensors.csv', 'a')
         #     csvwriter = csv.writer(json_data)
         #     if len(sensor) > 0:
         #         for i in range(0,len(json_parsed)):
         #             csvwriter.writerow(json_parsed[i].values())
+
+        if "id" == "fb48fc3a6ee3":
+            sensor = data[i]['sensor_health']
+            json_dump = json.dumps(sensor)
+            json_parsed = json.loads(json_dump)
+            json_data = open('sensors.csv', 'w')
+            csvwriter = csv.writer(json_data)
+            if len(sensor) > 0:
+                header = json_parsed[0].keys()
+                csvwriter.writerow(header)
+                for i in range(0,len(json_parsed)):
+                    csvwriter.writerow(json_parsed[i].values())
+        elif "id" != "X001":
+            sensor = data[i]['sensor_health']
+            json_dump = json.dumps(sensor)
+            json_parsed = json.loads(json_dump)
+            json_data = open('sensors.csv', 'a')
+            csvwriter = csv.writer(json_data)
+            if len(sensor) > 0:
+                for i in range(0,len(json_parsed)):
+                    csvwriter.writerow(json_parsed[i].values())
+        else:
+            sensor = data[i]['pir_records']
+            json_dump = json.dumps(sensor)
+            json_parsed = json.loads(json_dump)
+            json_data = open('sensors.csv', 'a')
+            csvwriter = csv.writer(json_data)
+            if len(sensor) > 0:
+                for i in range(0,len(json_parsed)):
+                    csvwriter.writerow(json_parsed[i].values())
 
             # print(i, json_parsed[i].values())
         json_data.close()
