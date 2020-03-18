@@ -77,8 +77,8 @@ def getevents(url):
 
     return ('events.csv')
 
-def s3(file):
-    cmd = 'aws s3 cp {} s3://cs462g3'.format(file)
+def s3(file, folder):
+    cmd = 'aws s3 cp {} s3://cs462g3/{}'.format(file, folder)
     os.system(cmd)
     return
 
@@ -87,17 +87,17 @@ def main():
     meetingRoom = baseURL + '/occupancy'
     # print("meeting room called")
     getoccupancy(meetingRoom)
-    # s3(getoccupancy(meetingRoom))
+    s3(getoccupancy(meetingRoom), occupancy)
     # print("uploaded on s3")
     sensorHealth = baseURL + '/sensor-health-debug'
     getsensorhealth(sensorHealth)
     # print("sensor health called")
-    # s3(getsensorhealth(sensorHealth))
+    s3(getsensorhealth(sensorHealth), sensors)
     # print("uploaded on s3")
     events = baseURL + '/event'
     getevents(events)
     # print("events called")
-    # s3(getevents(events))
+    s3(getevents(events), events)
     # print("uploaded on s3")
 
 while True:
