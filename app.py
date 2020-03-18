@@ -65,7 +65,7 @@ def sensorHealthDebug():
     final_list = []
     for temp_dict in health:
         final_dict = {}
-        d1 = temp_dict.health()
+        d1 = temp_dict.serialise()
         for k,v in d1.items():
             if d1["desc"] == "motion sensor" and k == "pir_records":
                 for a in v:
