@@ -122,7 +122,7 @@ def check_sensor_health():
             utc = datetime.strptime(error[1], '%Y-%m-%d %H:%M:%S')
             local_time= utc.astimezone(timezone('Asia/Singapore'))
             print("new time:", local_time)
-            s = error[0] + " - last heartbeat received at: " + local_time + "\n"
+            s = error[0] + " - last heartbeat received at: " + str(local_time) + "\n"
             error_msg += s
 
         error_msg.strip("\n")
