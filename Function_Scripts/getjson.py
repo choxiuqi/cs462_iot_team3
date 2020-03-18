@@ -133,7 +133,7 @@ def getsensorhealth(url):
                     csvwriter.writerow(json_parsed[i].values())
 
             # print(i, json_parsed[i].values())
-        json_data.close()
+    json_data.close()
         # for i in sensor:
         #     sensor_dict = json.dumps(i)
         #     sensors = json.loads(sensor_dict)
