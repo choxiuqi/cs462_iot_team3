@@ -16,7 +16,8 @@ cur = conn.cursor()
 conn.autocommit = True
 
 # ----------------telebot -----------------------
-chat_id = 344832007 # fill in your chat id here
+# chat_id = 344832007 # fill in your chat id here (XQ)
+chat_id = -472331637 (grp)
 api_token = '1101942872:AAE7Z80sUtx2KhWDmh-r7mATB0xM1EuV3a0' # fill in your api token here
 url_base = 'https://api.telegram.org/bot{}/'.format(api_token)
 url_getUpdates = '{}getupdates'.format(url_base)
