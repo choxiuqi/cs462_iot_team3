@@ -87,17 +87,17 @@ def main():
     meetingRoom = baseURL + '/occupancy'
     # print("meeting room called")
     getoccupancy(meetingRoom)
-    s3(getoccupancy(meetingRoom), occupancy)
+    s3(getoccupancy(meetingRoom), 'occupancy')
     # print("uploaded on s3")
     sensorHealth = baseURL + '/sensor-health-debug'
     getsensorhealth(sensorHealth)
     # print("sensor health called")
-    s3(getsensorhealth(sensorHealth), sensors)
+    s3(getsensorhealth(sensorHealth), 'sensors')
     # print("uploaded on s3")
     events = baseURL + '/event'
     getevents(events)
     # print("events called")
-    s3(getevents(events), events)
+    s3(getevents(events), 'events')
     # print("uploaded on s3")
 
 while True:
