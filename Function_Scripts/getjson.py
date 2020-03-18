@@ -66,16 +66,26 @@ def getoccupancy(url):
 def getsensorhealth(url):
     data = requests.get(url).json()
     for i in range(0, len(data)):
-        sensor = data[i]['sensor_health']
-        json.dump = json.dumps(sensor)
-        json_parsed = json.loads(json.dump)
-        json_data = open('sensors.csv', 'w')
-        csvwriter = csv.writer(json_data)
-        if len(sensor) > 0:
-            header = json_parsed[0].keys()
-            csvwriter.writerow(header)
-            for i in range(0,len(json_parsed)):
-                csvwriter.writerow(json_parsed[i].values())
+        if "id" != "X001":
+            sensor = data[i]['sensor_health']
+            json.dump = json.dumps(sensor)
+            json_parsed = json.loads(json.dump)
+            json_data = open('sensors.csv', 'w')
+            csvwriter = csv.writer(json_data)
+            if len(sensor) > 0:
+                header = json_parsed[0].keys()
+                csvwriter.writerow(header)
+                for i in range(0,len(json_parsed)):
+                    csvwriter.writerow(json_parsed[i].values())
+        else:
+            sensor = data[i]['pir_records']
+            json.dump = json.dumps(sensor)
+            json_parsed = json.loads(json.dump)
+            json_data = open('sensors.csv', 'w')
+            csvwriter = csv.writer(json_data)
+            if len(sensor) > 0:
+                for i in range(0,len(json_parsed)):
+                    csvwriter.writerow(json_parsed[i].values())
             # print(i, json_parsed[i].values())
         json_data.close()
         # for i in sensor:
@@ -128,7 +138,7 @@ def main():
     getoccupancy(meetingRoom)
     s3(getoccupancy(meetingRoom))
     print("uploaded on s3")
-    sensorHealth = baseURL + '/sensor-health'
+    sensorHealth = baseURL + '/sensor-health-debug'
     print("sensor health called")
     s3(getsensorhealth(sensorHealth))
     print("uploaded on s3")

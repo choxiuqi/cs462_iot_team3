@@ -50,7 +50,7 @@ class Sensor(db.Model):
             'desc': self.desc,
             'meeting_room_id': self.meeting_room_id,
             'sensor_health': [s.serialize() for s in self.sensor_health],
-            'pir_records': [p.serialize() for p in self.pir_records]
+            'pir_records': [p.health() for p in self.pir_records]
         }
 
 class MeetingRoom(db.Model): 
@@ -229,6 +229,15 @@ class PIRRecord(db.Model):
             'id' : self.id,
             'timestamp' : self.timestamp,
             'sensor_id': self.sensor_id,
+            'value' : self.value
+        }
+    
+    def health(self):
+        return {
+            'id' : self.id,
+            'timestamp' : self.timestamp,
+            'sensor_id' : self.sensor_id,
+            'temperature' : self.temperature,
             'value' : self.value
         }
 
