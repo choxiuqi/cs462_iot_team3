@@ -59,6 +59,11 @@ def sensorHealth():
         final_list.append(final_dict)
     return jsonify(final_list)
 
+@app.route('/sensor-health-debug', methods=['GET'])
+def sensorHealthDebug():
+    health = Sensor.query.all()
+    return jsonify([h.health() for h in health])
+
 @app.route('/occupancy', methods=['GET']) 
 def get_occupancy(): 
     occupancy = Occupancy.query.all()
