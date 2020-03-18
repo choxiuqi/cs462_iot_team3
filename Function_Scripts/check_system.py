@@ -77,7 +77,7 @@ def check_sensor_health():
     rpi_time_diff = (datetime.now() - last_pi_rec).total_seconds() / 60         # time difference in minutes
     # print ("rpi time diff:", rpi_time_diff, '\n')
 
-    if (rpi_time_diff >60):
+    if (rpi_time_diff > 60):
         errors.append(("Raspberry pi",last_pi_rec)
     
     # get reading for in USS
@@ -89,7 +89,7 @@ def check_sensor_health():
     inUSS_time_diff = (datetime.now() - last_inUSS_rec).total_seconds() / 60         # time difference in minutes
     # print ("in uss time diff:", inUSS_time_diff, '\n')
 
-    if (inUSS_time_diff > 60):
+    if (inUSS_time_diff < 60):
         errors.append(("Inside USS",last_inUSS_rec)
 
     # get reading for pir USS
@@ -101,7 +101,7 @@ def check_sensor_health():
     outUSS_time_diff = (datetime.now() - last_outUSS_rec).total_seconds() / 60         # time difference in minutes
     # print ("out uss time diff:", outUSS_time_diff, '\n')
 
-    if (outUSS_time_diff > 60):
+    if (outUSS_time_diff < 60):
         errors.append(("Outisde USS",last_outUSS_rec)
 
     # print(errors)
@@ -117,7 +117,7 @@ def check_sensor_health():
             s = error[0] + " - last heartbeat received at: " + error[1] + "\n"
             error_msg += s
 
-        error_msg
+        error_msg.strip("\n")
 
         params = {'chat_id':chat_id, 'text':error_msg}
         r = requests.get(url=url_sendMsg, params = params)  
