@@ -13,15 +13,44 @@ conn.autocommit = True
 
 # ----------------telebot -----------------------
 # chat_id = 344832007 # fill in your chat id here (XQ)
-chat_id = -472331637    #(grp)
+# chat_id = -472331637    #(grp)
 api_token = '1101942872:AAE7Z80sUtx2KhWDmh-r7mATB0xM1EuV3a0' # fill in your api token here
 url_base = 'https://api.telegram.org/bot{}/'.format(api_token)
 url_getUpdates = '{}getupdates'.format(url_base)
 url_sendMsg = '{}sendMessage'.format(url_base)
 
-# ##################################################################################################################################
+prev_msg_id = ''
+# prev_reply = ''
 
-def check_sensor_health():
+# ##################################################################################################################################
+def check_text():
+    r = requests.get(url_getUpdates)
+    d = r.json()
+
+    global prev_msg_id
+    # global prev_reply
+    msg_text = ''
+    
+    current_msg = d['result'][-1]
+    print(current_msg)
+    
+    current_msg_id = current_msg['message']['message_id']
+    if current_msg_id != prev_msg_id:
+        msg_text = current_msg['message']['text']
+        if '/health_updates' in msg_text:
+            print("\nhealth updates present")
+            chat_id = current_msg['message']['chat']['id']
+            get_health_update(chat_id)
+        else:
+            print("\nnot present")
+    else:
+        print("msg id is the same")
+    prev_msg_id = current_msg_id
+    
+    return
+
+
+def get_health_update(chat_id):
     ''' for pi and uss, readings must be less than 3 min from now
         else: we will add error msg: _____ sensor hasn't gotten a reading in the last 60 min'''
 
