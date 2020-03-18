@@ -124,9 +124,9 @@ def UpdateOccupancy():
     if new_occupancy < 0:
         new_occupancy = 0
         remarks = 'calculated -ve occupancy'
-        cur.execute("INSERT INTO occupancy_debug VALUES (DEFAULT, %s, %s, %s, %s);",(time, meeting_room_id, new_occupancy, remarks))
+        cur.execute("INSERT INTO occupancy VALUES (DEFAULT, %s, %s, %s, %s);",(time, meeting_room_id, new_occupancy, remarks))
 
     elif new_occupancy >=0:
-        cur.execute("INSERT INTO occupancy_debug VALUES (DEFAULT, %s, %s, %s);",(time, meeting_room_id, new_occupancy))
+        cur.execute("INSERT INTO occupancy VALUES (DEFAULT, %s, %s, %s);",(time, meeting_room_id, new_occupancy))
 
     return
