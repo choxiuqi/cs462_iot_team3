@@ -94,10 +94,10 @@ def get_event():
     event = Upcoming.query.all()
     return jsonify([e.serialize() for e in event])
 
-@app.route('/occupancy-debug', methods=['POST'])
-def get_event():
-    event = Upcoming.query.all()
-    return jsonify([e.serialize() for e in event])
+# @app.route('/occupancy-debug', methods=['POST'])
+# def get_event_occupancy():
+#     event = Upcoming.query.all()
+#     return jsonify([e.serialize() for e in event])
 
 #amelia added
 @app.route('/latest_uss_record', methods=['GET']) 
