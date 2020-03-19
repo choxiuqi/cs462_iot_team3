@@ -48,3 +48,4 @@ group:
 [] pir sensor debug
 [] pir insert reading into DB every min
 [] pir calibrate
+[] send temperature sensor from microbit (temp may affect USS readings - perhaps why we get readings at night)
