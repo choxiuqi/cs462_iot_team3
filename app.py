@@ -1,5 +1,6 @@
 from flask import Flask, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
+from flask import render_template
 import json
 
 app = Flask(__name__)
@@ -99,4 +100,10 @@ def get_latest_uss_record():
     latest_records = LatestUSSRecord.query.all()
     return jsonify([l.serialize() for l in latest_records])
 #to get the current reading occupancy in database 
+
+
+# xq added
+@app.route('/manual-counting', methods=['GET'])
+def count():
+    return render_template('clicker.html')
 

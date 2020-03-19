@@ -1,0 +1,188 @@
+<html>
+<head>
+<script language="JavaScript" type="text/javascript">
+
+
+function getTimeStamp() {
+       var now = new Date();
+       return ((now.getMonth() + 1) + '/' + (now.getDate()) + '/' + now.getFullYear() + " " + now.getHours() + ':'
+                     + ((now.getMinutes() < 10) ? ("0" + now.getMinutes()) : (now.getMinutes())) + ':' + ((now.getSeconds() < 10) ? ("0" + now
+                     .getSeconds()) : (now.getSeconds())));
+}
+
+
+window.onclick = "getTimeStamp" ;
+var in_count = 0;
+var out_count = 0;
+var current_occupancy = 0;
+
+</script>
+
+</head>
+
+<body>
+
+    <table><tr><td>
+<!-- <button type="button" onclick="form"> -->
+    <form id="form1">
+    <button type="button" onclick= "this.form.timeField.value=getTimeStamp()" id="in" style="width: 5cm; height: 5cm;">In</button>
+    <input type="text" name="timeField" size="32">
+    </form>
+    <!-- Get Time -->
+    </button></td>
+    <!-- <td>Test</td> -->
+    <td>
+
+
+
+    <!-- <button type="button" onclick="form"> -->
+    <form action=>
+    <button type="button" onclick="this.form.timeField.value=getTimeStamp()" id="out" style="width: 5cm; height: 5cm;">Out</button>
+    <input type="text" name="timeField" size="32">
+    </form>
+    <!-- Get Time -->
+    </button>
+</td>
+</tr>
+<tr>
+    <td><button type="button" onclick="undo_in()" id="undo_in">Undo In</button></td>
+    <td><button type="button" onclick="undo_out()" id="undo_out">Undo Out</button></td>
+    <td><button type="button" onclick="reset_occup()" id="reset">Reset Occupancy</button></td>
+</tr>
+</table>
+
+<table><tr>
+    <th style="width: 10cm" align="left"><h3># people who went in:</h3></th>
+    <th style="width: 10cm" align="left"><h3># people who went out</h3></th>
+    <th>Current Occupancy</th>
+    </tr><tr>
+    <td style="vertical-align:top">  
+        <div id="div1"></div>
+    </td>
+    <td style="vertical-align:top">
+        <div id="div2"></div>
+    </td>
+    <td style="vertical-align:top"> <div id="div3"></div></td>
+</tr></table>
+
+
+<script>
+
+    function undo_in() {
+        in_count -= 1;
+        var parent = document.getElementById("div1");
+        var child = parent.lastChild;
+        console.log(child);
+        parent.removeChild(child);
+
+        current_occupancy = in_count - out_count;
+        document.getElementById("div3").innerHTML = current_occupancy;
+    }
+
+    function undo_out() {
+        out_count -= 1;
+        var parent = document.getElementById("div2");
+        var child = parent.lastChild;
+        console.log(child);
+        parent.removeChild(child);
+
+        current_occupancy = in_count - out_count;
+        document.getElementById("div3").innerHTML = current_occupancy;
+    }
+
+    function reset_occup(){
+        current_occupancy = 0;
+        in_count = 0;
+        out_count = 0;
+
+        current_occupancy = in_count - out_count;
+        document.getElementById("div3").innerHTML = current_occupancy;
+
+        var timestamp = getTimeStamp();
+
+        var p = document.createElement("p");
+        var node = document.createTextNode(timestamp + " - reset");
+        p.appendChild(node);
+        var div = document.getElementById("div1");
+        div.appendChild(p);
+
+
+        var p = document.createElement("p");
+        var node = document.createTextNode(timestamp + " - reset");
+        p.appendChild(node);
+        var div = document.getElementById("div2");
+        div.appendChild(p);
+
+    }
+
+
+
+    var in_button = document.getElementById("in");
+    console.log(in_button);
+
+    in_button.addEventListener("click", counter_in);
+    document.getElementById("out").addEventListener("click", counter_out);
+
+    function counter_in(timestamp) {
+        in_count += 1;
+        console.log(in_count);
+
+        var timestamp = getTimeStamp();
+
+        var p = document.createElement("p");
+        var node = document.createTextNode(timestamp + " - " + in_count);
+        //adding the text to the paragraph
+        p.appendChild(node);
+
+        var div = document.getElementById("div1");
+        //adding the paragraph to the div
+        div.appendChild(p);
+
+        current_occupancy = in_count - out_count;
+        document.getElementById("div3").innerHTML = current_occupancy;
+
+
+        // console.log(event);
+        return 
+    }
+
+    function counter_out() {
+        out_count += 1;
+        console.log(out_count);
+        // document.getElementById("div2").innerHTML = "<h3># people who went out:</h3>" + out_count;
+        // console.log(event);
+
+        var timestamp = getTimeStamp();
+
+        var p = document.createElement("p");
+        var node = document.createTextNode(timestamp + " - " + out_count);
+        //adding the text to the paragraph
+        p.appendChild(node);
+
+        var div = document.getElementById("div2");
+        //adding the paragraph to the div
+        div.appendChild(p);
+
+        current_occupancy = in_count - out_count;
+        document.getElementById("div3").innerHTML = current_occupancy;
+
+        return 
+    }
+
+    // function test() {
+    //     in_count += 1;
+    //     console.log(in_count)
+    // }
+
+    // test();
+
+
+    var show_in = document.getElementById("div1");
+    show_in.innerHTML = in_count;
+    document.getElementById("div2").innerHTML = out_count;
+    document.getElementById("div3").innerHTML = current_occupancy;
+    
+</script>
+
+</body>
+</html>
