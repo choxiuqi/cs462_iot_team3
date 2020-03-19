@@ -283,3 +283,19 @@ class Upcoming(db.Model):
             'start': self.start,
             'end' : self.end
         } 
+
+
+class ManualCounter(db.Model):
+    __tablename__ = 'manual_counter'
+    id = db.Column(db.Integer, primary_key=True)
+    movement = db.Column(db.String(10), unique=False, nullable=False)     # values are in/out
+    timestamp = db.Column(db.DateTime, unique=False)
+    occupancy = db.Column(db.Integer, unique=False)
+    remarks = db.Column(db.String(120), unique=False, nullable=True)
+    
+
+    def __init__(self, movement, timestamp, occupancy, remarks=None):
+        self.movement = movement
+        self.timestamp = timestamp
+        self.occupancy = occupancy
+        self.remarks = remarks
