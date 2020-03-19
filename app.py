@@ -94,6 +94,11 @@ def get_event():
     event = Upcoming.query.all()
     return jsonify([e.serialize() for e in event])
 
+@app.route('/occupancy-debug', methods=['POST'])
+def get_event():
+    event = Upcoming.query.all()
+    return jsonify([e.serialize() for e in event])
+
 #amelia added
 @app.route('/latest_uss_record', methods=['GET']) 
 def get_latest_uss_record(): 
@@ -106,4 +111,20 @@ def get_latest_uss_record():
 @app.route('/manual-counting', methods=['GET'])
 def count():
     return render_template('clicker.html')
+
+
+# sinsin added
+@app.route("/manual-counting/<string:timestamp>", methods=['POST'])
+def create_count(timestamp):
+    data = request.get_json()
+    count = ManualCounter(timestamp, **data)
+
+    try:
+        db.session.add(count)
+        db.session.commit()
+    except:
+        return jsonify({"message": "An error occurred creating the count."}), 500
+
+    return jsonify(count.json()), 201
+
 

@@ -181,6 +181,55 @@ var current_occupancy = 0;
     show_in.innerHTML = in_count;
     document.getElementById("div2").innerHTML = out_count;
     document.getElementById("div3").innerHTML = current_occupancy;
+
+
+
+
+    $("#form1").submit(async (event) => {
+        // //Prevents screen from refreshing when submitting
+        // event.preventDefault();
+
+        var serviceURL = "http://3.86.89.118:5000/manual-counting/";
+
+ 
+        var movement = 'IN';
+        var occupancy =$('#div3').val();
+        var remarks = 'nil'
+
+        //get current timestamp
+        var date = new Date();
+        var timestamp = date.getTime();
+        
+
+        // form the POST url which includes the dynamic isbnNumber
+        serviceURL += timestamp;
+        try {
+            const response =
+                await fetch(
+                    serviceURL, {
+                    method: 'POST',
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ movement: movement, timestamp:timestamp, occupancy: occupancy, remarks: remarks })
+                });
+            const data = await response.json();
+
+            // if (response.ok) {
+            //     // relocate to home page
+            //     window.location.replace(homeURL);
+            //     return false;
+            // } else {
+            //     console.log(data);
+            //     showError(data.message);
+            // }
+        } catch (error) {
+            // Errors when calling the service; such as network error, 
+            // service offline, etc
+            showError
+                (error);
+
+        } // error
+    });
+
     
 </script>
 
