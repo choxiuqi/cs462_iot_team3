@@ -114,7 +114,7 @@ def count():
 
 
 # sinsin added
-@app.route("/manual-counting/<string:timestamp>", methods=['POST'])
+@app.route("/count/<string:timestamp>", methods=['POST'])
 def create_count(timestamp):
     data = request.get_json()
     count = ManualCounter(timestamp, **data)
