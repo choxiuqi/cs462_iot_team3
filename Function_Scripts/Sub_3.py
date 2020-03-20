@@ -61,27 +61,30 @@ def commit_sensor_data(data):
     return
 
 
-def commit_pir_data(data, id):
+def commit_pir_data(msg, id):
     '''
     This function will push in only PIR sensor data in PIR_record(tentative, NEW!!)
     '''
     print("PIR msg recevied: {}".format(data))
-    for msg in data:
-        timestamp_unix = msg['result'][0]['timestamp']
-        timestamp = datetime.utcfromtimestamp(timestamp_unix)
-        MAC_address = id
-        value = float(msg['result'][0]['value'])
-        # sensorType = 'USS'
-        print("looked through PIR variables")
 
-        # not sure about the flow now..... but anw below shows inserting into db, and the very basic calling amelia's function
-        try:
-            print("executing_record")
-            cur.execute("INSERT INTO PIR_record VALUES (DEFAULT, %s, %s, %s);",(timestamp, MAC_address, value))
-            print("committed_record")               
-            
-        except Exception as e:
-            return(str(e))
+    '''e.g. of msg: {'result': [{'mac_add': 'X001', 'timestamp': 1584713026, 'value': 0}]} '''
+
+    # for msg in data:
+    timestamp_unix = msg['result'][0]['timestamp']
+    timestamp = datetime.utcfromtimestamp(timestamp_unix)
+    MAC_address = id
+    value = float(msg['result'][0]['value'])
+    # sensorType = 'USS'
+    print("looked through PIR variables")
+
+    # not sure about the flow now..... but anw below shows inserting into db, and the very basic calling amelia's function
+    try:
+        print("executing_record")
+        cur.execute("INSERT INTO PIR_record VALUES (DEFAULT, %s, %s, %s);",(timestamp, MAC_address, value))
+        print("committed_record")               
+        
+    except Exception as e:
+        return(str(e))
 
     # resetCounter()
 
