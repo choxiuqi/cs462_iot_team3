@@ -23,25 +23,25 @@ var current_occupancy = 0;
 <body>
 
     <table><tr><td>
-<!-- <button type="button" onclick="form"> -->
+    <!-- <button type="button" onclick="form"> -->
     <form id="form1">
-    <button type="button" onclick= "this.form.timeField.value=getTimeStamp()" id="in" style="width: 5cm; height: 5cm;">In</button>
-    <input type="text" name="timeField" size="32">
+    <!-- <button type="button" onclick= "this.form.timeField.value=getTimeStamp()" id="in" style="width: 5cm; height: 5cm;">In</button> -->
+    <input type="submit" onclick = "this.form.timeField.value=getTimeStamp()" id="in" style="width: 5cm; height: 5cm;" value="In">
+    <input type="text" name="timeField" size="32" name="in_form">
     </form>
     <!-- Get Time -->
-    </button></td>
+    </td>
     <!-- <td>Test</td> -->
     <td>
 
 
 
     <!-- <button type="button" onclick="form"> -->
-    <form action=>
-    <button type="button" onclick="this.form.timeField.value=getTimeStamp()" id="out" style="width: 5cm; height: 5cm;">Out</button>
+    <form>
+    <!-- <button type="button" onclick="this.form.timeField.value=getTimeStamp()" id="out" style="width: 5cm; height: 5cm;">Out</button> -->
+    <input type="submit" onclick = "this.form.timeField.value=getTimeStamp()" id="out" style="width: 5cm; height: 5cm;" value="Out">
     <input type="text" name="timeField" size="32">
     </form>
-    <!-- Get Time -->
-    </button>
 </td>
 </tr>
 <tr>
