@@ -49,6 +49,7 @@ def check_text():
 
         elif '/reset_occupancy' in msg_text:
             print("reset occup present")
+            chat_id = current_msg['message']['chat']['id']
             reset_occupancy(chat_id)
 
         else:
