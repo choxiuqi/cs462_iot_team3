@@ -114,10 +114,10 @@ def count():
 
 
 # sinsin added
-@app.route("/count/", methods=['POST'])
-def create_count():
+@app.route("/count/<int:id>", methods=['POST'])
+def create_count(id):
     data = request.get_json()
-    count = ManualCounter(**data)
+    count = ManualCounter(id,**data)
 
     try:
         db.session.add(count)
