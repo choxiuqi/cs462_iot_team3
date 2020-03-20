@@ -1,5 +1,6 @@
 from flask import Flask, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
+from flask import render_template
 import json
 
 app = Flask(__name__)
@@ -9,7 +10,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://team3user:password@localho
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
-from models import Sensor, MeetingRoom, USSRecord, LatestUSSRecord, Occupancy, SensorHealth, PIRRecord, Upcoming, OccupancyDebug, PIRRecordDebug
+from models import Sensor, MeetingRoom, USSRecord, LatestUSSRecord, Occupancy, SensorHealth, PIRRecord, Upcoming, OccupancyDebug, PIRRecordDebug, ManualCounter
 
 @app.route('/hello/', methods=['GET']) 
 def hello():
@@ -93,6 +94,11 @@ def get_event():
     event = Upcoming.query.all()
     return jsonify([e.serialize() for e in event])
 
+# @app.route('/occupancy-debug', methods=['POST'])
+# def get_event_occupancy():
+#     event = Upcoming.query.all()
+#     return jsonify([e.serialize() for e in event])
+
 #amelia added
 @app.route('/latest_uss_record', methods=['GET']) 
 def get_latest_uss_record(): 
@@ -100,3 +106,23 @@ def get_latest_uss_record():
     return jsonify([l.serialize() for l in latest_records])
 #to get the current reading occupancy in database 
 
+
+# xq added
+@app.route('/manual-counting', methods=['GET'])
+def count():
+    return render_template('clicker.html')
+
+
+# sinsin added
+@app.route("/count/<int:id>", methods=['POST'])
+def create_count(id):
+    data = request.get_json()
+    count = ManualCounter(id,**data)
+
+    try:
+        db.session.add(count)
+        db.session.commit()
+    except:
+        return jsonify({"message": "An error occurred creating the count."}), 500
+
+    return jsonify(count.json()), 201
