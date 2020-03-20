@@ -163,7 +163,7 @@ def get_curr_occupancy(chat_id):
     # s = t[0] + " - " + str(local_time) + "\n"
     send_msg = "Current occupancy is **" + str(value) + "** last recorded at **" + str(local_time) + "**."
 
-    params = {'chat_id':chat_id, 'text':send_msg, parse_mode = 'Markdown'}
+    params = {'chat_id':chat_id, 'text':send_msg, 'parse_mode':'Markdown'}
     r = requests.get(url=url_sendMsg, params = params)   
 
     return
