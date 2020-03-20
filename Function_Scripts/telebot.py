@@ -174,7 +174,7 @@ def get_curr_occupancy(chat_id):
     return
 
 def reset_occupancy(chat_id):
-    timestamp = datetime.now()
+    timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     meeting_room_id = 'G'
     remarks = 'Reset'
     cur.execute('INSERT INTO occupancy VALUES (DEFAULT, %s, %s, %s, %s);',(str(timestamp), str(meeting_room_id), 0, str(remarks)))
