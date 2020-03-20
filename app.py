@@ -114,10 +114,10 @@ def count():
 
 
 # sinsin added
-@app.route("/count/<string:timestamp>", methods=['POST'])
-def create_count(timestamp):
+@app.route("/count/", methods=['POST'])
+def create_count():
     data = request.get_json()
-    count = ManualCounter(timestamp, **data)
+    count = ManualCounter(**data)
 
     try:
         db.session.add(count)
@@ -126,5 +126,3 @@ def create_count(timestamp):
         return jsonify({"message": "An error occurred creating the count."}), 500
 
     return jsonify(count.json()), 201
-
-
