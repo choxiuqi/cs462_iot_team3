@@ -152,8 +152,19 @@ def get_health_update(chat_id):
 def get_curr_occupancy(chat_id):
     cur.execute('select "value", "timestamp" from occupancy order by id desc limit 1;')
     result = cur.fetchone()
+    # (5, datetime.datetime(2020, 3, 20, 10, 22, 51))
+    # print(result)
 
-    print(result)
+    value = result[0]
+    # timestamp = result[1]
+    utc = datetime.strptime(str(result[1]), '%Y-%m-%d %H:%M:%S')
+    local_time= utc.astimezone(timezone('Asia/Singapore'))
+
+    # s = t[0] + " - " + str(local_time) + "\n"
+    send_msg = "Current occupancy is " + str(value) + "last recorded at " + str(local_time) "."
+
+    params = {'chat_id':chat_id, 'text':send_msg}
+    r = requests.get(url=url_sendMsg, params = params)   
 
     return
 
