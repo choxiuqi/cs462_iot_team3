@@ -85,7 +85,8 @@ def s3(csvfile, folder):
     return
 
 def main():
-    baseURL = 'http://3.86.89.118:5000'
+    # baseURL = 'http://3.86.89.118:5000'
+    baseURL = 'http://172.31.95.27:5000'
     meetingRoom = baseURL + '/occupancy'
     getoccupancy(meetingRoom)
     sensorHealth = baseURL + '/sensor-health-debug'
