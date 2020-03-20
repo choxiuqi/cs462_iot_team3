@@ -174,7 +174,10 @@ def get_curr_occupancy(chat_id):
 
 def reset_occupancy():
     timestamp = datetime.now()
-    cur.execute("insert into occupancy values (default, %s, %s, %s, %s);"(str(timestamp), 'G', 0, 'Reset'))
+    meeting_room_id = 'G'
+    remarks = 'Reset'
+    cur.execute("insert into occupancy values (default, %s, %s, %s, %s);"(str(timestamp), str(meeting_room_id), 0, str(remarks)))
+    # cur.execute('INSERT INTO sensor_health ("id", "timestamp", "sensor_id", "value") VALUES (DEFAULT, %s, %s, %s);',(str(timestamp), str(MAC_address), float(value)))
     # timestamp, meeting_room_id, value, remarks=None
     return
 
