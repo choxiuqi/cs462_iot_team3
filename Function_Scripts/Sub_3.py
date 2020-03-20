@@ -65,7 +65,7 @@ def commit_pir_data(msg, id):
     '''
     This function will push in only PIR sensor data in PIR_record(tentative, NEW!!)
     '''
-    print("PIR msg recevied: {}".format(data))
+    print("PIR msg recevied: {}".format(msg))
 
     '''e.g. of msg: {'result': [{'mac_add': 'X001', 'timestamp': 1584713026, 'value': 0}]} '''
 
