@@ -4,6 +4,7 @@ import os
 import time
 import subprocess
 import csv
+import datetime
 
 def getoccupancy(url):
     occupancy = requests.get(url).json()
@@ -86,21 +87,18 @@ def s3(csvfile, folder):
 def main():
     baseURL = 'http://3.86.89.118:5000'
     meetingRoom = baseURL + '/occupancy'
-    # print("meeting room called")
-    # getoccupancy(meetingRoom)
-    s3(getoccupancy(meetingRoom), 'occupancy')
-    # print("uploaded on s3")
+    getoccupancy(meetingRoom)
     sensorHealth = baseURL + '/sensor-health-debug'
-    # getsensorhealth(sensorHealth)
-    # print("sensor health called")
-    s3(getsensorhealth(sensorHealth), 'sensors')
-    # print("uploaded on s3")
+    getsensorhealth(sensorHealth)
     events = baseURL + '/event'
-    # getevents(events)
-    # print("events called")
-    s3(getevents(events), 'events')
-    # print("uploaded on s3")
+    getevents(events)
+    
+    now = datetime.datetime.now()
+    if (now.hour >= 8 or now.hour <= 19) and now.weekday() <= 4:
+        s3(getoccupancy(meetingRoom), 'occupancy')
+        s3(getsensorhealth(sensorHealth), 'sensors')
+        s3(getevents(events), 'events')
 
 while True:
     main()
-    time.sleep(300)
+    time.sleep(900)
