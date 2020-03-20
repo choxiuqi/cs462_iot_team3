@@ -49,7 +49,7 @@ def check_text():
 
         elif '/reset_occupancy' in msg_text:
             print("reset occup present")
-            reset_occupancy()
+            reset_occupancy(chat_id)
 
         else:
             print("\nnot present")
@@ -172,13 +172,20 @@ def get_curr_occupancy(chat_id):
 
     return
 
-def reset_occupancy():
+def reset_occupancy(chat_id):
     timestamp = datetime.now()
     meeting_room_id = 'G'
     remarks = 'Reset'
     cur.execute("insert into occupancy values (default, %s, %s, %s, %s);"(str(timestamp), str(meeting_room_id), 0, str(remarks)))
     # cur.execute('INSERT INTO sensor_health ("id", "timestamp", "sensor_id", "value") VALUES (DEFAULT, %s, %s, %s);',(str(timestamp), str(MAC_address), float(value)))
     # timestamp, meeting_room_id, value, remarks=None
+
+    send_msg = "Reset done!"
+    params = {'chat_id':chat_id, 'text':send_msg}
+    r = requests.get(url=url_sendMsg, params = params)
+
+    get_curr_occupancy(chat_id)
+
     return
 
 
