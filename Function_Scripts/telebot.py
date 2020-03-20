@@ -47,6 +47,10 @@ def check_text():
             chat_id = current_msg['message']['chat']['id']
             get_curr_occupancy(chat_id)
 
+        elif '/reset_occupancy' in msg_text:
+            print("reset occup present")
+            reset_occupancy()
+
         else:
             print("\nnot present")
     else:
@@ -161,11 +165,17 @@ def get_curr_occupancy(chat_id):
     local_time= utc.astimezone(timezone('Asia/Singapore'))
 
     # s = t[0] + " - " + str(local_time) + "\n"
-    send_msg = "Current occupancy is **" + str(value) + "** last recorded at **" + str(local_time) + "**."
+    send_msg = "Current occupancy is " + str(value) + " last recorded at " + str(local_time) + "."
 
-    params = {'chat_id':chat_id, 'text':send_msg, 'parse_mode':'Markdown'}
+    params = {'chat_id':chat_id, 'text':send_msg}
     r = requests.get(url=url_sendMsg, params = params)   
 
+    return
+
+def reset_occupancy():
+    timestamp = datetime.now()
+    cur.execute("insert into occupancy values (default, %s, %s, %s, %s);"(str(timestamp), 'G', 0, 'Reset'))
+    # timestamp, meeting_room_id, value, remarks=None
     return
 
 
