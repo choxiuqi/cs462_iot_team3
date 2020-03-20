@@ -141,6 +141,8 @@ var current_occupancy = 0;
         current_occupancy = in_count - out_count;
         document.getElementById("div3").innerHTML = current_occupancy;
 
+        event.preventDefault();
+
 
         // console.log(event);
         return 
@@ -165,6 +167,8 @@ var current_occupancy = 0;
 
         current_occupancy = in_count - out_count;
         document.getElementById("div3").innerHTML = current_occupancy;
+
+        event.preventDefault();
 
         return 
     }
