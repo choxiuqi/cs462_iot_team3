@@ -41,6 +41,12 @@ def check_text():
             print("\nhealth updates present")
             chat_id = current_msg['message']['chat']['id']
             get_health_update(chat_id)
+
+        elif '/curr_occupancy' in msg_text:
+            print("\curr occup present")
+            chat_id = current_msg['message']['chat']['id']
+            get_curr_occupancy(chat_id)
+
         else:
             print("\nnot present")
     else:
@@ -142,6 +148,16 @@ def get_health_update(chat_id):
     ''' for pir, a bit more difficult.... perhaps don't do first'''
 
     return
+
+def get_curr_occupancy(chat_id):
+    cur.execute('select "value", "timestamp" from occupancy order by id desc limit 1;')
+    result = cur.fetchone()
+
+    print(result)
+
+    return
+
+
 
 while True:
     check_text()
