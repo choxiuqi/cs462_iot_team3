@@ -161,7 +161,7 @@ def get_curr_occupancy(chat_id):
     local_time= utc.astimezone(timezone('Asia/Singapore'))
 
     # s = t[0] + " - " + str(local_time) + "\n"
-    send_msg = "Current occupancy is " + str(value) + "last recorded at " + str(local_time) "."
+    send_msg = "Current occupancy is " + str(value) + "last recorded at " + str(local_time) + "."
 
     params = {'chat_id':chat_id, 'text':send_msg}
     r = requests.get(url=url_sendMsg, params = params)   
