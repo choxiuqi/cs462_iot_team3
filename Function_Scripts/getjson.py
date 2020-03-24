@@ -94,11 +94,11 @@ def main():
     events = baseURL + '/event'
     getevents(events)
     
-    now = datetime.datetime.now()
-    if (now.hour >= 8 or now.hour <= 19) and now.weekday() <= 4:
-        s3(getoccupancy(meetingRoom), 'occupancy')
-        s3(getsensorhealth(sensorHealth), 'sensors')
-        s3(getevents(events), 'events')
+    # now = datetime.datetime.now()
+    # if (now.hour >= 8 or now.hour <= 19) and now.weekday() <= 4:
+    #     s3(getoccupancy(meetingRoom), 'occupancy')
+    #     s3(getsensorhealth(sensorHealth), 'sensors')
+    #     s3(getevents(events), 'events')
 
 while True:
     main()
