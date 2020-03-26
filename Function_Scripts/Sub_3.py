@@ -101,7 +101,9 @@ def commit_uss_health_data(data):
             timestamp = datetime.utcfromtimestamp(timestamp_unix)
             print("timestamp: ",timestamp)
             MAC_address = msg['results'][0]['mac_add']
+            print(MAC_address)
             value = float(msg['results'][0]['value'])
+            print(value)
             # sensorType = 'USS'
             print("looked through USS_health variables")
 
