@@ -9,12 +9,18 @@ conn.autocommit = True
 def resetCounter():
     #take the last 5 readings from pir_record table
     ## if value 0= no movement (in 1 1min frame) 1=movement(in that 1 1min frame)
-    cur.execute('SELECT "value", "timestamp" FROM pir_record ORDER BY id DESC LIMIT 5;')
-    last_five_readings = cur.fetchall()    
+    cur.execute('SELECT "value", "timestamp" FROM pir_record WHERE "sensor_id" = %s ORDER BY id DESC LIMIT 5;', ('X001'))
+    last_five_readings_1 = cur.fetchall()
+    cur.execute('SELECT "value", "timestamp" FROM pir_record WHERE "sensor_id" = %s ORDER BY id DESC LIMIT 5;', ('X002'))
+    last_five_readings_2 = cur.fetchall()    
     occupied_or_not = 0
 
     #finding the total movements
-    for reading in last_five_readings:
+    for reading in last_five_readings_1:
+        value = reading[0]
+        occupied_or_not += value
+
+    for reading in last_five_readings_2:
         value = reading[0]
         occupied_or_not += value
 
@@ -39,14 +45,20 @@ def checkMotion(new_occupancy):
     2. every 5 mins since calendar event start to see if there are people
     '''
     try:
-        cur.execute('SELECT * FROM pir_record ORDER BY "id" DESC;')
-        latest_pir_reading = cur.fetchone()
+        cur.execute('SELECT * FROM pir_record WHERE "sensor_id" = %sORDER BY "id" DESC;',('X001'))
+        latest_pir_reading_1 = cur.fetchone()
+    except Exception as e:
+        return(str(e))
+
+    try:
+        cur.execute('SELECT * FROM pir_record WHERE "sensor_id" = %sORDER BY "id" DESC;',('X002'))
+        latest_pir_reading_2 = cur.fetchone()
     except Exception as e:
         return(str(e))
 
     print("selected from pir_record - check motion")
 
-    if latest_pir_reading[3]==0:     
+    if latest_pir_reading_1[3]==0 and latest_pir_reading_2[3]==0:     
         return True #nobody in the room
     else:
         return False     #people in the room
