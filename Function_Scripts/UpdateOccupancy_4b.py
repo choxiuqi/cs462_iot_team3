@@ -160,4 +160,4 @@ def UpdateOccupancy():
     return
 
 
-UpdateOccupancy()
+# UpdateOccupancy()
