@@ -7,6 +7,7 @@ cur = conn.cursor()
 conn.autocommit = True
 
 def resetCounter():
+    print("Reset Counter called")
     #take the last 5 readings from pir_record table
     ## if value 0= no movement (in 1 1min frame) 1=movement(in that 1 1min frame)
     cur.execute('SELECT "value", "timestamp" FROM pir_record WHERE "sensor_id" = %s ORDER BY id DESC LIMIT 5;', ('X001'))
@@ -26,15 +27,18 @@ def resetCounter():
 
     #when there is a movement
     if occupied_or_not >0:
+        print("nobody in room")
         return 
     #when there is no movement (occipied_or_not==1)
     else:
         #post ocupancy 1 new row to make occupancy 0,
-        time = last_five_readings[0][1]        
+        time = max(last_five_readings_1[0][1], last_five_readings_2[0][1])
+        print("final time in last 5 readings:",time)     
         meeting_room_id = 'G'
         new_occupancy = 0
         remarks = "resetted"
         cur.execute("INSERT INTO occupancy VALUES (DEFAULT, %s, %s, %s, %s);",(time, meeting_room_id, new_occupancy, remarks))
+        print("got people, updated occupancy")
         return 
 
 def checkMotion(new_occupancy):
@@ -66,6 +70,8 @@ def checkMotion(new_occupancy):
 def UpdateOccupancy():
     ##1. want to find out which are the new datas in the records db.
     ##  compare the ids that are in record db and the ids of those in occupancy db
+
+    print("update occupancy called")
 
     cur.execute('SELECT * FROM latest_uss_record;')
     details_list = cur.fetchall()
@@ -121,7 +127,7 @@ def UpdateOccupancy():
                 human_traffic -=1
     else:
         human_traffic = 0
-    #print(human_traffic)
+    print("human traffic", human_traffic)
 
     cur.execute('SELECT value FROM occupancy;') 
     occupancy_list = cur.fetchall()[-1]
