@@ -117,7 +117,7 @@ def UpdateOccupancy():
             time_difference = (time_current - previous_record['timestamp']).total_seconds()
             if ((previous_record['sensor_id']) != sensor_id_current) and (previous_record['value']!=89) and (value_current!=89) and (time_difference<=2):
                 pairs_in_out.append([(previous_record['sensor_id']), sensor_id_current])
-                previous_record = {'id':details_list[counter-1][0], 'value': details_list[counter-1][1], 'timestamp':details_list[counter+1][2], 'sensor_id':details_list[counter+1][3]}
+                previous_record = {'id':details_list[counter-1][0], 'value': details_list[counter-1][1], 'timestamp':details_list[counter-1][2], 'sensor_id':details_list[counter-1][3]}
                 print("counter:", counter, "prev record", previous_record)
                 counter += 2
             else:
