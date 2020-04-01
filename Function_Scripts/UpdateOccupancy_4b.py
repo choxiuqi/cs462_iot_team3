@@ -99,13 +99,19 @@ def UpdateOccupancy():
     print("looking through counter now")
 
     while (counter<len(details_list)):
+        print("length of details list is",len(details_list))
         id_current = details_list[counter][0]
+        print(id_current)
         value_current = details_list[counter][1]
+        print(id_current)
         time_current = details_list[counter][2]
+        print(time_current)
         sensor_id_current = details_list[counter][3]
+        print(sensor_id)
 
         if counter == 0:
             previous_record = {'id':id_current, 'value': value_current, 'timestamp':time_current, 'sensor_id':sensor_id_current}
+            print("checked previous record and counter is 0")
             counter += 1
 
         else:
@@ -113,9 +119,11 @@ def UpdateOccupancy():
             if ((previous_record['sensor_id']) != sensor_id_current) and (previous_record['value']!=89) and (value_current!=89) and (time_difference<=2):
                 pairs_in_out.append([(previous_record['sensor_id']), sensor_id_current])
                 previous_record = {'id':details_list[counter+1][0], 'value': details_list[counter+1][1], 'timestamp':details_list[counter+1][2], 'sensor_id':details_list[counter+1][3]}
+                print("counter:", counter, "prev record", previous_record)
                 counter += 2
             else:
                 previous_record = {'id':id_current, 'value': value_current, 'timestamp':time_current, 'sensor_id':sensor_id_current}
+                print("counter:", counter, "previous record", previous_record)
                 counter += 1
 
     #find number of people who enter and exit
