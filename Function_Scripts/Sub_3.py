@@ -92,7 +92,7 @@ def commit_uss_health_data(data):
     '''
     This function will push in only sensor health data in sensor_health(tentative, NEW!!)
     ''' 
-    # print("USS_health msg recevied: {}".format(data))  
+    print("USS_health msg recevied: {}".format(data))  
     for msg in data:
         MAC_address = msg['results'][0]['mac_add']
         if MAC_address != "123123":
