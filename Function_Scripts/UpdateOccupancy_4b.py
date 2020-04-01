@@ -75,6 +75,7 @@ def UpdateOccupancy():
 
     cur.execute('SELECT * FROM latest_uss_record;')
     details_list = cur.fetchall()
+    print("selected latest uss records")
     
     '''
     --DETERMINE IF PEOPLE ARE WALKING IN/OUT/NOISE--
@@ -94,6 +95,8 @@ def UpdateOccupancy():
     counter = 0
     pairs_in_out = []
     previous_record = {}
+
+    print("looking through counter now")
 
     while (counter<len(details_list)):
         id_current = details_list[counter][0]
