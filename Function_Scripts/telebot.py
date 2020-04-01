@@ -81,7 +81,7 @@ def get_health_update(chat_id):
     timestamps.append(("Raspberry pi (Window)",last_pi_rec))
 
     # get reading for out rpi2
-    cur.execute('select "timestamp" from sensor_health where "sensor_id" = \'pi123\' order by id desc limit 1;')
+    cur.execute('select "timestamp" from sensor_health where "sensor_id" = \'pi456\' order by id desc limit 1;')
     last_pi_rec_2 = cur.fetchone()[0]
     # print("current time:", datetime.now())
     # print("pi timestamp:", last_pi_rec)
