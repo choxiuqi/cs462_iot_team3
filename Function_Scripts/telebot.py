@@ -24,7 +24,8 @@ prev_msg_id = ''
 
 # ##################################################################################################################################
 def check_text():
-    r = requests.get(url_getUpdates)
+    params = {'offset':prev_msg_id}
+    r = requests.get(url_getUpdates, params = params)
     d = r.json()
 
     global prev_msg_id
