@@ -68,7 +68,7 @@ def get_health_update(chat_id):
     errors = []
     timestamps = []
 
-    # get reading for out USS
+    # get reading for out rpi1
     cur.execute('select "timestamp" from sensor_health where "sensor_id" = \'pi123\' order by id desc limit 1;')
     last_pi_rec = cur.fetchone()[0]
     # print("current time:", datetime.now())
@@ -77,8 +77,47 @@ def get_health_update(chat_id):
     # print ("rpi time diff:", rpi_time_diff, '\n')
 
     if (rpi_time_diff > 60):
-        errors.append("Raspberry pi")
-    timestamps.append(("Raspberry pi",last_pi_rec))
+        errors.append("Raspberry pi (Window)")
+    timestamps.append(("Raspberry pi (Window)",last_pi_rec))
+
+    # get reading for out rpi2
+    cur.execute('select "timestamp" from sensor_health where "sensor_id" = \'pi123\' order by id desc limit 1;')
+    last_pi_rec_2 = cur.fetchone()[0]
+    # print("current time:", datetime.now())
+    # print("pi timestamp:", last_pi_rec)
+    rpi_time_diff_2 = (datetime.now() - last_pi_rec_2).total_seconds() / 60         # time difference in minutes
+    # print ("rpi time diff:", rpi_time_diff, '\n')
+
+    if (rpi_time_diff_2 > 60):
+        errors.append("Raspberry pi (TV)")
+    timestamps.append(("Raspberry pi (TV)",last_pi_rec_2))
+
+    # get reading for out pir1
+    cur.execute('select "timestamp" from pir_record where "sensor_id" = \'X001\' order by id desc limit 1;')
+    last_pir_rec = cur.fetchone()[0]
+    # print("current time:", datetime.now())
+    # print("pi timestamp:", last_pi_rec)
+    pir_time_diff = (datetime.now() - last_pir_rec).total_seconds() / 60         # time difference in minutes
+    # print ("rpi time diff:", rpi_time_diff, '\n')
+
+    if (pir_time_diff > 60):
+        errors.append("PIR motion sensor (Window)")
+    timestamps.append(("PIR motion sensor (Window)",last_pir_rec))
+
+
+    # get reading for out pir2
+    cur.execute('select "timestamp" from pir_record where "sensor_id" = \'X002\' order by id desc limit 1;')
+    last_pir_rec_2 = cur.fetchone()[0]
+    # print("current time:", datetime.now())
+    # print("pi timestamp:", last_pi_rec)
+    pir_time_diff_2 = (datetime.now() - last_pir_rec_2).total_seconds() / 60         # time difference in minutes
+    # print ("rpi time diff:", rpi_time_diff, '\n')
+
+    if (pir_time_diff_2 > 60):
+        errors.append("PIR motion sensor (TV)")
+    timestamps.append(("PIR motion sensor (TV)",last_pir_rec_2))
+
+
     
     # get reading for in USS
     cur.execute('select "timestamp" from sensor_health where "sensor_id" = \'fb48fc3a6ee3\' order by id desc limit 1;')
