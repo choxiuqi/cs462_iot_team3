@@ -32,7 +32,7 @@ def resetCounter():
     #when there is no movement (occipied_or_not==1)
     else:
         #post ocupancy 1 new row to make occupancy 0,
-        time = max(last_five_readings_1[0][1], last_five_readings_2[0][1])
+        time = last_five_readings_1[0][1]
         print("final time in last 5 readings:",time)     
         meeting_room_id = 'G'
         new_occupancy = 0
