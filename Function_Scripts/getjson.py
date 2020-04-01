@@ -79,7 +79,7 @@ def getevents(url):
     return ('events.csv')
 
 def s3(csvfile, folder):
-    cmd = 'aws s3 cp {} s3://cs462g3/{}/'.format(csvfile, folder)
+    cmd = 'aws s3 cp {} s3://cs462-team3/{}/'.format(csvfile, folder)
     # subprocess.call(cmd, shell=True)
     os.system(cmd)
     return
@@ -91,14 +91,14 @@ def main():
     getoccupancy(meetingRoom)
     sensorHealth = baseURL + '/sensor-health-debug'
     getsensorhealth(sensorHealth)
-    events = baseURL + '/event'
+    events = baseURL + '/event' 
     getevents(events)
     
-    # now = datetime.datetime.now()
-    # if (now.hour >= 8 or now.hour <= 19) and now.weekday() <= 4:
-    #     s3(getoccupancy(meetingRoom), 'occupancy')
-    #     s3(getsensorhealth(sensorHealth), 'sensors')
-    #     s3(getevents(events), 'events')
+    now = datetime.datetime.now()
+    if (now.hour >= 8 or now.hour <= 19) and now.weekday() <= 4:
+        s3(getoccupancy(meetingRoom), 'occupancy')
+        s3(getsensorhealth(sensorHealth), 'sensors')
+        s3(getevents(events), 'events')
 
 while True:
     main()
