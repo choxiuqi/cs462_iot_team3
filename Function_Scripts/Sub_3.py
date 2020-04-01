@@ -65,7 +65,7 @@ def commit_pir_data(msg, id):
     '''
     This function will push in only PIR sensor data in PIR_record(tentative, NEW!!)
     '''
-    print("PIR msg recevied: {}".format(msg))
+    # print("PIR msg recevied: {}".format(msg))
 
     '''e.g. of msg: {'result': [{'mac_add': 'X001', 'timestamp': 1584713026, 'value': 0}]} '''
 
@@ -75,7 +75,7 @@ def commit_pir_data(msg, id):
     MAC_address = id
     value = float(msg['result'][0]['value'])
     # sensorType = 'USS'
-    print("looked through PIR variables")
+    # print("looked through PIR variables")
 
     # not sure about the flow now..... but anw below shows inserting into db, and the very basic calling amelia's function
     try:
@@ -92,7 +92,7 @@ def commit_uss_health_data(data):
     '''
     This function will push in only sensor health data in sensor_health(tentative, NEW!!)
     ''' 
-    print("USS_health msg recevied: {}".format(data))  
+    # print("USS_health msg recevied: {}".format(data))  
     for msg in data:
         MAC_address = msg['results'][0]['mac_add']
         if MAC_address != "123123":
