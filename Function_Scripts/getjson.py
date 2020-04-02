@@ -79,7 +79,7 @@ def getevents(url):
     return ('events.csv')
 
 def s3(csvfile, folder):
-    cmd = 'aws s3 cp {} s3://cs462-team3/{}/ --acl public-read'.format(csvfile, folder)
+    cmd = 'aws s3 cp {} s3://cs462-team3/{}/'.format(csvfile, folder)
     # subprocess.call(cmd, shell=True)
     os.system(cmd)
     return
