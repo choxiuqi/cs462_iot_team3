@@ -65,7 +65,7 @@ def commit_pir_data(msg, id):
     '''
     This function will push in only PIR sensor data in PIR_record(tentative, NEW!!)
     '''
-    print("PIR msg recevied: {}".format(msg))
+    # print("PIR msg recevied: {}".format(msg))
 
     '''e.g. of msg: {'result': [{'mac_add': 'X001', 'timestamp': 1584713026, 'value': 0}]} '''
 
@@ -75,7 +75,7 @@ def commit_pir_data(msg, id):
     MAC_address = id
     value = float(msg['result'][0]['value'])
     # sensorType = 'USS'
-    print("looked through PIR variables")
+    # print("looked through PIR variables")
 
     # not sure about the flow now..... but anw below shows inserting into db, and the very basic calling amelia's function
     try:
@@ -86,7 +86,7 @@ def commit_pir_data(msg, id):
     except Exception as e:
         return(str(e))
 
-    # resetCounter()
+    resetCounter()
 
 def commit_uss_health_data(data):
     '''
@@ -118,7 +118,7 @@ def commit_uss_health_data(data):
                 return(str(e))
     return 
 
-def commit_rpi_health_data(data, sensor_id):
+def commit_rpi_health_data_123(data, sensor_id):
     '''
     This function will push in only sensor health data in sensor_health(tentative, NEW!!)
     '''
@@ -149,6 +149,38 @@ def commit_rpi_health_data(data, sensor_id):
 
 
     return
+
+# def commit_rpi_health_data_456(data, sensor_id):
+#     '''
+#     This function will push in only sensor health data in sensor_health(tentative, NEW!!)
+#     '''
+#     print("raspberry pi health data received: {}".format(data))
+
+#     #timestamp_unix = int(data[1]['timestamp'])
+#     epoch_time = (data[0]['timestamp'])
+#     epoch_time = int(str(epoch_time)[0:10])
+#     print("timestamp_unix:",epoch_time)
+#     timestamp = str(datetime.utcfromtimestamp(epoch_time))
+#     print("timestamp:",timestamp)
+#     MAC_address = sensor_id
+#     print("id:",sensor_id)
+#     value = float(data[1]['value'])
+#     print("value:",value)
+#     temperature = round(float(data[2]['temperature']), 1)
+#     print("temperature:",temperature)
+#     print("looked through raspberry pi variables")
+
+#     # not sure about the flow now..... but anw below shows inserting into db, and the very basic calling amelia's function
+#     try:
+#         print("executing_record")
+#         cur.execute('INSERT INTO sensor_health ("id", "timestamp", "sensor_id", "value", "temperature") VALUES (DEFAULT, %s, %s, %s, %s);',(str(timestamp), str(MAC_address), float(value), float(temperature)))
+#         print("committed_record")               
+        
+#     except Exception as e:
+#         return(str(e))
+
+
+    # return
 
 
 
@@ -182,7 +214,10 @@ def on_message(client, userdata, message):
 
     if i2["type"] == "raspberry pi":
         print("raspberry pi data received", i2)
-        commit_rpi_health_data(i2['sensor_health'], i2["mac_add"])
+        # if i2["mac_add"] == 'pi123':
+        commit_rpi_health_data_123(i2['sensor_health'], i2["mac_add"])
+        # else:
+        #     commit_rpi_health_data_456(i2['sensor_health'], i2["mac_add"])
     
 
     return

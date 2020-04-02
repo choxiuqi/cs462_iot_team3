@@ -7,6 +7,7 @@ cur = conn.cursor()
 conn.autocommit = True
 
 def resetCounter():
+    print("Reset Counter called")
     #take the last 5 readings from pir_record table
     ## if value 0= no movement (in 1 1min frame) 1=movement(in that 1 1min frame)
     cur.execute('SELECT "value", "timestamp" FROM pir_record WHERE "sensor_id" = %s ORDER BY id DESC LIMIT 5;', ('X001'))
@@ -26,15 +27,18 @@ def resetCounter():
 
     #when there is a movement
     if occupied_or_not >0:
+        print("nobody in room")
         return 
     #when there is no movement (occipied_or_not==1)
     else:
         #post ocupancy 1 new row to make occupancy 0,
-        time = last_five_readings[0][1]        
+        time = last_five_readings_1[0][1]
+        print("final time in last 5 readings:",time)     
         meeting_room_id = 'G'
         new_occupancy = 0
         remarks = "resetted"
         cur.execute("INSERT INTO occupancy VALUES (DEFAULT, %s, %s, %s, %s);",(time, meeting_room_id, new_occupancy, remarks))
+        print("got people, updated occupancy")
         return 
 
 def checkMotion(new_occupancy):
@@ -67,8 +71,11 @@ def UpdateOccupancy():
     ##1. want to find out which are the new datas in the records db.
     ##  compare the ids that are in record db and the ids of those in occupancy db
 
+    print("update occupancy called")
+
     cur.execute('SELECT * FROM latest_uss_record;')
     details_list = cur.fetchall()
+    print("selected latest uss records")
     
     '''
     --DETERMINE IF PEOPLE ARE WALKING IN/OUT/NOISE--
@@ -89,24 +96,33 @@ def UpdateOccupancy():
     pairs_in_out = []
     previous_record = {}
 
+    print("looking through counter now")
+
     while (counter<len(details_list)):
+        print("length of details list is",len(details_list))
         id_current = details_list[counter][0]
+        print(id_current)
         value_current = details_list[counter][1]
+        print(id_current)
         time_current = details_list[counter][2]
+        print(time_current)
         sensor_id_current = details_list[counter][3]
+        print(sensor_id_current)
 
         if counter == 0:
             previous_record = {'id':id_current, 'value': value_current, 'timestamp':time_current, 'sensor_id':sensor_id_current}
+            print("checked previous record and counter is 0")
             counter += 1
-
         else:
             time_difference = (time_current - previous_record['timestamp']).total_seconds()
             if ((previous_record['sensor_id']) != sensor_id_current) and (previous_record['value']!=89) and (value_current!=89) and (time_difference<=2):
                 pairs_in_out.append([(previous_record['sensor_id']), sensor_id_current])
-                previous_record = {'id':details_list[counter+1][0], 'value': details_list[counter+1][1], 'timestamp':details_list[counter+1][2], 'sensor_id':details_list[counter+1][3]}
+                previous_record = {'id':details_list[counter-1][0], 'value': details_list[counter-1][1], 'timestamp':details_list[counter-1][2], 'sensor_id':details_list[counter-1][3]}
+                print("counter:", counter, "prev record", previous_record)
                 counter += 2
             else:
                 previous_record = {'id':id_current, 'value': value_current, 'timestamp':time_current, 'sensor_id':sensor_id_current}
+                print("counter:", counter, "previous record", previous_record)
                 counter += 1
 
     #find number of people who enter and exit
@@ -121,7 +137,7 @@ def UpdateOccupancy():
                 human_traffic -=1
     else:
         human_traffic = 0
-    #print(human_traffic)
+    print("human traffic", human_traffic)
 
     cur.execute('SELECT value FROM occupancy;') 
     occupancy_list = cur.fetchall()[-1]
@@ -142,3 +158,6 @@ def UpdateOccupancy():
         cur.execute("INSERT INTO occupancy VALUES (DEFAULT, %s, %s, %s);",(time, meeting_room_id, new_occupancy))
 
     return
+
+
+# UpdateOccupancy()
