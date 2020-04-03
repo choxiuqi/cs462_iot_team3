@@ -89,6 +89,24 @@ def get_occupancy():
     occupancy = Occupancy.query.all()
     return jsonify([o.serialize() for o in occupancy])
 
+@app.route('/occupancy-debug', methods=['GET'])
+def get_occupancy_debug():
+    occupancy = Occupancy.query.all()
+    
+    finalList = []
+    for tempDict in occupancy:
+        finalDict = {}
+        d1 = tempDict.serialize()
+        finalDict['id'] = d1['id']
+        finalDict['meeting_room_id'] = d1['meeting_room_id']
+        finalDict['value'] = d1['value']
+        for k,v in d1.items():
+            if k == 'timestamp':
+                finalDict['timestamp'] = str(v[5:])
+        finalList.append(finalDict)
+
+    return jsonify(finalList)
+
 @app.route('/event', methods=['GET'])
 def get_event():
     event = Upcoming.query.all()
