@@ -15,8 +15,8 @@ def getoccupancy(url):
     json_data = open('occupancy.csv', 'w')
     csvwriter = csv.writer(json_data)
 
-    header = json_parsed[0].keys()
-    csvwriter.writerow(header)
+    # header = json_parsed[0].keys()
+    # csvwriter.writerow(header)
     for i in range(0,len(json_parsed)):
         csvwriter.writerow(json_parsed[i].values())
         # print(i, json_parsed[i].values())
@@ -34,8 +34,8 @@ def getsensorhealth(url):
     json_data = open('sensors.csv', 'w')
     csvwriter = csv.writer(json_data)
     if len(sensor) > 0:
-        header = json_parsed[0].keys()
-        csvwriter.writerow(header)
+        # header = json_parsed[0].keys()
+        # csvwriter.writerow(header)
         for i in range(0,len(json_parsed)):
             csvwriter.writerow(json_parsed[i].values())
 
@@ -69,8 +69,8 @@ def getevents(url):
     json_data = open('events.csv', 'w')
     csvwriter = csv.writer(json_data)
 
-    header = json_parsed[0].keys()
-    csvwriter.writerow(header)
+    # header = json_parsed[0].keys()
+    # csvwriter.writerow(header)
     for i in range(0,len(json_parsed)):
         csvwriter.writerow(json_parsed[i].values())
 
