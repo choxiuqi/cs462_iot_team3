@@ -118,6 +118,26 @@ def get_event():
     event = Upcoming.query.all()
     return jsonify([e.serialize() for e in event])
 
+
+@app.route('/event-debug', methods=['GET'])
+def getEvent():
+    event = Upcoming.query.all()
+
+    finalList = []
+    for tempDict in event:
+        finalDict = {}
+        d1 = tempDict.serialize()
+        finalDict['creator'] = d1['creator']
+        finalDict['id'] = d1['id']
+        for k,v in d1.items():
+            if k == 'end':
+                finalDict['endTime'] = v.strftime('%Y-%m-%d %H:%M:%S.%f')[:-3]
+            if k == 'start':
+                finalDict['startTime'] = v.strftime('%Y-%m-%d %H:%M:%S.%f')[:-3]
+        finalList.append(finalDict)
+
+    return jsonify(finalList)
+
 # @app.route('/occupancy-debug', methods=['POST'])
 # def get_event_occupancy():
 #     event = Upcoming.query.all()
