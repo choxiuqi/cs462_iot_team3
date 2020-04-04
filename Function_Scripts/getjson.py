@@ -91,7 +91,7 @@ def main():
     getoccupancy(meetingRoom)
     sensorHealth = baseURL + '/sensor-health-debug'
     getsensorhealth(sensorHealth)
-    events = baseURL + '/event' 
+    events = baseURL + '/event-debug' 
     getevents(events)
     
     # now = datetime.datetime.now()
