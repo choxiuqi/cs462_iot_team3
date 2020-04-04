@@ -102,7 +102,7 @@ def get_occupancy_debug():
         finalDict['meeting_room_id'] = d1['meeting_room_id']
         for k,v in d1.items():
             if k == 'timestamp':
-                finalDict['timestamp'] = v.strftime("%d-%m-%Y %H:%M:%S")
+                finalDict['timestamp'] = v.strftime('%d-%m-%Y %H:%M:%S')
         finalDict['value'] = d1['value']
         finalList.append(finalDict)
 
