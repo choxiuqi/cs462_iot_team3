@@ -168,31 +168,31 @@ def create_booking():
         flags = argparse.ArgumentParser(parents=[tools.argparser]).parse_args()
     except ImportError:
         flags = None
-
-    SCOPES = 'https://www.googleapis.com/auth/calendar'
-    store = file.Storage('storage.json')
-    creds = store.get()
-    if not creds or creds.invalid:
-        flow = client.flow_from_clientsecrets('client_secret.json', SCOPES)
-        creds = tools.run_flow(flow, store, flags) \
-            if flags else tools.run(flow, store)
     return 'hihi'
 
-    # CAL = build('calendar', 'v3', http=creds.authorize(Http()))
-    CAL = build('calendar', 'v3', credentials=creds)
+    # SCOPES = 'https://www.googleapis.com/auth/calendar'
+    # store = file.Storage('storage.json')
+    # creds = store.get()
+    # if not creds or creds.invalid:
+    #     flow = client.flow_from_clientsecrets('client_secret.json', SCOPES)
+    #     creds = tools.run_flow(flow, store, flags) \
+    #         if flags else tools.run(flow, store)
 
-    GMT_OFF = '+08:00'          # ET/MST/GMT-4
-    EVENT = {
-        'summary': 'test',
-        'start': {'dateTime': '2020-04-05T10:00:00%s' % GMT_OFF},
-        'end': {'dateTime': '2020-04-05T14:00:00%s' % GMT_OFF},
-    }
+    # # CAL = build('calendar', 'v3', http=creds.authorize(Http()))
+    # CAL = build('calendar', 'v3', credentials=creds)
 
-    e = CAL.events().insert(calendarId='primary',sendNotifications=True, body=EVENT).execute()
+    # GMT_OFF = '+08:00'          # ET/MST/GMT-4
+    # EVENT = {
+    #     'summary': 'test',
+    #     'start': {'dateTime': '2020-04-05T10:00:00%s' % GMT_OFF},
+    #     'end': {'dateTime': '2020-04-05T14:00:00%s' % GMT_OFF},
+    # }
 
-    # print('''*** %r event added:
-    #     Start: %s
-    #     End: %s''' % (e['summary'].encode('utf-8'),
-    #                 e['start']['dateTime'], e['end']['dateTime']))
+    # e = CAL.events().insert(calendarId='primary',sendNotifications=True, body=EVENT).execute()
 
-    return 'booking created'
+    # # print('''*** %r event added:
+    # #     Start: %s
+    # #     End: %s''' % (e['summary'].encode('utf-8'),
+    # #                 e['start']['dateTime'], e['end']['dateTime']))
+
+    # return 'booking created'
