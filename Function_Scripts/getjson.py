@@ -87,18 +87,18 @@ def s3(csvfile, folder):
 def main():
     # baseURL = 'http://3.86.89.118:5000'
     baseURL = 'http://172.31.95.27:5000'
-    meetingRoom = baseURL + '/occupancy'
+    meetingRoom = baseURL + '/occupancy-debug'
     getoccupancy(meetingRoom)
     sensorHealth = baseURL + '/sensor-health-debug'
     getsensorhealth(sensorHealth)
     events = baseURL + '/event' 
     getevents(events)
     
-    now = datetime.datetime.now()
-    if (now.hour >= 8 or now.hour <= 19) and now.weekday() <= 4:
-        s3(getoccupancy(meetingRoom), 'occupancy')
-        s3(getsensorhealth(sensorHealth), 'sensors')
-        s3(getevents(events), 'events')
+    # now = datetime.datetime.now()
+    # if (now.hour >= 8 or now.hour <= 19) and now.weekday() <= 4:
+    s3(getoccupancy(meetingRoom), 'occupancy')
+    s3(getsensorhealth(sensorHealth), 'sensors')
+    s3(getevents(events), 'events')
 
 while True:
     main()
