@@ -100,10 +100,10 @@ def get_occupancy_debug():
         d1 = tempDict.serialize()
         finalDict['id'] = d1['id']
         finalDict['meeting_room_id'] = d1['meeting_room_id']
-        finalDict['value'] = d1['value']
         for k,v in d1.items():
             if k == 'timestamp':
                 finalDict['timestamp'] = v.strftime("%d-%m-%Y %H:%M:%S")
+        finalDict['value'] = d1['value']
         finalList.append(finalDict)
 
     return jsonify(finalList)
