@@ -4,6 +4,12 @@ from flask import render_template
 import json
 from datetime import datetime
 
+from __future__ import print_function
+from apiclient.discovery import build
+from httplib2 import Http
+from oauth2client import file, client, tools
+
+
 app = Flask(__name__)
 app.debug = True #to set in staging development
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'sxwvjgwhgvzwcu://smt203team2:9c7e10ad14854f8266bb4830c93f9c412d621b945ad04bd82f73c28b44247423@ec2-18-235-20-228.compute-1.amazonaws.com:5432/d3tvcbdn77mrah'
@@ -150,3 +156,39 @@ def create_count(id):
         return jsonify({"message": "An error occurred creating the count."}), 500
 
     return jsonify(count.json()), 201
+
+
+
+# create booking event on gsuite calendar
+@app.route("/create-booking", methods=['POST'])
+def create_booking():
+    try:
+        import argparse
+        flags = argparse.ArgumentParser(parents=[tools.argparser]).parse_args()
+    except ImportError:
+        flags = None
+
+    SCOPES = 'https://www.googleapis.com/auth/calendar'
+    store = file.Storage('storage.json')
+    creds = store.get()
+    if not creds or creds.invalid:
+        flow = client.flow_from_clientsecrets('client_secret.json', SCOPES)
+        creds = tools.run_flow(flow, store, flags) \
+            if flags else tools.run(flow, store)
+
+    # CAL = build('calendar', 'v3', http=creds.authorize(Http()))
+    CAL = build('calendar', 'v3', credentials=creds)
+
+    GMT_OFF = '+08:00'          # ET/MST/GMT-4
+    EVENT = {
+        'summary': 'test',
+        'start': {'dateTime': '2020-04-05T10:00:00%s' % GMT_OFF},
+        'end': {'dateTime': '2020-04-05T14:00:00%s' % GMT_OFF},
+    }
+
+    e = CAL.events().insert(calendarId='primary',sendNotifications=True, body=EVENT).execute()
+
+    print('''*** %r event added:
+        Start: %s
+        End: %s''' % (e['summary'].encode('utf-8'),
+                    e['start']['dateTime'], e['end']['dateTime']))
