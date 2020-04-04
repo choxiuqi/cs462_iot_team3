@@ -176,6 +176,7 @@ def create_booking():
         flow = client.flow_from_clientsecrets('client_secret.json', SCOPES)
         creds = tools.run_flow(flow, store, flags) \
             if flags else tools.run(flow, store)
+    return 'hihi'
 
     # CAL = build('calendar', 'v3', http=creds.authorize(Http()))
     CAL = build('calendar', 'v3', credentials=creds)
