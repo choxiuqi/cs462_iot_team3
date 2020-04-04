@@ -2,6 +2,7 @@ from __future__ import print_function
 from apiclient.discovery import build
 from httplib2 import Http
 from oauth2client import file, client, tools
+import argparse
 
 
 from flask import Flask, jsonify, request
@@ -9,6 +10,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask import render_template
 import json
 from datetime import datetime
+
 
 
 app = Flask(__name__)
@@ -165,14 +167,9 @@ def create_count(id):
 # create booking event on gsuite calendar
 
 
-try:
-    import argparse
-    flags = argparse.ArgumentParser(parents=[tools.argparser]).parse_args()
-except ImportError:
-    flags = None
-
 @app.route("/create-booking")
 def create_booking():
+    flags = argparse.ArgumentParser(parents=[tools.argparser]).parse_args()
     SCOPES = 'https://www.googleapis.com/auth/calendar'
     store = file.Storage('storage.json')
     creds = store.get()
