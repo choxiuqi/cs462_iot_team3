@@ -103,7 +103,7 @@ def get_occupancy_debug():
         finalDict['value'] = d1['value']
         for k,v in d1.items():
             if k == 'timestamp':
-                finalDict['timestamp'] = v.strftime("%\d-%m-%Y %H:%M:%S")
+                finalDict['timestamp'] = v.strftime("%d-%m-%Y %H:%M:%S")
         finalList.append(finalDict)
 
     return jsonify(finalList)
