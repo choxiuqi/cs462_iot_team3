@@ -103,7 +103,8 @@ def get_occupancy_debug():
         for k,v in d1.items():
             if k == 'timestamp':
                 # finalDict['timestamp'] = v.strftime('%d-%m-%Y %H:%M:%S')
-                finalDict['timestamp'] = v.strftime('%Y-%m-%d %H:%M:%S.%fZ')
+                finalDict['date'] = v.strftime('%Y-%m-%d')
+                finalDict['time'] = v.strftime('%H:%M:%S.%fZ')
         finalDict['value'] = d1['value']
         finalList.append(finalDict)
 
