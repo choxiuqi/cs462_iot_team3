@@ -157,3 +157,50 @@ def create_count(id):
         return jsonify({"message": "An error occurred creating the count."}), 500
 
     return jsonify(count.json()), 201
+
+
+
+# create booking event on gsuite calendar
+@app.route("/create-booking")
+def create_booking():
+    try:
+        import argparse
+        flags = tools.argparser.parse_args([])
+    except ImportError:
+        flags = None
+    SCOPES = 'https://www.googleapis.com/auth/calendar'
+    store = file.Storage('storage.json')
+    creds = store.get()
+    if not creds or creds.invalid:
+        flow = client.flow_from_clientsecrets('client_secret.json', SCOPES)
+        creds = tools.run_flow(flow, store, flags) \
+            if flags else tools.run(flow, store)
+
+    # CAL = build('calendar', 'v3', http=creds.authorize(Http()))
+    CAL = build('calendar', 'v3', credentials=creds)
+
+    summary = request.args.get('summary')
+    startDate = request.args.get('startDate')
+    startTime = request.args.get('startTime')
+    endDate = request.args.get('endDate')
+    endTime = request.args.get('endTime')
+
+    GMT_OFF = '+08:00'          # ET/MST/GMT-4
+    # EVENT = {
+    #     'summary': 'test',
+    #     'start': {'dateTime': '2020-04-05T10:00:00%s' % GMT_OFF},
+    #     'end': {'dateTime': '2020-04-05T14:00:00%s' % GMT_OFF},
+    # }
+    EVENT = {
+         'summary': summary,
+        'start': {'dateTime': '%sT%s%s' % (startDate, startTime, GMT_OFF)},
+        'end': {'dateTime': '%sT%s%s' % (endDate, endTime, GMT_OFF)},
+    }
+
+    e = CAL.events().insert(calendarId='primary',sendNotifications=True, body=EVENT).execute()
+
+    # print('''*** %r event added:
+    #     Start: %s
+    #     End: %s''' % (e['summary'].encode('utf-8'),
+    #                 e['start']['dateTime'], e['end']['dateTime']))
+    return 'done'
