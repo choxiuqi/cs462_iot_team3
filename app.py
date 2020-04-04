@@ -1,13 +1,14 @@
+from __future__ import print_function
+from apiclient.discovery import build
+from httplib2 import Http
+from oauth2client import file, client, tools
+
+
 from flask import Flask, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
 from flask import render_template
 import json
 from datetime import datetime
-
-from __future__ import print_function
-from apiclient.discovery import build
-from httplib2 import Http
-from oauth2client import file, client, tools
 
 
 app = Flask(__name__)
@@ -188,7 +189,9 @@ def create_booking():
 
     e = CAL.events().insert(calendarId='primary',sendNotifications=True, body=EVENT).execute()
 
-    print('''*** %r event added:
-        Start: %s
-        End: %s''' % (e['summary'].encode('utf-8'),
-                    e['start']['dateTime'], e['end']['dateTime']))
+    # print('''*** %r event added:
+    #     Start: %s
+    #     End: %s''' % (e['summary'].encode('utf-8'),
+    #                 e['start']['dateTime'], e['end']['dateTime']))
+
+    return 'booking created'
