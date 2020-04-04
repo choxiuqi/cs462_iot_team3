@@ -161,7 +161,7 @@ def create_count(id):
 
 
 # create booking event on gsuite calendar
-@app.route("/create-booking", methods=['POST'])
+@app.route("/create-booking")
 def create_booking():
     try:
         import argparse
