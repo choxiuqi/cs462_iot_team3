@@ -77,10 +77,12 @@ def sensorHealthDebug():
                 for a in v:
                     a["desc"] = d1["desc"]
                     a["meeting_room_id"] = d1["meeting_room_id"]
+                    a['timestamp'] = a['timestamp'].strftime('%Y-%m-%d %H:%M:%S.%f')[:-3]
             elif k == "pir_records":
                 for a in v:
                     a["desc"] = d1["desc"]
                     a["meeting_room_id"] = d1["meeting_room_id"]
+                    a['timestamp'] = a['timestamp'].strftime('%Y-%m-%d %H:%M:%S.%f')[:-3]
         final_list.append(final_dict)
 
     return jsonify(final_list)
@@ -114,6 +116,9 @@ def get_occupancy_debug():
 @app.route('/event', methods=['GET'])
 def get_event():
     event = Upcoming.query.all()
+    for item in event:
+        item['end'] = item['end'].strftime('%Y-%m-%d %H:%M:%S.%f')[:-3]
+        item['start'] = item['start'].strftime('%Y-%m-%d %H:%M:%S.%f')[:-3]
     return jsonify([e.serialize() for e in event])
 
 # @app.route('/occupancy-debug', methods=['POST'])
