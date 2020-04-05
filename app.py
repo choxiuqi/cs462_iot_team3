@@ -224,4 +224,4 @@ def create_booking():
     #     Start: %s
     #     End: %s''' % (e['summary'].encode('utf-8'),
     #                 e['start']['dateTime'], e['end']['dateTime']))
-    return 'done'
+    return redirect("https://public.tableau.com/profile/allyson.lim#!/vizhome/CS462-Employee/Employee", code=302)
