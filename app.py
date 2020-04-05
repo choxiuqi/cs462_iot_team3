@@ -217,8 +217,8 @@ def create_booking():
         'end': {'dateTime': '%sT%s%s' % (endDate, endTime, GMT_OFF)},
     }
 
-    e = CAL.events().insert(calendarId='primary',sendNotifications=True, body=EVENT).execute()
-    # e = CAL.events().insert(calendarId='ntucenterprise.sg_32313338393839313338@resource.calendar.google.com',sendNotifications=True, body=EVENT).execute()
+    # e = CAL.events().insert(calendarId='primary',sendNotifications=True, body=EVENT).execute()
+    e = CAL.events().insert(calendarId='ntucenterprise.sg_32313338393839313338@resource.calendar.google.com',sendNotifications=True, body=EVENT).execute()
 
     # print('''*** %r event added:
     #     Start: %s
